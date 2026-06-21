@@ -1,0 +1,414 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Montserrat", system-ui, sans-serif;
+  --font-mono: "Space Grotesk", "SF Mono", "Fira Code", monospace;
+}
+
+/* ======================================
+   COSMIC DARK THEME - CUSTOM PROPERTIES
+   ====================================== */
+:root {
+  --cosmic-bg: #0a0a14;
+  --cosmic-surface: #0f0f1e;
+  --cosmic-card: #12122a;
+  --cosmic-border: rgba(139, 92, 246, 0.15);
+  --cosmic-border-hover: rgba(139, 92, 246, 0.35);
+  --cosmic-text: #e2e8f0;
+  --cosmic-text-muted: #94a3b8;
+  --cosmic-text-dim: #64748b;
+  --cosmic-accent: #8b5cf6;
+  --cosmic-accent-bright: #a78bfa;
+  --cosmic-cyan: #06b6d4;
+  --cosmic-cyan-bright: #22d3ee;
+  --cosmic-magenta: #ec4899;
+  --cosmic-green: #10b981;
+  --cosmic-orange: #f97316;
+  --glow-purple: 0 0 20px rgba(139, 92, 246, 0.3), 0 0 60px rgba(139, 92, 246, 0.1);
+  --glow-cyan: 0 0 20px rgba(6, 182, 212, 0.3), 0 0 60px rgba(6, 182, 212, 0.1);
+  --glow-magenta: 0 0 20px rgba(236, 72, 153, 0.3), 0 0 60px rgba(236, 72, 153, 0.1);
+  --gradient-cosmic: linear-gradient(135deg, #0a0a14 0%, #1a1040 50%, #0a0a14 100%);
+  --gradient-nebula: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(6, 182, 212, 0.05) 50%, rgba(236, 72, 153, 0.08) 100%);
+  --gradient-card: linear-gradient(145deg, rgba(18, 18, 42, 0.9) 0%, rgba(15, 15, 30, 0.95) 100%);
+  --glass-bg: rgba(15, 15, 30, 0.7);
+  --glass-border: rgba(139, 92, 246, 0.12);
+}
+
+/* ======================================
+   BASE STYLES
+   ====================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--cosmic-bg);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--cosmic-bg);
+  color: var(--cosmic-text);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(139, 92, 246, 0.3);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cosmic-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.5);
+}
+
+/* ======================================
+   KEYFRAME ANIMATIONS
+   ====================================== */
+
+/* Floating/bobbing idle animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+/* Glow pulsation */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(139, 92, 246, 0.2), 0 0 45px rgba(139, 92, 246, 0.05); }
+  50% { box-shadow: 0 0 25px rgba(139, 92, 246, 0.4), 0 0 80px rgba(139, 92, 246, 0.15); }
+}
+
+@keyframes glow-pulse-cyan {
+  0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.2), 0 0 45px rgba(6, 182, 212, 0.05); }
+  50% { box-shadow: 0 0 25px rgba(6, 182, 212, 0.4), 0 0 80px rgba(6, 182, 212, 0.15); }
+}
+
+/* Text shimmer effect */
+@keyframes text-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Kinetic slide-in from bottom */
+@keyframes kinetic-slide-up {
+  0% { opacity: 0; transform: translateY(40px) rotateX(10deg); }
+  100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
+}
+
+/* Kinetic slide-in from left */
+@keyframes kinetic-slide-left {
+  0% { opacity: 0; transform: translateX(-60px) skewX(3deg); }
+  100% { opacity: 1; transform: translateX(0) skewX(0deg); }
+}
+
+/* Kinetic letter stagger */
+@keyframes letter-reveal {
+  0% { opacity: 0; transform: translateY(30px) rotateZ(-5deg); filter: blur(4px); }
+  60% { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0) rotateZ(0); filter: blur(0); }
+}
+
+/* Particle drift */
+@keyframes particle-drift {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-100vh) translateX(50px) scale(0.3); opacity: 0; }
+}
+
+/* Cosmic rotation for decorative elements */
+@keyframes cosmic-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Orbital path */
+@keyframes orbit {
+  0% { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+}
+
+/* Subtle breathing scale */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* Guide character entrance */
+@keyframes guide-entrance {
+  0% { opacity: 0; transform: translateY(100px) scale(0.5); }
+  60% { transform: translateY(-10px) scale(1.05); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Speech bubble pop in */
+@keyframes bubble-pop {
+  0% { opacity: 0; transform: scale(0.5) translateY(10px); }
+  70% { transform: scale(1.05) translateY(-2px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Border glow sweep */
+@keyframes border-glow-sweep {
+  0% { border-color: rgba(139, 92, 246, 0.15); }
+  50% { border-color: rgba(6, 182, 212, 0.3); }
+  100% { border-color: rgba(139, 92, 246, 0.15); }
+}
+
+/* Fade in up */
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Number counter roll */
+@keyframes counter-roll {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ======================================
+   UTILITY CLASSES
+   ====================================== */
+
+/* Glassmorphism panel */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-panel-strong {
+  background: rgba(15, 15, 30, 0.85);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+/* Cosmic card */
+.cosmic-card {
+  background: var(--gradient-card);
+  border: 1px solid var(--cosmic-border);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cosmic-card:hover {
+  border-color: var(--cosmic-border-hover);
+  box-shadow: var(--glow-purple);
+  transform: translateY(-4px);
+}
+
+/* Text glow effects */
+.text-glow-purple {
+  text-shadow: 0 0 20px rgba(139, 92, 246, 0.5), 0 0 40px rgba(139, 92, 246, 0.2);
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 20px rgba(6, 182, 212, 0.5), 0 0 40px rgba(6, 182, 212, 0.2);
+}
+
+/* Shimmer text */
+.shimmer-text {
+  background: linear-gradient(
+    90deg, 
+    var(--cosmic-accent) 0%, 
+    var(--cosmic-cyan-bright) 25%, 
+    var(--cosmic-magenta) 50%, 
+    var(--cosmic-cyan-bright) 75%, 
+    var(--cosmic-accent) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 4s linear infinite;
+}
+
+/* Kinetic text animation */
+.kinetic-letter {
+  display: inline-block;
+  animation: letter-reveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+/* Floating animation */
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Glow pulse */
+.animate-glow {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.animate-glow-cyan {
+  animation: glow-pulse-cyan 3s ease-in-out infinite;
+}
+
+/* Cosmic section background */
+.cosmic-section {
+  position: relative;
+  background: var(--cosmic-bg);
+}
+
+.cosmic-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-nebula);
+  pointer-events: none;
+}
+
+/* Neon border glow button */
+.neon-btn {
+  position: relative;
+  background: linear-gradient(135deg, var(--cosmic-accent), var(--cosmic-cyan));
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.neon-btn::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, var(--cosmic-accent), var(--cosmic-cyan), var(--cosmic-magenta));
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  filter: blur(8px);
+}
+
+.neon-btn:hover::before {
+  opacity: 1;
+}
+
+.neon-btn:hover {
+  box-shadow: var(--glow-purple);
+  transform: translateY(-2px);
+}
+
+/* Active haptic press effect */
+.haptic-press:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
+/* Star field dots */
+.star-field {
+  position: relative;
+  overflow: hidden;
+}
+
+.star-field::before,
+.star-field::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.star-field::before {
+  background-image: 
+    radial-gradient(2px 2px at 20% 30%, rgba(139, 92, 246, 0.4), transparent),
+    radial-gradient(1px 1px at 40% 70%, rgba(6, 182, 212, 0.3), transparent),
+    radial-gradient(1.5px 1.5px at 60% 40%, rgba(236, 72, 153, 0.3), transparent),
+    radial-gradient(1px 1px at 80% 80%, rgba(139, 92, 246, 0.3), transparent),
+    radial-gradient(2px 2px at 10% 90%, rgba(6, 182, 212, 0.2), transparent),
+    radial-gradient(1px 1px at 70% 20%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1.5px 1.5px at 90% 60%, rgba(139, 92, 246, 0.25), transparent),
+    radial-gradient(1px 1px at 35% 50%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(2px 2px at 55% 85%, rgba(6, 182, 212, 0.35), transparent),
+    radial-gradient(1px 1px at 15% 15%, rgba(236, 72, 153, 0.2), transparent),
+    radial-gradient(1.5px 1.5px at 85% 35%, rgba(255, 255, 255, 0.25), transparent),
+    radial-gradient(1px 1px at 45% 95%, rgba(139, 92, 246, 0.3), transparent);
+  animation: particle-drift 80s linear infinite;
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, var(--cosmic-accent-bright) 0%, var(--cosmic-cyan-bright) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-warm {
+  background: linear-gradient(135deg, var(--cosmic-magenta) 0%, var(--cosmic-orange) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Input dark styling */
+.cosmic-input {
+  background: rgba(15, 15, 30, 0.6);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  color: var(--cosmic-text);
+  transition: all 0.3s ease;
+}
+
+.cosmic-input:focus {
+  border-color: var(--cosmic-accent);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  outline: none;
+}
+
+.cosmic-input::placeholder {
+  color: var(--cosmic-text-dim);
+}
+
+/* Cosmic select */
+.cosmic-select {
+  background: rgba(15, 15, 30, 0.6);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  color: var(--cosmic-text);
+}
+
+.cosmic-select option {
+  background: var(--cosmic-surface);
+  color: var(--cosmic-text);
+}
+
+/* Fade in animation trigger */
+.fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+/* Perspective container for 3D effects */
+.perspective-container {
+  perspective: 1000px;
+}
+
+/* 3D tilt on hover */
+.tilt-3d {
+  transition: transform 0.4s ease;
+  transform-style: preserve-3d;
+}
+
+.tilt-3d:hover {
+  transform: rotateY(-3deg) rotateX(2deg) translateZ(10px);
+}
+
+/* Cosmic divider */
+.cosmic-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), rgba(6, 182, 212, 0.3), transparent);
+}
