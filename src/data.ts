@@ -4,64 +4,64 @@ export const caseStudies: CaseStudy[] = [
   {
     id: "hp-life",
     client: "HP LIFE Academy",
-    title: "Equipping Next-Gen African Entrepreneurs with Critical Skills",
+    title: "Helping Thousands of Nigerians Learn Free Digital Skills",
     category: "Digital Marketing",
-    summary: "A localized digital-first campaign that accelerated student registrations and empowered thousands of learners across sub-Saharan Africa with free skills courses.",
-    description: "Ace Innovation Nexus partnered with HP LIFE to build hyper-targeted brand recognition and drive enrollment for virtual enterprise courses. Understanding community barriers like data costs and low digital trust, we tailored direct micro-learning marketing structures.",
-    solution: "We engineered high-performing algorithmic SEO, localized micro-marketing assets across WhatsApp and Instagram, and established low-latency landing portals. This allowed learners on restricted mobile data to frictionlessly enroll and absolute-grade certificates to be generated natively.",
+    summary: "We ran a digital marketing campaign that got over 48,000 students to sign up for free online courses across Nigeria and other African countries.",
+    description: "HP LIFE needed to reach young Nigerians and other Africans who could benefit from their free online business courses. The challenge was that many people in these communities had limited data and low trust in online platforms.",
+    solution: "We created targeted ads on Facebook, Instagram, and WhatsApp that spoke directly to young learners. We built simple, fast-loading landing pages that worked well even on slow internet. We also set up WhatsApp groups to keep students engaged throughout their courses.",
     image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
     metrics: [
-      { label: "Enrolled Students", value: "48,000+" },
-      { label: "Direct Campaign ROI", value: "3.4x" },
-      { label: "Retention Spike", value: "+42%" }
+      { label: "Students Enrolled", value: "48,000+" },
+      { label: "Return on Ad Spend", value: "3.4x" },
+      { label: "Completion Rate", value: "+42%" }
     ],
     scope: [
-      "Targeted Performance Ads",
-      "WhatsApp Outreach Automation",
-      "Localized Content Production",
-      "User Intake Optimizations"
+      "Facebook & Instagram Ads",
+      "WhatsApp Marketing",
+      "Content Creation",
+      "Landing Page Design"
     ]
   },
   {
     id: "checkers",
     client: "Checkers Africa (Nigeria)",
-    title: "Crafting an Unmissable Consumer Brand Across Digital Environments",
-    category: "Branding & Strategy",
-    summary: "Transforming a household brand into a digitally buzzing media sensation, resulting in a recorded 124% brick-and-mortar retail sales uplift.",
-    description: "Ace Innovation Nexus re-engineered Checkers’ core packaging presentation, digital-social footprint, and merchant coordination tools to align with a younger, highly active demographic of modern retail consumers.",
-    solution: "We deployed immersive recipe creator challenges, customized 3D animation shorts, and developed hyper-local geofenced social filters that incentivized in-store supermarket purchases via instant digital coupons.",
+    title: "Building a Stronger Brand for Checkers Across Nigeria",
+    category: "Branding & Content",
+    summary: "We refreshed the Checkers brand with new visuals, professional photography, and video content — leading to a 124% increase in retail sales.",
+    description: "Checkers wanted to connect with a younger audience in Nigeria. Their packaging looked outdated and they had almost no social media presence. They needed a complete brand refresh that would make people excited about their products.",
+    solution: "We redesigned their product packaging with fresh, modern visuals. Our team shot professional product photos and created short video ads for social media. We also ran a viral recipe challenge on Instagram that got millions of views and drove people to buy in stores.",
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
     metrics: [
-      { label: "Retail Growth Spike", value: "+124%" },
-      { label: "Social Media Views", value: "3.2M+" },
-      { label: "Brand Equity Index", value: "9.2/10" }
+      { label: "Sales Increase", value: "+124%" },
+      { label: "Video Views", value: "3.2M+" },
+      { label: "Brand Rating", value: "9.2/10" }
     ],
     scope: [
-      "Custom Packaging Identity",
-      "3D Product Visuals & Ads",
-      "Geofenced Micro-Campaigns",
-      "Viral Culinary Challenges"
+      "Brand Identity Redesign",
+      "Product Photography",
+      "Video Production",
+      "Social Media Campaigns"
     ]
   },
   {
     id: "fintech",
     client: "NexusPay Technologies",
-    title: "Engineering High-Trust Digital Wallets for Informal Commerce",
-    category: "Tech Products",
-    summary: "Developing a lightning-fast React native merchant UX which securely processed over $12M of transactions in under eight months.",
-    description: "Ace Innovation Nexus took an ambitious financial-inclusion concept and forged a high-performance, low-bandwidth ecosystem mapping rural retail accounts into a unified cloud-backed platform.",
-    solution: "We designed a lightweight React Merchant dashboard with native multi-regional support, synchronized off-network database states, and complemented it with an authoritative organic SEO marketing campaign to rank first for micro-retail terminology.",
+    title: "Building a Payment App That Processed Over ₦18 Billion",
+    category: "Web & App Development",
+    summary: "We designed and built a mobile payment app and merchant dashboard that processed over ₦18 billion in transactions within eight months.",
+    description: "NexusPay had a great idea for a mobile payment platform for small businesses and market traders. They needed a team to build an app that was simple enough for anyone to use, even people who weren't tech-savvy.",
+    solution: "We built a clean, easy-to-use mobile app for both Android and iOS, along with a web dashboard for merchants to track their sales. The app works even with poor internet connection, so traders in rural areas can still accept payments. We also helped them with SEO and content marketing to attract new users.",
     image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80",
     metrics: [
-      { label: "Transaction Volume", value: "$12M+" },
-      { label: "Onboarding Latency", value: "< 2 mins" },
-      { label: "SEO Acquisition", value: "+450%" }
+      { label: "Transactions", value: "₦18B+" },
+      { label: "Sign-up Time", value: "Under 2 mins" },
+      { label: "New Users", value: "+450%" }
     ],
     scope: [
-      "Lightweight React Interfaces",
-      "Offline Data Sync Layer",
-      "High-Authority Lead Gen",
-      "Payment Gateway Wrappers"
+      "Mobile App Development",
+      "Web Dashboard",
+      "SEO & Content Marketing",
+      "UI/UX Design"
     ]
   }
 ];
@@ -70,33 +70,33 @@ export const teamMembers: TeamMember[] = [
   {
     id: "team-1",
     name: "Tega John-Sola",
-    role: "Founder & Chief Growth Architect",
+    role: "Founder & CEO",
     department: "Leadership",
-    bio: "Over a decade of leadership at the intersection of performance marketing, technical products, and strategic design. Focused on positioning African high-growth ventures globally.",
+    bio: "Over a decade of experience helping businesses grow through digital marketing, branding, and technology. Passionate about putting African businesses on the global map.",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&h=300&q=80"
   },
   {
     id: "team-2",
     name: "Amara Nwachukwu",
-    role: "Director of Digital Strategy & Brands",
+    role: "Creative Director",
     department: "Creative & Brand",
-    bio: "An award-winning brand strategist expert at deploying large-scale consumer campaigns. Architect of retail visual models that drive deep, authentic buyer loyalty.",
+    bio: "Award-winning creative with a sharp eye for design, photography direction, and brand storytelling. She makes brands look so good, customers can't scroll past.",
     avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&h=300&q=80"
   },
   {
     id: "team-3",
     name: "Kofi Owusu",
-    role: "Head of SEO & Growth Engineering",
+    role: "Head of Marketing & SEO",
     department: "Marketing & SEO",
-    bio: "Obsessed with search architecture and organic scaling loops. Kofi builds proprietary SEO distribution strategies that render pay-per-click models obsolete.",
+    bio: "Kofi lives and breathes digital marketing. He knows how to get your business to the top of Google and keep your social media buzzing with the right audience.",
     avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&h=300&q=80"
   },
   {
     id: "team-4",
     name: "Zainab Alao",
-    role: "Principal Product & Full-Stack Engineer",
+    role: "Lead Developer",
     department: "Tech & Product",
-    bio: "Specializing in React, low-data footprint PWAs, and bulletproof server APIs. Dedicated to writing fast, performant code that bridges local environments with global cloud nodes.",
+    bio: "Zainab builds websites and apps that are fast, beautiful, and work perfectly — even on slow internet. She turns ideas into digital products people love to use.",
     avatar: "https://images.unsplash.com/photo-1534751516642-a131ffd473fd?auto=format&fit=crop&w=300&h=300&q=80"
   }
 ];
@@ -104,65 +104,65 @@ export const teamMembers: TeamMember[] = [
 export const jobRoles: JobRole[] = [
   {
     id: "job-seo",
-    title: "Senior SEO Architect & Strategist",
+    title: "Senior SEO & Marketing Specialist",
     department: "Growth",
     location: "Ibadan, Nigeria / Remote",
     type: "Full-time",
-    salaryEstimate: "Competitive Strategy Rate + Performance Bonus",
-    description: "We are seeking a seasoned organic growth master to architect high-intent, authoritative search discovery loops for our international client roster.",
+    salaryEstimate: "Competitive Salary + Performance Bonus",
+    description: "We're looking for an experienced digital marketer who knows how to get businesses found on Google and social media. You'll manage ad campaigns, improve search rankings, and create marketing strategies for our clients.",
     responsibilities: [
-      "Perform reverse keyword clustering and semantic gap mapping across diverse competitive verticals.",
-      "Direct technical SEO structural audits (rendering structures, hydration latency, structured schema).",
-      "Collaborate with our content writers to engineer authority clusters that secure rank 1 positioning.",
-      "Present quantitative analytics, backlink strategy results, and organic value reports directly to client stakeholders."
+      "Research the best keywords and create strategies to rank our clients' websites on Google.",
+      "Manage and optimize paid ad campaigns on Google, Facebook, and Instagram.",
+      "Work with our content team to plan and create blog posts, social media content, and email campaigns.",
+      "Track results, create reports, and present them to clients in a way that's easy to understand."
     ],
     requirements: [
-      "4+ years of proven organic growth leadership with demonstrable, high-volume search rankings.",
-      "Expert knowledge of crawling pipelines, headless site auditing, search console interfaces, and premium analytics suites.",
-      "Decisive capability to build organic content systems with measurable conversion uplifts.",
-      "Comfort working in rapid, highly agile remote environments."
+      "4+ years of experience in digital marketing, SEO, or social media management.",
+      "You know your way around Google Analytics, Google Ads, Meta Ads Manager, and SEO tools.",
+      "You can explain marketing results to clients who aren't tech-savvy.",
+      "Comfortable working remotely and managing your own time."
     ]
   },
   {
     id: "job-eng",
-    title: "Lead Full-Stack Web Engineer (React/Node)",
+    title: "Senior Web & App Developer",
     department: "Tech",
     location: "Ibadan, Nigeria / Remote",
     type: "Full-time",
-    salaryEstimate: "Industry-Leading Portfolio Rate",
-    description: "Join us in engineering robust, visually jaw-dropping frontends and scalable, low-latency backends for brands shaping informal commerce and consumer markets.",
+    salaryEstimate: "Competitive Salary",
+    description: "Join our development team to build beautiful, fast websites and mobile apps for businesses across Nigeria and beyond. You'll work on exciting projects from e-commerce stores to custom business tools.",
     responsibilities: [
-      "Develop modular React layouts styled with precision Tailwind CSS and fluid micro-animations.",
-      "Write secure, lightning-fast Node/Express API proxy routes with caching systems to guard secret API variables.",
-      "Deliver optimal asset bundle configurations, offline sync caches, and accessible interactive modules.",
-      "Enforce immaculate TypeScript structures and code review pipelines."
+      "Build responsive websites using React, Next.js, or similar modern frameworks.",
+      "Develop mobile apps for Android and iOS using React Native or similar tools.",
+      "Write clean, secure backend code with Node.js and connect to databases.",
+      "Make sure everything loads fast and works well, even on slow internet connections."
     ],
     requirements: [
-      "5+ years professional experience across modern TypeScript frameworks (React, Vite, Node, Express).",
-      "Strong aesthetic sensibility and attention to responsive details (layout shifts, visual density, animations).",
-      "Familiarity with Firestore/Firebase services, relational configurations, and security rule pipelines.",
-      "Proficiency optimizing builds for mobile-first web platforms."
+      "5+ years of professional experience building websites and/or mobile apps.",
+      "Strong skills in React, TypeScript, Node.js, and at least one mobile framework.",
+      "You care about clean design and smooth user experience.",
+      "Experience working with databases like Firebase, PostgreSQL, or MongoDB."
     ]
   },
   {
     id: "job-creative",
-    title: "Creative Content & Branding Director",
+    title: "Creative Director (Content & Video)",
     department: "Creative",
     location: "Ibadan, Nigeria / Remote",
     type: "Contract",
-    salaryEstimate: "Project Milestone + Retainer Option",
-    description: "Looking for an energetic storyteller capable of shaping visual guidelines, social narratives, and high-impact brand strategies.",
+    salaryEstimate: "Project-Based + Retainer Option",
+    description: "We need a creative leader who can direct photo shoots, plan video content, and shape brand identities for our clients. If you can tell a brand's story through visuals, we want to talk to you.",
     responsibilities: [
-      "Formulate cohesive design languages, typography frameworks, and brand systems for fast-growing companies.",
-      "Direct high-energy video content concepts, interactive social filters, and viral media campaigns.",
-      "Oversee copy guidelines ensuring high tone consistency across web portals, retail channels, and pitches.",
-      "Direct external photography and multi-channel creative productions."
+      "Plan and direct professional photo and video shoots for brands.",
+      "Create brand identities — logos, color schemes, fonts, and brand guidelines.",
+      "Develop content calendars and creative strategies for social media.",
+      "Lead a team of designers, photographers, and videographers on projects."
     ],
     requirements: [
-      "3+ years in agencies or high-velocity startups directing brand directions and copywriting teams.",
-      "A rich visual portfolio showcasing versatile expressions across social media, web layouts, and consumer retail.",
-      "Solid command of current design suites (Figma, Adobe Creative Suite) and motion concepts.",
-      "Fluent presentation skills to deliver brand stories authentically."
+      "3+ years of experience in creative direction, photography, videography, or brand design.",
+      "A strong portfolio showing your work across branding, photo, and video.",
+      "Comfortable using design tools like Figma, Adobe Creative Suite, and video editing software.",
+      "Great communication skills — you can pitch ideas and present to clients confidently."
     ]
   }
 ];
@@ -170,41 +170,41 @@ export const jobRoles: JobRole[] = [
 export const partnerTiers: PartnerTier[] = [
   {
     id: "tier-strategic",
-    name: "Strategic Consulting & Growth",
-    tagline: "Co-architecting market strategies for enterprise scaling.",
-    description: "For management consultancies, private equity nodes, and capital accelerators looking to supercharge their portfolio companies with expert branding and immediate performance pipelines.",
-    targetAudience: "Venture Studios, Local Consultancies, Incubators",
+    name: "Business Consulting",
+    tagline: "We help you plan your growth strategy.",
+    description: "For businesses, consultancies, and organizations that need expert guidance on how to market, brand, and grow their business online. We work alongside your team to create and execute a plan.",
+    targetAudience: "Businesses, Consultancies, Startups",
     benefits: [
-      "Direct dedicated strategic consulting hours with Chief Architecture officers",
-      "Co-branded market trend projections and joint SEO blueprint publications",
-      "Preferred portfolio prioritization and customized volume pricing brackets",
-      "Direct access to our unified creative and development pipelines"
+      "One-on-one strategy sessions with our senior team",
+      "Custom marketing and branding plans for your business",
+      "Priority scheduling and dedicated project manager",
+      "Monthly progress reports with clear next steps"
     ]
   },
   {
     id: "tier-ecosystem",
-    name: "Agency & Tech Implementation",
-    tagline: "Deep technical expansion and seamless performance integration.",
-    description: "For SaaS startups, platform providers, and specialized technical providers seeking pristine, robust implementation and premium Web Application development for their end clients.",
-    targetAudience: "Tech Platforms, SaaS Companies, Engineering Houses",
+    name: "Tech & Development Partners",
+    tagline: "We build the digital products for your clients.",
+    description: "For agencies, tech companies, and SaaS platforms that need a reliable partner to handle website development, app building, or digital marketing for their own clients.",
+    targetAudience: "Agencies, Tech Companies, SaaS Platforms",
     benefits: [
-      "Native integrations built to modern API architectures and security standard",
-      "Priority API sandbox environments and shared developer technical feedback loops",
-      "Warm client introductions and mutual co-selling pipelines",
-      "Comprehensive digital marketing support to accelerate app adoption rates"
+      "White-label website and app development for your clients",
+      "Reliable turnaround times and clear communication",
+      "Referral partnerships — we send clients your way too",
+      "Shared project management tools for smooth collaboration"
     ]
   },
   {
     id: "tier-talent",
-    name: "Empowerment & Talent Hubs",
-    tagline: "Cultivating elite digital capabilities in hyper-local markets.",
-    description: "In collaboration with top design academies, tech bootcamps, and digital non-profits (like HP LIFE), we co-craft high-impact educational frameworks to bridge local talent with active global networks.",
-    targetAudience: "Digital Academies, Innovation Hubs, Tech Bootcamps",
+    name: "Training & Education Partners",
+    tagline: "We train the next generation of digital creators.",
+    description: "We work with schools, training centers, and organizations like HP LIFE to teach digital skills — marketing, design, photography, videography, and web development.",
+    targetAudience: "Schools, Training Centers, NGOs",
     benefits: [
-      "Curriculum blueprints co-created with active, industry-level specialists",
-      "Guaranteed internship placement channels for high-performing graduates",
-      "Sponsorship of regional hackathons and specialized design workshops",
-      "Integration with Ace Innovation apprentice networks"
+      "Hands-on training programs designed by working professionals",
+      "Internship and job placement support for top graduates",
+      "Sponsorship for hackathons and creative workshops",
+      "Access to our network of clients and industry contacts"
     ]
   }
 ];
@@ -215,8 +215,8 @@ export const regionPartners: RegionPartner[] = [
     country: "Nigeria",
     name: "Ace Innovation Nexus (Ibadan HQ)",
     logo: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=200&h=200&q=80",
-    scale: "Primary Operational HQ",
-    details: "Our central nerve center coordinating media production, performance metrics, specialized SEO engineering, and full-stack technical build developments.",
+    scale: "Headquarters",
+    details: "Our main office is in Ibadan, Nigeria. This is where our marketing, design, photography, videography, and development teams work together to deliver great results for our clients.",
     latLng: { top: "62%", left: "45%" }
   }
 ];
@@ -224,41 +224,41 @@ export const regionPartners: RegionPartner[] = [
 export const staticInsights: InsightArticle[] = [
   {
     id: "ins-feat",
-    title: "The Architecture of Organic Scale: Why Paid Ads Fail Without SEO Pillars",
-    category: "SEO Strategy",
+    title: "Why Your Business Needs SEO (Not Just Paid Ads)",
+    category: "Marketing",
     readTime: "6 Min Read",
     date: "June 2026",
-    summary: "Relying purely on programmatic bidding is a financial bottomless pit. Learn how we configure semantically-grouped keyword engines to lock in long-term buyer traffic.",
+    summary: "Running ads is great, but what happens when you stop paying? Learn why SEO gives you long-term results and how to get started.",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
     author: "Kofi Owusu"
   },
   {
     id: "ins-mktg",
-    title: "Decoding Consumer Resonance: Localized FMCG Retail Campaigns",
+    title: "How Good Branding Increases Your Sales",
     category: "Branding",
     readTime: "4 Min Read",
     date: "May 2026",
-    summary: "Packaged goods demand persistent visibility. See our retail engagement blueprints that transformed regional consumer behaviors for leading food conglomerates.",
+    summary: "Your brand is more than a logo. See how professional branding and quality visuals helped our clients sell more — with real examples.",
     image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
     author: "Amara Nwachukwu"
   },
   {
     id: "ins-cons",
-    title: "Connecting Local Talents to Global Inbound Pipelines",
-    category: "Consulting",
+    title: "Training the Next Generation of Digital Creators",
+    category: "Training",
     readTime: "5 Min Read",
     date: "April 2026",
-    summary: "How upskilling initiatives like HP LIFE bridge local business resource gaps and output ready-made digital leaders for international companies.",
+    summary: "How our partnership with HP LIFE is helping young Nigerians learn digital skills and land real jobs in marketing, design, and tech.",
     image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80",
     author: "Tega John-Sola"
   },
   {
     id: "ins-tech",
-    title: "Optimizing Core Web Vitals for Low-Bandwidth Infrastructure",
-    category: "Engineering",
+    title: "Why Your Website Needs to Load Fast (Especially in Nigeria)",
+    category: "Development",
     readTime: "7 Min Read",
     date: "March 2026",
-    summary: "A practical deep-dive into bundle splitting, client-side caching, and image lazy-loading to make React applications fly on mid-range smartphones.",
+    summary: "A slow website loses customers. Here's how we build websites that load in seconds — even on 3G connections — and why it matters for your bottom line.",
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
     author: "Zainab Alao"
   }

@@ -15,7 +15,7 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
   };
 
   const officeHubs = [
-    { city: "Ibadan, Nigeria", role: "Primary Operations Command", address: "Nexus Headquarters, Dugbe, Ibadan" }
+    { city: "Ibadan, Nigeria", role: "Headquarters", address: "Ace Innovation Nexus, Dugbe, Ibadan" }
   ];
 
   return (
@@ -26,10 +26,10 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center pb-16" style={{ borderBottom: '1px solid rgba(139, 92, 246, 0.1)' }}>
           <div className="lg:col-span-7">
             <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl font-display">
-              Ready to architect your absolute brand acceleration?
+              Ready to grow your business?
             </h2>
             <p className="mt-4 max-w-xl text-base text-slate-400">
-              Stop guessing your organic potentials. Let our experts deploy high-conforming technical search loops, visual systems, and bespoke digital channels.
+              Let us handle your marketing, content, photography, videos, and website — so you can focus on running your business.
             </p>
           </div>
           <div className="lg:col-span-5 flex flex-col sm:flex-row gap-4 lg:justify-end">
@@ -38,7 +38,7 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
               onClick={openContactModal}
               className="group flex items-center justify-center gap-1.5 rounded-xl px-6 py-4 text-sm font-semibold text-white transition-all neon-btn haptic-press"
             >
-              Request Brand Strategy Proposal
+              Get a Free Quote
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </button>
             <button
@@ -76,7 +76,7 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
               </div>
             </div>
             <p className="mt-6 text-sm text-slate-400 max-w-xs leading-relaxed">
-              Africa's premier digital agency merging authoritative engineering with high-impact organic storytelling to grow, connect, and scale modern brands.
+              A full-service digital agency helping businesses grow with marketing, content creation, photography, videography, website development, and mobile apps.
             </p>
             <div className="mt-8 flex items-center gap-3">
               <a
@@ -114,29 +114,29 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
 
           {/* Quick Navigation links */}
           <div className="lg:col-span-3">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Agency Nav</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Quick Links</h3>
             <ul className="mt-6 space-y-3.5 text-sm">
               <li>
-                <button onClick={() => handleNavClick('home')} className="text-slate-400 hover:text-purple-300 transition-colors haptic-press">Home Landing</button>
+                <button onClick={() => handleNavClick('home')} className="text-slate-400 hover:text-purple-300 transition-colors haptic-press">Home</button>
               </li>
               <li>
-                <button onClick={() => handleNavClick('services')} className="text-slate-400 hover:text-purple-300 transition-colors haptic-press">Impact & Case Studies</button>
+                <button onClick={() => handleNavClick('services')} className="text-slate-400 hover:text-purple-300 transition-colors haptic-press">Our Work</button>
               </li>
               <li>
-                <button onClick={() => handleNavClick('about')} className="text-slate-400 hover:text-purple-300 transition-colors haptic-press">About the Architects</button>
+                <button onClick={() => handleNavClick('about')} className="text-slate-400 hover:text-purple-300 transition-colors haptic-press">About Us</button>
               </li>
               <li>
-                <button onClick={() => handleNavClick('partnerships')} className="text-slate-400 hover:text-purple-300 transition-colors haptic-press">Strategic Partnerships</button>
+                <button onClick={() => handleNavClick('partnerships')} className="text-slate-400 hover:text-purple-300 transition-colors haptic-press">Partnerships</button>
               </li>
               <li>
-                <button onClick={() => handleNavClick('careers')} className="text-slate-400 hover:text-purple-300 transition-colors haptic-press">Careers & Talent</button>
+                <button onClick={() => handleNavClick('careers')} className="text-slate-400 hover:text-purple-300 transition-colors haptic-press">Careers</button>
               </li>
             </ul>
           </div>
 
           {/* Physical locations / Hubs */}
           <div className="lg:col-span-5">
-            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Global Nerve Nodes</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Our Office</h3>
             <div className="mt-6 space-y-5">
               {officeHubs.map((hub, idx) => (
                 <div key={idx} className="flex gap-3">
@@ -161,9 +161,9 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
             &copy; {currentYear} Ace Innovation Nexus. All rights reserved.
           </div>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-purple-300 transition-colors">Privacy Blueprint</a>
-            <a href="#" className="hover:text-purple-300 transition-colors">Operational Terms</a>
-            <a href="#" className="hover:text-purple-300 transition-colors">Ecosystem Framework</a>
+            <a href="#" className="hover:text-purple-300 transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-purple-300 transition-colors">Terms of Service</a>
+            <a href="#" className="hover:text-purple-300 transition-colors">Sitemap</a>
           </div>
         </div>
 

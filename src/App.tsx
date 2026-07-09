@@ -18,7 +18,7 @@ export default function App() {
   const [clientName, setClientName] = useState('');
   const [clientEmail, setClientEmail] = useState('');
   const [clientUrl, setClientUrl] = useState('');
-  const [clientChallenge, setClientChallenge] = useState('SEO optimization & organic rankings');
+  const [clientChallenge, setClientChallenge] = useState('Marketing & SEO');
   const [clientNotes, setClientNotes] = useState('');
   const [contactSuccess, setContactSuccess] = useState(false);
   const [contactLoading, setContactLoading] = useState(false);
@@ -31,7 +31,7 @@ export default function App() {
 
   const handleGlobalContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!clientName || !clientEmail) return alert("Verify core fields: Name and Business Email required.");
+    if (!clientName || !clientEmail) return alert("Please fill in your name and email address.");
 
     triggerHaptic([20, 40, 20]);
     setContactLoading(true);
@@ -48,7 +48,7 @@ export default function App() {
     setClientName('');
     setClientEmail('');
     setClientUrl('');
-    setClientChallenge('SEO optimization & organic rankings');
+    setClientChallenge('Marketing & SEO');
     setClientNotes('');
     setContactSuccess(false);
   };
@@ -116,16 +116,16 @@ export default function App() {
                   <CheckCircle2 className="h-7 w-7" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-black text-white font-display">Growth Consultation Scheduled</h3>
+                  <h3 className="text-xl font-black text-white font-display">We've Got Your Message!</h3>
                   <p className="text-xs text-slate-400 mt-2 max-w-sm mx-auto">
-                    Outstanding, {clientName}. We've indexed your corporate challenge diagnostics. A strategy briefing task has been queued for our Lead Architect team.
+                    Thanks {clientName}! We'll review your details and get back to you within 1-2 business days with a plan tailored to your needs.
                   </p>
                 </div>
 
                 <div className="border border-purple-500/20 p-5 rounded-xl text-left text-xs max-w-sm mx-auto font-mono space-y-1.5 shadow-sm text-slate-300" style={{ background: 'rgba(15, 15, 30, 0.6)' }}>
-                  <div><span className="text-purple-400">CLIENT COMPANY:</span> {clientUrl || 'Ace Nexus VIP Partner'}</div>
-                  <div><span className="text-purple-400">PRIMARY LEVER:</span> {clientChallenge}</div>
-                  <div><span className="text-purple-400">DESK STATUS:</span> <span className="text-emerald-400 font-bold">ACKNOWLEDGED_#042</span></div>
+                  <div><span className="text-purple-400">WEBSITE:</span> {clientUrl || 'Not provided'}</div>
+                  <div><span className="text-purple-400">SERVICE:</span> {clientChallenge}</div>
+                  <div><span className="text-purple-400">STATUS:</span> <span className="text-emerald-400 font-bold">RECEIVED ✓</span></div>
                 </div>
 
                 <div className="pt-4 flex justify-center">
@@ -134,7 +134,7 @@ export default function App() {
                     onClick={closeAndResetContact}
                     className="rounded-xl px-6 py-3 text-sm font-bold text-white transition-all neon-btn haptic-press"
                   >
-                    Return to Blueprint
+                    Close
                   </button>
                 </div>
               </div>
@@ -145,23 +145,23 @@ export default function App() {
                 <div>
                   <span className="inline-flex items-center gap-1 rounded bg-purple-500/15 border border-purple-500/25 px-2.5 py-0.5 text-[9px] font-bold text-purple-300 uppercase tracking-wider font-mono">
                     <Sparkles className="h-3 w-3 fill-purple-400 text-purple-400" />
-                    Strategy Intake Desk
+                    Let's Talk
                   </span>
                   <h3 className="text-xl font-black text-white font-display mt-2 leading-tight">
-                    Schedule Brand Partnership Proposal
+                    Book a Free Consultation
                   </h3>
-                  <p className="text-xs text-slate-400 mt-1">Specify your current constraints and goals list below.</p>
+                  <p className="text-xs text-slate-400 mt-1">Tell us a bit about your business and what you need help with.</p>
                 </div>
 
                 <form onSubmit={handleGlobalContactSubmit} className="space-y-4">
                   
                   <div>
-                    <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Your Corporate Name & Title</label>
+                    <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Your Name</label>
                     <input
                       required
                       type="text"
                       className="mt-2 w-full rounded-xl px-4 py-3 text-sm cosmic-input"
-                      placeholder="Tega - Managing Director"
+                      placeholder="e.g. Tega John-Sola"
                       value={clientName}
                       onChange={(e) => setClientName(e.target.value)}
                     />
@@ -169,23 +169,23 @@ export default function App() {
 
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Business Email (Verified)</label>
+                      <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Email Address</label>
                       <input
                         required
                         type="email"
                         className="mt-2 w-full rounded-xl px-4 py-3 text-sm cosmic-input"
-                        placeholder="tega@comcorp.com"
+                        placeholder="e.g. you@email.com"
                         value={clientEmail}
                         onChange={(e) => setClientEmail(e.target.value)}
                       />
                     </div>
 
                     <div>
-                      <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Current Brand URL (Optional)</label>
+                      <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Your Website (Optional)</label>
                       <input
                         type="url"
                         className="mt-2 w-full rounded-xl px-4 py-3 text-sm cosmic-input"
-                        placeholder="https://comcorp.com"
+                        placeholder="https://yourwebsite.com"
                         value={clientUrl}
                         onChange={(e) => setClientUrl(e.target.value)}
                       />
@@ -193,25 +193,25 @@ export default function App() {
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Primary Operational Challenge Focus</label>
+                    <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">What Do You Need Help With?</label>
                     <select
                       className="mt-2 w-full rounded-xl px-4 py-3 text-sm cosmic-select"
                       value={clientChallenge}
                       onChange={(e) => setClientChallenge(e.target.value)}
                     >
-                      <option>SEO optimization & organic rankings</option>
-                      <option>Visual retail branding & video strategy</option>
-                      <option>Full-stack digital products & mobile PWAs</option>
-                      <option>Corporate upskilling & talent placements</option>
+                      <option>Marketing & SEO</option>
+                      <option>Branding, Photography & Video</option>
+                      <option>Website or App Development</option>
+                      <option>Content Creation & Social Media</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Additional Strategic Notes or Targets (Optional)</label>
+                    <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Anything Else You'd Like Us to Know? (Optional)</label>
                     <textarea
                       rows={3}
                       className="mt-2 w-full rounded-xl px-4 py-3 text-sm cosmic-input"
-                      placeholder="Briefly state conversion blockers or monthly retainer expectations..."
+                      placeholder="Tell us about your business, your goals, or any challenges you're facing..."
                       value={clientNotes}
                       onChange={(e) => setClientNotes(e.target.value)}
                     />
@@ -220,7 +220,7 @@ export default function App() {
                   <div className="pt-4 border-t border-purple-500/15 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500 font-mono tracking-wide">
                       <Shield className="h-3.5 w-3.5 text-purple-400" />
-                      SECURE PIPELINE NDA PROTECTED
+                      YOUR INFO IS SAFE WITH US
                     </span>
                     <button
                       id="submit-consultation-form-btn"
@@ -228,7 +228,7 @@ export default function App() {
                       type="submit"
                       className="group flex w-full sm:w-auto items-center justify-center gap-1.5 rounded-xl px-5 py-3 text-sm font-bold text-white transition-all neon-btn haptic-press"
                     >
-                      {contactLoading ? 'Encrypting coordinates...' : 'Acquire My Audited Proposal'}
+                      {contactLoading ? 'Sending...' : 'Send My Request'}
                       <Send className="h-4 w-4" />
                     </button>
                   </div>

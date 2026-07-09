@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { teamMembers } from '../data';
 import { TeamMember } from '../types';
-import { Target, Lightbulb, Compass, Award, User, ChevronRight, MessageSquareCode } from 'lucide-react';
+import { Target, Lightbulb, Compass, User } from 'lucide-react';
 import KineticText from './KineticText';
 
 export default function AboutView() {
@@ -14,27 +14,27 @@ export default function AboutView() {
   }, []);
 
   const stats = [
-    { value: "100%", label: "Remote-First Delivery Strategy" },
-    { value: "4.9/5", label: "Client Sourcing Satisfaction" },
-    { value: "$12M+", label: "Total Client Conversion Volume" },
-    { value: "3+", label: "Operational Hub Networks" }
+    { value: "100%", label: "Fully Remote Team" },
+    { value: "4.9/5", label: "Client Satisfaction Score" },
+    { value: "₦18B+", label: "Client Revenue Generated" },
+    { value: "3+", label: "Years of Experience" }
   ];
 
   const valueTenets = [
     {
-      title: "Pragmatic Precision",
+      title: "Results That Matter",
       icon: Target,
-      desc: "We do not sell abstract vanity impressions. Every line of React code, pixel of packaging design, and semantic keyword cluster must maps directly to quantifiable client business scale."
+      desc: "Everything we do is tied to real results — more customers, more sales, more visibility. We don't chase vanity numbers. If it doesn't help your business grow, we don't do it."
     },
     {
-      title: "Radical Directness",
+      title: "Straight Talk",
       icon: Lightbulb,
-      desc: "If your current paid conversion infrastructure contains leakage (such as inflated cost-per-clicks or high hydration load times), we present analytical diagnostics directly rather than sugar-coating performance reports."
+      desc: "We tell you what's working and what's not. No sugar-coating, no fluff. If your ads aren't performing or your website needs work, you'll hear it from us — along with a plan to fix it."
     },
     {
-      title: "Architectural Focus",
+      title: "Built to Last",
       icon: Compass,
-      desc: "Our designs and technical backends are engineered for long-term endurance, delivering lightning-fast indexable rendering, minimal framework payloads, and highly visible digital assets."
+      desc: "We don't do quick fixes. Whether it's a website, a brand identity, or a marketing campaign — we build things that last and continue to bring in results long after the project is done."
     }
   ];
 
@@ -44,10 +44,10 @@ export default function AboutView() {
       {/* LANDING SECTION */}
       <section className="relative py-16 lg:py-20 cosmic-section star-field" style={{ borderBottom: '1px solid rgba(139, 92, 246, 0.1)' }}>
         <div className="mx-auto max-w-7xl px-6 sm:px-8 text-center max-w-3xl relative z-10">
-          <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">Our Founding Manifesto</span>
+          <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">Who We Are</span>
           <div className="mt-4">
             <KineticText
-              text="Architects of"
+              text="Your Digital"
               as="h1"
               variant="reveal"
               className="text-4xl font-black tracking-tight text-white sm:text-5xl font-display leading-[1.1] inline"
@@ -55,7 +55,7 @@ export default function AboutView() {
             />
             {' '}
             <KineticText
-              text="Digital Growth"
+              text="Growth Partner"
               as="span"
               variant="shimmer"
               className="text-4xl font-black tracking-tight sm:text-5xl font-display leading-[1.1]"
@@ -63,34 +63,34 @@ export default function AboutView() {
             />
           </div>
           <p className="mt-5 text-lg text-slate-400 leading-relaxed font-sans" style={{ animation: 'fade-in-up 0.8s ease 1s forwards', opacity: 0 }}>
-            Ace Innovation Nexus is more than a creative shop. We are systematic operators working across engineering, branding, content, and search loops. Yes, we build fast websites—but more importantly, we construct client market leadership.
+            Ace Innovation Nexus is a full-service digital agency based in Nigeria. We help businesses grow through marketing, content creation, photography, videography, websites, and apps. We don't just build — we grow brands.
           </p>
         </div>
       </section>
 
-      {/* CORE TIMELINE STORY GRID */}
+      {/* CORE STORY SECTION */}
       <section className="relative py-20 lg:py-24 max-w-7xl mx-auto px-6 sm:px-8">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center relative z-10">
           
           <div className="space-y-6">
-            <span className="text-xs font-bold uppercase font-mono tracking-widest block gradient-text">Building the Bridge</span>
+            <span className="text-xs font-bold uppercase font-mono tracking-widest block gradient-text">Our Story</span>
             <h2 className="text-2xl font-black text-white sm:text-3xl font-display leading-tight">
-              Bridging local brilliance with hyper-performing international channels.
+              We saw great businesses struggling to grow online. So we decided to fix that.
             </h2>
             <p className="text-sm text-slate-400 leading-relaxed font-sans">
-              Our history began with a straightforward observation: regional brands and outstanding public upsellers (such as HP LIFE) create exceptional value but often lack the specialized performance platforms to scale on search models and capture wider trust. 
+              We started because we kept seeing the same problem — businesses with amazing products and services, but no real online presence. They were invisible to the people who needed them most.
             </p>
             <p className="text-sm text-slate-400 leading-relaxed font-sans">
-              We assembled a cross-functional squad of technical frontend engineers, semantic SEO managers, and visual consumer branding specialists. By replacing manual workflows with optimized headless setups, geofenced campaigns, and automated WhatsApp funnels, we turned standard websites into high-conversion machinery.
+              So we put together a team of marketers, designers, photographers, videographers, and developers — all under one roof. Today, we help businesses across Nigeria and beyond get seen, get customers, and grow.
             </p>
             <div className="pt-4 grid grid-cols-2 gap-4">
               <div style={{ borderLeft: '2px solid var(--cosmic-accent)' }} className="pl-4">
-                <span className="text-xs font-bold uppercase text-slate-500 font-mono">ESTABLISHED IN</span>
-                <p className="text-lg font-bold text-white font-display">Sub-Saharan Africa</p>
+                <span className="text-xs font-bold uppercase text-slate-500 font-mono">BASED IN</span>
+                <p className="text-lg font-bold text-white font-display">Ibadan, Nigeria</p>
               </div>
               <div style={{ borderLeft: '2px solid var(--cosmic-cyan)' }} className="pl-4">
-                <span className="text-xs font-bold uppercase text-slate-500 font-mono">RELIABLE STABILITY</span>
-                <p className="text-lg font-bold text-white font-display">94% Client Retention</p>
+                <span className="text-xs font-bold uppercase text-slate-500 font-mono">CLIENT RETENTION</span>
+                <p className="text-lg font-bold text-white font-display">94% Stay With Us</p>
               </div>
             </div>
           </div>
@@ -112,14 +112,14 @@ export default function AboutView() {
         </div>
       </section>
 
-      {/* CORE CORPORATE VALUES */}
+      {/* CORE VALUES */}
       <section className="relative py-20 lg:py-24 cosmic-section star-field" style={{ borderTop: '1px solid rgba(139, 92, 246, 0.1)', borderBottom: '1px solid rgba(139, 92, 246, 0.1)' }}>
         <div className="mx-auto max-w-7xl px-6 sm:px-8 relative z-10">
           
           <div className="text-center max-w-2xl mx-auto space-y-3 mb-16">
-            <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">Our Core Commitments</span>
-            <h2 className="text-3xl font-black text-white font-display">The Non-Negotiables</h2>
-            <p className="text-sm text-slate-400">We run our agency operations with strict adherence to quantitative value metrics.</p>
+            <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">What We Believe</span>
+            <h2 className="text-3xl font-black text-white font-display">How We Do Things</h2>
+            <p className="text-sm text-slate-400">Three simple rules that guide everything we do.</p>
           </div>
 
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -136,7 +136,7 @@ export default function AboutView() {
                   </div>
                   <div className="mt-8 pt-4 flex items-center justify-between text-[11px] font-bold font-mono" style={{ borderTop: '1px solid rgba(139, 92, 246, 0.1)' }}>
                     <span className="text-slate-600">RULE {idx + 1} OF 3</span>
-                    <span className="text-emerald-400">VERIFIED • OK</span>
+                    <span className="text-emerald-400">✓ ALWAYS</span>
                   </div>
                 </div>
               );
@@ -146,18 +146,18 @@ export default function AboutView() {
         </div>
       </section>
 
-      {/* INTERACTIVE SHOCK TEAM SECTION */}
+      {/* TEAM SECTION */}
       <section className="relative py-20 lg:py-24 max-w-7xl mx-auto px-6 sm:px-8">
         
         <div className="text-center max-w-2xl mx-auto space-y-4 mb-16 relative z-10">
-          <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">Interactive Panel</span>
-          <h2 className="text-3xl font-black text-white font-display">Meet the Growth Architects</h2>
-          <p className="text-sm text-slate-400">Select a manager card below to load their specialized growth narrative and individual credentials in the diagnostic reader panel.</p>
+          <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">The People Behind It All</span>
+          <h2 className="text-3xl font-black text-white font-display">Meet Our Team</h2>
+          <p className="text-sm text-slate-400">Click on any team member to learn more about them.</p>
         </div>
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-stretch relative z-10">
           
-          {/* Leaders Carousel Selection (left list) */}
+          {/* Team member cards (left) */}
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {teamMembers.map((member) => {
               const isSelected = activeLeader?.id === member.id;
@@ -192,14 +192,14 @@ export default function AboutView() {
             })}
           </div>
 
-          {/* Diagnostic Active Reader Panel (right viewport) */}
+          {/* Active team member detail (right) */}
           <div className="lg:col-span-5 rounded-2xl p-6 sm:p-8 flex flex-col justify-between" style={{ background: 'rgba(6, 182, 212, 0.03)', border: '1px dashed rgba(6, 182, 212, 0.15)' }}>
             {activeLeader ? (
               <div className="space-y-6">
                 
                 <div className="flex justify-between items-start">
                   <div>
-                    <span className="text-[9px] font-bold uppercase tracking-widest font-mono gradient-text">Active Architect Diagnostics</span>
+                    <span className="text-[9px] font-bold uppercase tracking-widest font-mono gradient-text">Team Member</span>
                     <h3 className="text-xl font-bold text-white font-display mt-1">{activeLeader.name}</h3>
                     <p className="text-xs text-purple-400 font-mono mt-0.5 uppercase tracking-wide">{activeLeader.role}</p>
                   </div>
@@ -209,40 +209,40 @@ export default function AboutView() {
                 </div>
 
                 <div className="cosmic-card p-4.5 rounded-xl text-sm italic text-slate-300 relative">
-                  <span className="absolute -top-3 left-4 px-2 py-0.5 text-[8px] font-bold tracking-widest font-mono uppercase rounded rounded-bl-none" style={{ background: 'linear-gradient(135deg, var(--cosmic-accent), var(--cosmic-cyan))', color: 'white' }}>Manifesto Statement</span>
+                  <span className="absolute -top-3 left-4 px-2 py-0.5 text-[8px] font-bold tracking-widest font-mono uppercase rounded rounded-bl-none" style={{ background: 'linear-gradient(135deg, var(--cosmic-accent), var(--cosmic-cyan))', color: 'white' }}>About</span>
                   <p className="mt-1 font-sans">
                     "{activeLeader.bio}"
                   </p>
                 </div>
 
                 <div className="space-y-2 text-xs">
-                  <span className="font-bold text-slate-500 font-mono block uppercase">Operational Strengths</span>
+                  <span className="font-bold text-slate-500 font-mono block uppercase">Skills</span>
                   <div className="flex flex-wrap gap-1.5">
-                    {activeLeader.department === 'Leadership' && ['Global Strategy', 'Venture Capital Coordination', 'Corporate Development'].map(t => (
+                    {activeLeader.department === 'Leadership' && ['Business Strategy', 'Team Management', 'Client Relations'].map(t => (
                       <span key={t} className="rounded-md border border-purple-500/15 px-2 py-1 font-medium text-slate-300" style={{ background: 'rgba(15, 15, 30, 0.6)' }}>{t}</span>
                     ))}
-                    {activeLeader.department === 'Creative & Brand' && ['Visual Packaging Redesign', '3D Media Production', 'Interactive Social Filters'].map(t => (
+                    {activeLeader.department === 'Creative & Brand' && ['Brand Design', 'Photography Direction', 'Content Strategy'].map(t => (
                       <span key={t} className="rounded-md border border-purple-500/15 px-2 py-1 font-medium text-slate-300" style={{ background: 'rgba(15, 15, 30, 0.6)' }}>{t}</span>
                     ))}
-                    {activeLeader.department === 'Marketing & SEO' && ['Semantic Topic Clustering', 'Heuristic Auditing', 'Organics Acquisition'].map(t => (
+                    {activeLeader.department === 'Marketing & SEO' && ['Google Ads', 'Social Media Marketing', 'SEO & Analytics'].map(t => (
                       <span key={t} className="rounded-md border border-purple-500/15 px-2 py-1 font-medium text-slate-300" style={{ background: 'rgba(15, 15, 30, 0.6)' }}>{t}</span>
                     ))}
-                    {activeLeader.department === 'Tech & Product' && ['React / Headless PWAs', 'Secured Express Frameworks', 'Low-Latency Cache Design'].map(t => (
+                    {activeLeader.department === 'Tech & Product' && ['React & Next.js', 'Mobile App Development', 'Backend & APIs'].map(t => (
                       <span key={t} className="rounded-md border border-purple-500/15 px-2 py-1 font-medium text-slate-300" style={{ background: 'rgba(15, 15, 30, 0.6)' }}>{t}</span>
                     ))}
                   </div>
                 </div>
 
                 <div className="pt-6 flex items-center justify-between font-mono text-[10px]" style={{ borderTop: '1px solid rgba(139, 92, 246, 0.1)' }}>
-                  <span className="text-slate-600">RECORD_ID: {activeLeader.id.toUpperCase()}</span>
-                  <span className="text-emerald-400 font-bold uppercase">● SECURE ADVISOR</span>
+                  <span className="text-slate-600">{activeLeader.department.toUpperCase()}</span>
+                  <span className="text-emerald-400 font-bold uppercase">● TEAM MEMBER</span>
                 </div>
 
               </div>
             ) : (
               <div className="h-full flex flex-col justify-center items-center text-center text-slate-500">
                 <User className="h-8 w-8 text-slate-600 stroke-dasharray animate-pulse" />
-                <p className="text-xs font-semibold mt-2">Select an advisor on the left to read their bio pipeline.</p>
+                <p className="text-xs font-semibold mt-2">Select a team member to learn more about them.</p>
               </div>
             )}
           </div>
@@ -251,7 +251,7 @@ export default function AboutView() {
 
       </section>
 
-      {/* CORE STATS EMBASSY BANNER */}
+      {/* STATS BANNER */}
       <section className="relative py-14" style={{ background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(15, 15, 30, 0.95) 50%, rgba(6, 182, 212, 0.08) 100%)', borderTop: '1px solid rgba(139, 92, 246, 0.15)' }}>
         <div className="mx-auto max-w-7xl px-6 sm:px-8 relative z-10">
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4 text-center">

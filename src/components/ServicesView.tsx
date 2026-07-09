@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from 'react';
-import { ArrowUpRight, CheckCircle2, TrendingUp, Target, Code, X, ShieldAlert, Award } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, TrendingUp, Target, Code, Camera, X, Award } from 'lucide-react';
 import { caseStudies } from '../data';
 import { CaseStudy } from '../types';
 import KineticText from './KineticText';
 
 export default function ServicesView() {
-  const [filterCategory, setFilterCategory] = useState<'All' | 'Branding & Strategy' | 'Digital Marketing' | 'Tech Products'>('All');
+  const [filterCategory, setFilterCategory] = useState<'All' | 'Branding & Content' | 'Digital Marketing' | 'Web & App Development'>('All');
   const [selectedProject, setSelectedProject] = useState<CaseStudy | null>(null);
 
   const triggerHaptic = useCallback((pattern: number | number[] = 15) => {
@@ -14,11 +14,11 @@ export default function ServicesView() {
     }
   }, []);
 
-  const categoriesOrdered: ('All' | 'Branding & Strategy' | 'Digital Marketing' | 'Tech Products')[] = [
+  const categoriesOrdered: ('All' | 'Branding & Content' | 'Digital Marketing' | 'Web & App Development')[] = [
     'All',
-    'Branding & Strategy',
+    'Branding & Content',
     'Digital Marketing',
-    'Tech Products'
+    'Web & App Development'
   ];
 
   const filteredProjects = caseStudies.filter(p => {
@@ -28,31 +28,40 @@ export default function ServicesView() {
 
   const mainServices = [
     {
-      title: "Brand Strategy & Packaging Identity",
-      slug: "strategy-design",
-      img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
-      icon: Target,
-      tag: "Visual Equity",
-      description: "Carving out unmissable corporate and consumer footprints. We redefine packaging visuals, construct visual style guides, and design memorable digital identities that capture real buyer trust on supermarket shelves and mobile apps alike.",
-      bullets: ["Aesthetic & packaging engineering", "Brand voice & slogan structures", "Multi-platform visual guides", "Corporate pitch storytelling"]
-    },
-    {
-      title: "Headless Content & Semantic SEO",
+      title: "Digital Marketing & SEO",
       slug: "marketing-seo",
       img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
       icon: TrendingUp,
-      tag: "Organic Search",
-      description: "Escaping the pay-per-click loop. We map user intentions to formulate logical keyword clusters, execute deep backlink coordination, and optimize technical schema layers to ensure you secure durable Rank 1 positions.",
-      bullets: ["Semantic gap & cluster audits", "Frictionless content writing", "Headless SEO rendering", "Lead-generation conversions"]
+      tag: "Marketing",
+      description: "We help your business get found online and turn visitors into customers. From running ads on social media to getting your website to the top of Google — we handle it all so you can focus on your business.",
+      bullets: ["Social media ads (Facebook, Instagram, TikTok)", "Google Ads & search engine optimization (SEO)", "Email marketing & WhatsApp campaigns", "Analytics & monthly performance reports"]
     },
     {
-      title: "Technical Web & Product Infrastructure",
-      slug: "technical-infra",
+      title: "Content Creation & Social Media",
+      slug: "content-social",
+      img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
+      icon: Target,
+      tag: "Content",
+      description: "Great content is what makes people stop scrolling and pay attention to your brand. We plan, create, and manage your social media content so your brand always looks professional and stays consistent.",
+      bullets: ["Social media content planning & posting", "Copywriting for ads, websites & emails", "Brand storytelling & content strategy", "Influencer marketing support"]
+    },
+    {
+      title: "Photography & Videography",
+      slug: "photo-video",
+      img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
+      icon: Camera,
+      tag: "Media Production",
+      description: "Professional photos and videos make your brand look trustworthy and premium. Our team handles everything from product photography to brand commercials — so your visuals do the selling for you.",
+      bullets: ["Product & food photography", "Corporate event coverage & portraits", "Brand commercials & social media videos", "Drone & aerial footage"]
+    },
+    {
+      title: "Websites & Mobile Apps",
+      slug: "web-apps",
       img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80",
       icon: Code,
-      tag: "Custom Systems",
-      description: "Developing robust, lightweight digital experiences that load in milliseconds even in rural, low-bandwidth regions. We build React frontends integrated with secure Node/Express API proxies to safeguard client data.",
-      bullets: ["Vite & React client interfaces", "Secured Node/Express REST APIs", "Database structures & offline caches", "Minimalist data bundles"]
+      tag: "Development",
+      description: "Your website is your 24/7 salesperson. We build fast, beautiful websites and mobile apps that work perfectly — even on slow internet connections. From simple landing pages to full e-commerce stores.",
+      bullets: ["Business websites & landing pages", "E-commerce & online stores", "iOS & Android mobile apps", "Website maintenance & updates"]
     }
   ];
 
@@ -62,16 +71,16 @@ export default function ServicesView() {
       {/* HEADER HERO BANNER */}
       <section className="relative py-16 lg:py-20 cosmic-section star-field" style={{ borderBottom: '1px solid rgba(139, 92, 246, 0.1)' }}>
         <div className="mx-auto max-w-7xl px-6 sm:px-8 text-center max-w-3xl relative z-10">
-          <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">Our Impact in Action</span>
+          <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">What We Do</span>
           <KineticText
-            text="Architecting Resilient Growth"
+            text="Services That Grow Your Business"
             as="h1"
             variant="reveal"
             className="mt-4 text-4xl font-black tracking-tight text-white sm:text-5xl font-display leading-[1.1]"
             delay={0.2}
           />
           <p className="mt-5 text-lg text-slate-400 leading-relaxed font-sans" style={{ animation: 'fade-in-up 0.8s ease 0.8s forwards', opacity: 0 }}>
-            Explore our core service vectors and verified case studies illustrating how we help multinational programs, e-commerce giants, and emerging fintech hubs thrive across Africa and beyond.
+            We offer a full range of digital services — from marketing and content creation to professional photography, videography, and custom websites & apps.
           </p>
         </div>
       </section>
@@ -79,12 +88,12 @@ export default function ServicesView() {
       {/* CORE SERVICES CARDS */}
       <section className="relative py-20 lg:py-24 max-w-7xl mx-auto px-6 sm:px-8 cosmic-section">
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-16 relative z-10">
-          <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">The Nexus Suite</span>
-          <h2 className="text-3xl font-bold tracking-tight text-white font-display">Specialized Capabilities</h2>
-          <p className="text-sm text-slate-400">Every vector is matched to quantitative performance. We do not design for empty pages, but for brand equity.</p>
+          <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">Our Services</span>
+          <h2 className="text-3xl font-bold tracking-tight text-white font-display">What We Offer</h2>
+          <p className="text-sm text-slate-400">Everything you need to grow your business online — all in one place.</p>
         </div>
 
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-3 relative z-10">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 relative z-10">
           {mainServices.map((srv, idx) => {
             const Icon = srv.icon;
             return (
@@ -113,7 +122,7 @@ export default function ServicesView() {
                     <h3 className="text-lg font-bold text-white font-display leading-tight">{srv.title}</h3>
                   </div>
 
-                  <p className="mt-4 text-xs tracking-wide uppercase font-mono font-bold gradient-text">Capabilities & Blueprints</p>
+                  <p className="mt-4 text-xs tracking-wide uppercase font-mono font-bold gradient-text">What's Included</p>
                   <ul className="mt-3 space-y-2 text-sm text-slate-400">
                     {srv.bullets.map((bull, i) => (
                       <li key={i} className="flex gap-2 items-center">
@@ -127,7 +136,7 @@ export default function ServicesView() {
                 </div>
 
                 <div className="mt-8 pt-5" style={{ borderTop: '1px solid rgba(139, 92, 246, 0.1)' }}>
-                  <span className="text-xs font-bold text-slate-600 font-mono tracking-wider">ACE ARCHITECTS BLUEPRINT v1.0</span>
+                  <span className="text-xs font-bold text-slate-600 font-mono tracking-wider">ACE INNOVATION NEXUS</span>
                 </div>
               </div>
             );
@@ -140,9 +149,9 @@ export default function ServicesView() {
         <div className="mx-auto max-w-7xl px-6 sm:px-8 relative z-10">
           
           <div className="text-center max-w-2xl mx-auto space-y-4 mb-12">
-            <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text text-center">Case Studies</span>
-            <h2 className="text-3xl font-black text-white font-display">Verified Outcomes</h2>
-            <p className="text-sm text-slate-400 max-w-md mx-auto">Click any project to inspect our implementation methods, direct resolutions, and scope details.</p>
+            <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text text-center">Our Projects</span>
+            <h2 className="text-3xl font-black text-white font-display">Real Results</h2>
+            <p className="text-sm text-slate-400 max-w-md mx-auto">Click any project to see what we did and the results we achieved.</p>
           </div>
 
           {/* Filtering buttons */}
@@ -158,7 +167,7 @@ export default function ServicesView() {
                 }`}
                 style={filterCategory === cat ? { background: 'linear-gradient(135deg, var(--cosmic-accent), var(--cosmic-cyan))', boxShadow: 'var(--glow-purple)' } : { background: 'rgba(15, 15, 30, 0.5)' }}
               >
-                {cat === 'All' ? 'All Operations' : cat}
+                {cat === 'All' ? 'All Services' : cat}
               </button>
             ))}
           </div>
@@ -229,7 +238,7 @@ export default function ServicesView() {
             <button
               onClick={() => { triggerHaptic(10); setSelectedProject(null); }}
               className="absolute top-5 right-5 flex h-9 w-9 items-center justify-center rounded-full border border-purple-500/30 text-purple-300 hover:text-white hover:bg-purple-600/30 focus:outline-none transition-colors haptic-press"
-              title="Close Modal"
+              title="Close"
             >
               <X className="h-5 w-5" />
             </button>
@@ -239,7 +248,7 @@ export default function ServicesView() {
               
               <div>
                 <span className="rounded-full px-3 py-1 text-xs font-bold text-purple-200 uppercase tracking-wider font-mono glass-panel">
-                  Case Blueprint &bull; {selectedProject.category}
+                  Project &bull; {selectedProject.category}
                 </span>
                 <span className="text-xs font-bold text-slate-500 block mt-2 font-mono">CLIENT: {selectedProject.client.toUpperCase()}</span>
                 <h3 className="mt-2 text-2xl font-black text-white font-display leading-snug">
@@ -268,17 +277,17 @@ export default function ServicesView() {
               </div>
 
               <div className="space-y-4">
-                <h4 className="text-base font-bold text-white font-display">Growth Diagnostics & Challenge</h4>
+                <h4 className="text-base font-bold text-white font-display">The Challenge</h4>
                 <p className="text-sm text-slate-400 leading-relaxed font-sans">{selectedProject.description}</p>
               </div>
 
               <div className="space-y-4">
-                <h4 className="text-base font-bold text-white font-display">Our Engineered Solution</h4>
+                <h4 className="text-base font-bold text-white font-display">What We Did</h4>
                 <p className="text-sm text-slate-400 leading-relaxed font-sans">{selectedProject.solution}</p>
               </div>
 
               <div className="space-y-3">
-                <h4 className="text-base font-bold text-white font-display">Operational Scope Deliverables</h4>
+                <h4 className="text-base font-bold text-white font-display">What We Delivered</h4>
                 <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {selectedProject.scope.map((scp, idx) => (
                     <div key={idx} className="flex gap-2.5 items-center text-sm text-slate-400">
@@ -295,7 +304,7 @@ export default function ServicesView() {
                   onClick={() => { triggerHaptic(10); setSelectedProject(null); }}
                   className="rounded-xl px-6 py-3 text-sm font-bold text-white transition-all neon-btn haptic-press"
                 >
-                  Close Case Audit
+                  Close
                 </button>
               </div>
 

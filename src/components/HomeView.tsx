@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from 'react';
-import { ArrowUpRight, CheckCircle2, TrendingUp, Users, Target, Laptop, ChevronRight, Zap } from 'lucide-react';
+import React, { useCallback } from 'react';
+import { ArrowUpRight, CheckCircle2, ChevronRight, Zap, MessageSquare, ClipboardList, Rocket, BarChart3 } from 'lucide-react';
 import { caseStudies, staticInsights } from '../data';
 import KineticText from './KineticText';
 
@@ -9,10 +9,6 @@ interface HomeViewProps {
 }
 
 export default function HomeView({ setCurrentTab, openContactModal }: HomeViewProps) {
-  // Calculator States
-  const [sector, setSector] = useState<'FMCG' | 'Fintech' | 'Edtech' | 'Ecommerce'>('FMCG');
-  const [traffic, setTraffic] = useState<number>(10000);
-  const [leadSource, setLeadSource] = useState<'SEO' | 'Branding' | 'Product'>('SEO');
 
   const triggerHaptic = useCallback((pattern: number | number[] = 15) => {
     if ('vibrate' in navigator) {
@@ -20,42 +16,32 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
     }
   }, []);
 
-  // Calculates estimated returns based on parameters selected
-  const getGrowthEstimates = () => {
-    let multiplier = 2.4;
-    let conversionRate = 0.025;
-    
-    if (sector === 'Fintech') {
-      multiplier = 3.6;
-      conversionRate = 0.018;
-    } else if (sector === 'Edtech') {
-      multiplier = 4.1;
-      conversionRate = 0.035;
-    } else if (sector === 'Ecommerce') {
-      multiplier = 2.9;
-      conversionRate = 0.022;
+  const processSteps = [
+    {
+      step: "01",
+      title: "Discovery",
+      icon: MessageSquare,
+      description: "We sit down with you (in person or online) to understand your business, your goals, and what's not working right now."
+    },
+    {
+      step: "02",
+      title: "Planning",
+      icon: ClipboardList,
+      description: "We put together a clear plan — what we'll do, how long it'll take, and what results you can expect."
+    },
+    {
+      step: "03",
+      title: "Execution",
+      icon: Rocket,
+      description: "Our team gets to work — running your ads, creating content, shooting photos and videos, building your website or app."
+    },
+    {
+      step: "04",
+      title: "Results",
+      icon: BarChart3,
+      description: "We track everything and send you clear reports. You see exactly what's working and what we're doing next."
     }
-
-    if (leadSource === 'Branding') {
-      conversionRate += 0.012;
-    } else if (leadSource === 'Product') {
-      conversionRate += 0.008;
-    } else {
-      multiplier += 0.5;
-    }
-
-    const estimatedTraffic = Math.round(traffic * multiplier);
-    const estimatedLeads = Math.round(estimatedTraffic * conversionRate);
-    const costReduction = sector === 'Fintech' ? '45%' : '35%';
-
-    return {
-      estimatedTraffic,
-      estimatedLeads,
-      costReduction
-    };
-  };
-
-  const estimates = getGrowthEstimates();
+  ];
 
   return (
     <div className="w-full">
@@ -74,7 +60,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
             <div className="lg:col-span-7 space-y-6 text-left">
               <span className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold text-purple-300 border border-purple-500/25" style={{ background: 'rgba(139, 92, 246, 0.1)' }}>
                 <Zap className="h-3.5 w-3.5 fill-purple-400 text-purple-400" />
-                Africa's Premier Digital Agency
+                Digital Agency · Nigeria & Worldwide
               </span>
 
               <div className="perspective-container">
@@ -95,7 +81,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
               </div>
 
               <p className="max-w-xl text-lg text-slate-400 leading-relaxed font-sans" style={{ animation: 'fade-in-up 0.8s ease 1s forwards', opacity: 0 }}>
-                A full-service digital, media & creative partner delivering architectural precision across Marketing, Branding, Content, Training and Tech high-performance development. Built to accelerate market leadership.
+                We help businesses grow with digital marketing, content creation, professional photography & videography, websites, and mobile apps. From Nigeria to the world — we turn your online presence into real customers.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 pt-4" style={{ animation: 'fade-in-up 0.8s ease 1.2s forwards', opacity: 0 }}>
@@ -104,7 +90,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
                   onClick={() => { triggerHaptic(25); openContactModal(); }}
                   className="group flex items-center justify-center gap-1.5 rounded-xl px-6 py-4 text-sm font-bold text-white shadow-md neon-btn haptic-press"
                 >
-                  Schedule Strategy Audit
+                  Book a Free Consultation
                   <ArrowUpRight className="h-4 w-4" />
                 </button>
                 <button
@@ -116,7 +102,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
                   }}
                   className="flex items-center justify-center gap-1 rounded-xl border border-purple-500/25 bg-purple-500/5 px-6 py-4 text-sm font-bold text-purple-300 hover:bg-purple-500/10 hover:border-purple-500/40 transition-all haptic-press"
                 >
-                  Explore Our Impact
+                  See Our Work
                 </button>
               </div>
 
@@ -127,8 +113,8 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
                   <div className="text-xs text-slate-500 font-medium font-sans uppercase tracking-wider mt-1">Client Retention Rate</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-black font-display gradient-text">$12M+</div>
-                  <div className="text-xs text-slate-500 font-medium font-sans uppercase tracking-wider mt-1">Client Transaction Volume</div>
+                  <div className="text-2xl font-black font-display gradient-text">₦18B+</div>
+                  <div className="text-xs text-slate-500 font-medium font-sans uppercase tracking-wider mt-1">Client Revenue Generated</div>
                 </div>
               </div>
 
@@ -163,7 +149,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
               >
                 <img
                   src="/images/hero-character.png"
-                  alt="Tega - Founder & Chief Growth Architect"
+                  alt="Tega - Founder & CEO"
                   className="w-full max-w-md h-auto object-contain rounded-2xl"
                 />
               </div>
@@ -173,14 +159,14 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
         </div>
       </section>
 
-      {/* SECTION 2: INTERACTIVE BRAND ACCELERATOR ENGINE */}
+      {/* SECTION 2: HOW WE WORK */}
       <section className="relative py-20 lg:py-24 cosmic-section" style={{ borderTop: '1px solid rgba(139, 92, 246, 0.1)', borderBottom: '1px solid rgba(139, 92, 246, 0.1)' }}>
         <div className="mx-auto max-w-7xl px-6 sm:px-8 relative z-10">
           
           <div className="text-center max-w-3xl mx-auto space-y-4">
-            <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">Simulate Capital Efficiency</span>
+            <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">From Strategy to Results</span>
             <KineticText
-              text="Brand Growth Estimation Engine"
+              text="How We Work"
               as="h2"
               variant="reveal"
               className="text-3xl font-black tracking-tight text-white sm:text-4xl font-display"
@@ -188,173 +174,67 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
               stagger={0.02}
             />
             <p className="text-base text-slate-400 font-sans">
-              Adjust parameters below representing your brand segments and current inbound reach. Observe estimated organic metrics generated by our proven full-service architectural benchmarks.
+              We keep it simple. Here's how every project works — from the first conversation to real results you can see.
             </p>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-12 items-stretch">
-            
-            {/* Control Panel (left) */}
-            <div className="lg:col-span-6 rounded-2xl p-6 sm:p-8 flex flex-col justify-between cosmic-card" style={{ background: 'rgba(15, 15, 30, 0.6)', backdropFilter: 'blur(10px)' }}>
-              <div className="space-y-6">
-                
-                {/* 1. Sector Target Selection */}
-                <div>
-                  <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Business Segment</label>
-                  <div className="grid grid-cols-2 gap-3 mt-2.5">
-                    {[
-                      { id: 'FMCG', label: 'FMCG Retail' },
-                      { id: 'Fintech', label: 'FinTech Banking' },
-                      { id: 'Edtech', label: 'Edtech & Training' },
-                      { id: 'Ecommerce', label: 'E-Commerce' }
-                    ].map((sec) => (
-                      <button
-                        key={sec.id}
-                        onClick={() => { triggerHaptic(10); setSector(sec.id as any); }}
-                        className={`rounded-xl px-4 py-3 text-xs font-semibold border transition-all text-center haptic-press ${
-                          sector === sec.id
-                            ? 'bg-purple-500/15 border-purple-500/40 text-purple-300 shadow-sm'
-                            : 'bg-white/3 border-purple-500/10 text-slate-400 hover:bg-purple-500/5 hover:text-slate-200'
-                        }`}
-                      >
-                        {sec.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 2. Monthly Audience Slider */}
-                <div>
-                  <div className="flex justify-between items-center">
-                    <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Current Monthly Reach</label>
-                    <span className="text-sm font-bold text-white font-mono">{traffic.toLocaleString()} Visitors</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="2000"
-                    max="100000"
-                    step="2000"
-                    value={traffic}
-                    onChange={(e) => { triggerHaptic(5); setTraffic(Number(e.target.value)); }}
-                    className="w-full h-2 rounded-lg appearance-none cursor-pointer mt-3"
-                    style={{ background: 'linear-gradient(90deg, var(--cosmic-accent), var(--cosmic-cyan))', accentColor: 'var(--cosmic-accent)' }}
-                  />
-                  <div className="flex justify-between text-[10px] text-slate-500 font-bold tracking-wide mt-2">
-                    <span>2k MIN</span>
-                    <span>50k MID</span>
-                    <span>100k MAX</span>
-                  </div>
-                </div>
-
-                {/* 3. Primary Value Driver Selector */}
-                <div>
-                  <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Growth Lever Focus</label>
-                  <div className="grid grid-cols-3 gap-2.5 mt-2.5">
-                    {[
-                      { id: 'SEO', icon: TrendingUp, label: 'SEO Clusters' },
-                      { id: 'Branding', icon: Target, label: 'Video Branding' },
-                      { id: 'Product', icon: Laptop, label: 'High-Perf Tech' }
-                    ].map((driver) => {
-                      const Icon = driver.icon;
-                      return (
-                        <button
-                          key={driver.id}
-                          onClick={() => { triggerHaptic(10); setLeadSource(driver.id as any); }}
-                          className={`rounded-xl p-3 border text-center transition-all flex flex-col items-center gap-1.5 haptic-press ${
-                            leadSource === driver.id
-                              ? 'bg-purple-500/15 border-purple-500/40 text-purple-300 shadow-sm'
-                              : 'bg-white/3 border-purple-500/10 text-slate-400 hover:bg-purple-500/5 hover:text-cyan-300'
-                          }`}
-                        >
-                          <Icon className="h-4.5 w-4.5" />
-                          <span className="text-[10px] font-bold tracking-tight">{driver.label}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-              </div>
-
-              <div className="pt-8 mt-8" style={{ borderTop: '1px solid rgba(139, 92, 246, 0.15)' }}>
-                <button
-                  id="calc-consultation-btn"
-                  onClick={() => { triggerHaptic(25); openContactModal(); }}
-                  className="w-full rounded-xl py-3.5 text-center text-xs font-bold text-white transition-all neon-btn haptic-press"
+          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {processSteps.map((step, idx) => {
+              const Icon = step.icon;
+              return (
+                <div
+                  key={idx}
+                  className="group rounded-2xl p-6 cosmic-card tilt-3d perspective-container relative overflow-hidden"
+                  style={{ animationDelay: `${idx * 0.1}s` }}
                 >
-                  Lock In Personalized Growth Brief
-                </button>
-              </div>
-
-            </div>
-
-            {/* Live Outputs Plot (right) */}
-            <div className="lg:col-span-6 rounded-2xl border border-cyan-500/15 p-6 sm:p-8 flex flex-col justify-between" style={{ background: 'rgba(6, 182, 212, 0.03)' }}>
-              <div>
-                <span className="text-[10px] font-bold uppercase font-mono tracking-widest block mb-4 gradient-text">Interactive Calculation Output</span>
-                
-                <div className="space-y-6">
-                  
-                  {/* Est Traffic Output */}
-                  <div className="cosmic-card rounded-xl p-5">
-                    <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider font-sans block">Estimated Monthly Organic Reach</span>
-                    <div className="flex items-baseline gap-2 mt-1">
-                      <span className="text-3xl font-black text-white font-display text-glow-cyan">
-                        {estimates.estimatedTraffic.toLocaleString()}
-                      </span>
-                      <span className="text-xs font-bold font-mono tracking-wide gradient-text">
-                        (+{(Math.round((estimates.estimatedTraffic / traffic) * 100) - 100)}% Lift)
-                      </span>
-                    </div>
+                  {/* Step number background */}
+                  <div className="absolute -top-2 -right-2 text-7xl font-black font-display opacity-5 text-purple-300 pointer-events-none select-none">
+                    {step.step}
                   </div>
 
-                  {/* Est Leads Output */}
-                  <div className="cosmic-card rounded-xl p-5">
-                    <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider font-sans block">Target Monthly Business Inquiries</span>
-                    <div className="flex items-baseline gap-2 mt-1">
-                      <span className="text-3xl font-black text-white font-display text-glow-purple">
-                        {estimates.estimatedLeads.toLocaleString()}
-                      </span>
-                      <span className="text-xs font-bold text-purple-400 font-mono tracking-wide">Qualified Leads / Mo</span>
+                  <div className="relative space-y-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-purple-500/15 text-purple-300">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span className="text-[10px] font-bold text-slate-500 font-mono tracking-widest uppercase">Step {step.step}</span>
                     </div>
+
+                    <h3 className="text-lg font-bold text-white font-display">{step.title}</h3>
+                    <p className="text-sm text-slate-400 leading-relaxed font-sans">{step.description}</p>
                   </div>
 
-                  {/* Estimated Cost Reduction */}
-                  <div className="cosmic-card rounded-xl p-5">
-                    <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider font-sans block">Targeted CPA (Cost Per Acquisition) Decline</span>
-                    <div className="flex items-baseline gap-2 mt-1">
-                      <span className="text-3xl font-black text-emerald-400 font-display" style={{ textShadow: '0 0 20px rgba(16, 185, 129, 0.4)' }}>
-                        -{estimates.costReduction}
-                      </span>
-                      <span className="text-xs font-semibold text-slate-500">Ad Spending Efficiency</span>
-                    </div>
+                  <div className="mt-6 pt-4 flex items-center justify-between text-[11px] font-bold font-mono" style={{ borderTop: '1px solid rgba(139, 92, 246, 0.1)' }}>
+                    <span className="text-slate-600">STEP {step.step} OF 04</span>
+                    <span className="text-emerald-400">✓</span>
                   </div>
-
                 </div>
+              );
+            })}
+          </div>
 
-              </div>
-
-              <div className="mt-8 cosmic-card p-4 rounded-xl text-xs text-slate-400 flex gap-3 leading-relaxed items-center">
-                <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0" />
-                <p>This estimate assumes organic clusters matching HP LIFE adoption curves and Checkers digital engagement baselines.</p>
-              </div>
-
-            </div>
-
+          <div className="mt-12 text-center">
+            <button
+              id="how-we-work-cta"
+              onClick={() => { triggerHaptic(25); openContactModal(); }}
+              className="rounded-xl px-8 py-4 text-sm font-bold text-white transition-all neon-btn haptic-press"
+            >
+              Start Your Project Today
+            </button>
           </div>
 
         </div>
       </section>
 
-      {/* SECTION 3: IMPACT & CASE STUDIES SNAPSHOT */}
+      {/* SECTION 3: WORK WE'VE DONE */}
       <section className="relative py-20 lg:py-24 cosmic-section star-field">
         <div className="mx-auto max-w-7xl px-6 sm:px-8 relative z-10">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10" style={{ borderBottom: '1px solid rgba(139, 92, 246, 0.15)' }}>
             <div className="space-y-3">
-              <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">Our Impact in Action</span>
+              <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">Our Projects</span>
               <KineticText
-                text="Featured Growth Operations"
+                text="Work We've Done"
                 as="h2"
                 variant="reveal"
                 className="text-3xl font-black tracking-tight text-white sm:text-4xl font-display"
@@ -371,7 +251,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
               }}
               className="flex items-center gap-1.5 text-sm font-bold text-purple-300 hover:text-cyan-300 group mt-2 transition-colors haptic-press"
             >
-              See All Detailed Case Studies
+              See All Projects
               <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </button>
           </div>
@@ -434,14 +314,14 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
         </div>
       </section>
 
-      {/* SECTION 4: INSIGHTS & INTEL */}
+      {/* SECTION 4: FROM OUR BLOG */}
       <section className="relative py-20 lg:py-24 cosmic-section" style={{ borderTop: '1px solid rgba(139, 92, 246, 0.1)' }}>
         <div className="mx-auto max-w-7xl px-6 sm:px-8 relative z-10">
           
           <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
-            <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">Knowledge Center</span>
+            <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">From Our Blog</span>
             <KineticText
-              text="Latest Insights & Perspectives"
+              text="Tips, Insights & Ideas"
               as="h2"
               variant="reveal"
               className="text-3xl font-black tracking-tight text-white sm:text-4xl font-display"
@@ -449,7 +329,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
               stagger={0.02}
             />
             <p className="text-base text-slate-400">
-              Thought leadership from architects dedicated to organic visibility, core web engineering, and visual equity.
+              Helpful articles from our team on marketing, branding, photography, and building great websites.
             </p>
           </div>
 

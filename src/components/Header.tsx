@@ -18,7 +18,7 @@ export default function Header({ currentTab, setCurrentTab, openContactModal }: 
 
   const navItems = [
     { id: 'home', label: 'Home' },
-    { id: 'services', label: 'Impact & Services' },
+    { id: 'services', label: 'Our Work' },
     { id: 'about', label: 'About Us' },
     { id: 'partnerships', label: 'Partnerships' },
     { id: 'careers', label: 'Careers' }
