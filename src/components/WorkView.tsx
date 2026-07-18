@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import { Download, Search, ArrowUpRight, CheckCircle2, X, Star, FileText, BarChart, Users, ShieldAlert } from 'lucide-react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import { Download, Search, ArrowUpRight, CheckCircle2, ArrowLeft, Star, BarChart, Users, ShieldAlert } from 'lucide-react';
 import KineticText from './KineticText';
 
 interface CaseStudyDemo {
@@ -21,6 +21,57 @@ interface CaseStudyDemo {
 }
 
 const demoCaseStudies: CaseStudyDemo[] = [
+  {
+    id: "hp-life",
+    client: "HP LIFE Academy",
+    title: "Helping Thousands of Nigerians Learn Free Digital Skills",
+    category: "Digital Marketing",
+    summary: "Ran a regional digital marketing campaign that registered over 48,000 students for free online courses across Nigeria and other African countries.",
+    challenge: "HP LIFE needed to reach young Nigerians and other Africans who could benefit from their free online business courses. The challenge was that many people in these communities had limited data and low trust in online platforms.",
+    solution: "We created targeted ads on Facebook, Instagram, and WhatsApp that spoke directly to young learners. We built simple, fast-loading landing pages that worked well even on slow internet. We also set up WhatsApp groups to keep students engaged throughout their courses.",
+    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+    metrics: [
+      { label: "Students Enrolled", value: "48,000+", subtext: "Across Sub-Saharan Africa" },
+      { label: "Return on Ad Spend", value: "3.4x", subtext: "Performance campaign average" },
+      { label: "Completion Rate", value: "+42%", subtext: "Boosted by community support" }
+    ],
+    scope: ["Facebook & Instagram Ads", "WhatsApp Marketing", "Content Creation", "Landing Page Design"],
+    team: ["Kofi Owusu (Marketing & SEO)", "Amara Nwachukwu (Creative Director)"]
+  },
+  {
+    id: "checkers",
+    client: "Checkers Africa (Nigeria)",
+    title: "Building a Stronger Brand for Checkers Across Nigeria",
+    category: "Branding & Strategy",
+    summary: "Refreshed the Checkers brand with new packaging visuals, professional photography, and video content, driving retail sales up by 124%.",
+    challenge: "Checkers wanted to connect with a younger audience in Nigeria. Their packaging looked outdated and they had almost no social media presence. They needed a complete brand refresh that would make people excited about their products.",
+    solution: "We redesigned their product packaging with fresh, modern visuals. Our team shot professional product photos and created short video ads for social media. We also ran a viral recipe challenge on Instagram that got millions of views and drove people to buy in stores.",
+    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
+    metrics: [
+      { label: "Sales Increase", value: "+124%", subtext: "Shelf-movement growth" },
+      { label: "Video Views", value: "3.2M+", subtext: "Viral campaign reach" },
+      { label: "Brand Rating", value: "9.2/10", subtext: "Customer preference survey" }
+    ],
+    scope: ["Brand Identity Redesign", "Product Photography", "Video Production", "Social Media Campaigns"],
+    team: ["Amara Nwachukwu (Creative Director)", "Kofi Owusu (Head of Growth)"]
+  },
+  {
+    id: "fintech",
+    client: "NexusPay Technologies",
+    title: "Building a Payment App That Processed Over ₦18 Billion",
+    category: "Tech Products",
+    summary: "Designed and engineered a mobile payment application and merchant dashboard processing ₦18B+ in micro-transactions.",
+    challenge: "NexusPay had a great idea for a mobile payment platform for small businesses and market traders. They needed a team to build an app that was simple enough for anyone to use, even people who weren't tech-savvy, and functioned in weak networks.",
+    solution: "We built a clean, easy-to-use mobile app for both Android and iOS, along with a web dashboard for merchants to track their sales. The app works even with poor internet connection, so traders in rural areas can still accept payments. We also helped them with SEO and content marketing to attract new users.",
+    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80",
+    metrics: [
+      { label: "Transactions", value: "₦18B+", subtext: "In 8 months post-launch" },
+      { label: "Sign-up Time", value: "< 2 mins", subtext: "Simplified merchant intake" },
+      { label: "New Users", value: "+450%", subtext: "Quarter-on-quarter growth" }
+    ],
+    scope: ["Mobile App Development", "Web Dashboard", "SEO & Content Marketing", "UI/UX Design"],
+    team: ["Zainab Alao (Lead Dev)", "Tega John-Sola (Product Strategist)"]
+  },
   {
     id: "zenith-fintech",
     client: "Zenith Global Solutions",
@@ -86,6 +137,18 @@ export default function WorkView() {
     }
   }, []);
 
+  // Lock body scroll when a case study is open to prevent double scrollbars
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedProject]);
+
   const categories: ('All' | 'Branding & Strategy' | 'Digital Marketing' | 'Tech Products')[] = [
     'All',
     'Branding & Strategy',
@@ -108,7 +171,6 @@ export default function WorkView() {
   const handlePrint = () => {
     triggerHaptic([30, 80, 30]);
     setIsExporting(true);
-    // Give time for layout update if needed
     setTimeout(() => {
       window.print();
       setIsExporting(false);
@@ -188,19 +250,19 @@ export default function WorkView() {
         <div className="mx-auto max-w-7xl px-6 sm:px-8 text-center max-w-4xl relative z-10 space-y-6">
           <span className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold text-purple-300 border border-purple-500/25 no-print" style={{ background: 'rgba(139, 92, 246, 0.1)' }}>
             <Star className="h-3 w-3 fill-purple-400 text-purple-400 animate-pulse" />
-            Standalone Showcase Portal
+            Case Study Portfolio
           </span>
 
           <div className="perspective-container">
             <KineticText
-              text="Our Creative Masterpieces"
+              text="Our Success Stories"
               as="h1"
               variant="reveal"
               className="text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl font-display leading-[1.1]"
               delay={0.1}
             />
             <KineticText
-              text="Proven Impact & Real Revenue"
+              text="Proven Impact & Real Metrics"
               as="h2"
               variant="shimmer"
               className="text-2xl font-bold tracking-tight sm:text-3xl font-display leading-[1.1] mt-2"
@@ -342,114 +404,127 @@ export default function WorkView() {
         )}
       </section>
 
-      {/* DETAILED PROJECT MODAL SHEETS */}
+      {/* FULL-SCREEN IMMERSIVE CASE STUDY OVERLAY */}
       {selectedProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md no-print" style={{ background: 'rgba(5, 5, 15, 0.85)' }}>
-          <div
-            id="case-study-modal-container"
-            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl p-6 sm:p-8 shadow-2xl glass-panel-strong border border-purple-500/20"
-            style={{
-              animation: 'fade-in-up 0.3s ease forwards',
-              boxShadow: '0 0 40px rgba(139, 92, 246, 0.15), 0 25px 50px rgba(0,0,0,0.5)',
-            }}
-          >
-            {/* Close */}
+        <div 
+          className="fixed inset-0 z-50 overflow-y-auto bg-[#0a0a14] flex flex-col no-print"
+          style={{
+            animation: 'fade-in-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+          }}
+        >
+          {/* Top Sticky Bar */}
+          <div className="sticky top-0 z-20 w-full glass-panel-strong border-b border-purple-500/15 py-4 px-6 sm:px-12 flex justify-between items-center">
             <button
               onClick={() => { triggerHaptic(10); setSelectedProject(null); }}
-              className="absolute top-5 right-5 flex h-9 w-9 items-center justify-center rounded-full border border-purple-500/30 text-purple-300 hover:text-white hover:bg-purple-600/30 focus:outline-none transition-colors haptic-press"
-              title="Close Portal"
+              className="group flex items-center gap-2 rounded-xl border border-purple-500/30 px-4 py-2.5 text-xs font-bold text-purple-300 hover:text-white hover:bg-purple-600/20 transition-all haptic-press"
             >
-              <X className="h-5 w-5" />
+              <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
+              <span>Back to Portfolio</span>
             </button>
 
-            {/* Modal Body */}
-            <div className="space-y-6 text-left">
-              <div>
-                <span className="rounded-full px-3.5 py-1.5 text-xs font-bold text-purple-300 uppercase tracking-wider font-mono glass-panel">
-                  {selectedProject.category}
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-black text-white font-display mt-4 leading-tight">
-                  {selectedProject.title}
-                </h3>
-                <p className="text-sm font-semibold tracking-wider font-mono text-cyan-400 mt-2 uppercase">{selectedProject.client}</p>
-              </div>
+            <button
+              onClick={handlePrint}
+              className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-bold text-white transition-all neon-btn haptic-press"
+            >
+              <Download className="h-4 w-4" />
+              <span>Export PDF Report</span>
+            </button>
+          </div>
 
-              {/* Cover Banner */}
-              <div className="relative w-full h-56 sm:h-80 overflow-hidden rounded-2xl bg-slate-950">
-                <img
-                  src={selectedProject.image}
-                  alt={selectedProject.client}
-                  className="w-full h-full object-cover opacity-80"
-                />
-              </div>
-
-              {/* Key Metrics Grid */}
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                {selectedProject.metrics.map((met, idx) => (
-                  <div key={idx} className="p-4 rounded-2xl glass-panel border border-purple-500/10 text-center">
-                    <span className="block text-2xl font-black text-white font-display leading-tight">{met.value}</span>
-                    <span className="block text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono mt-1">{met.label}</span>
-                    {met.subtext && <span className="block text-[9px] text-slate-400 mt-0.5">{met.subtext}</span>}
-                  </div>
-                ))}
-              </div>
-
-              {/* Narrative Content */}
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-3 pt-4 border-t border-purple-500/10">
-                <div className="md:col-span-2 space-y-4">
-                  <div>
-                    <h4 className="text-sm font-bold uppercase text-purple-300 tracking-wider font-mono">The Challenge</h4>
-                    <p className="text-xs text-slate-300 leading-relaxed mt-2 font-sans">{selectedProject.challenge}</p>
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold uppercase text-cyan-300 tracking-wider font-mono">Our Blueprint Solution</h4>
-                    <p className="text-xs text-slate-300 leading-relaxed mt-2 font-sans">{selectedProject.solution}</p>
-                  </div>
-                </div>
-
-                {/* Sidebar details */}
-                <div className="space-y-4 p-5 rounded-2xl glass-panel" style={{ background: 'rgba(15,15,30,0.4)' }}>
-                  <div>
-                    <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono">Scope of Deliverables</h4>
-                    <ul className="mt-2.5 space-y-2 text-xs text-slate-300">
-                      {selectedProject.scope.map((item, idx) => (
-                        <li key={idx} className="flex items-center gap-2">
-                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono mt-4">Project Squad</h4>
-                    <ul className="mt-2 space-y-1 text-xs text-slate-400 font-mono">
-                      {selectedProject.team.map((t, idx) => (
-                        <li key={idx}>• {t}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="pt-4 border-t border-purple-500/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-                <button
-                  onClick={() => { triggerHaptic(10); setSelectedProject(null); }}
-                  className="w-full sm:w-auto rounded-xl border border-purple-500/25 bg-purple-500/5 px-6 py-2.5 text-xs font-bold text-purple-300 hover:bg-purple-500/10 transition-colors haptic-press text-center"
-                >
-                  Back to Portfolio
-                </button>
-                
-                <button
-                  onClick={handlePrint}
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl px-6 py-2.5 text-xs font-bold text-white transition-all neon-btn haptic-press"
-                >
-                  <Download className="h-4 w-4" />
-                  <span>Download PDF Deck</span>
-                </button>
+          {/* Immersive Contents */}
+          <div className="w-full max-w-5xl mx-auto px-6 sm:px-12 py-12 space-y-12">
+            
+            {/* Header info */}
+            <div className="space-y-4">
+              <span className="inline-flex items-center gap-1 rounded bg-purple-500/15 border border-purple-500/25 px-3 py-1 text-xs font-bold text-purple-300 uppercase tracking-wider font-mono">
+                {selectedProject.category}
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-black text-white font-display leading-tight tracking-tight">
+                {selectedProject.title}
+              </h2>
+              <div className="flex items-center gap-2 text-sm font-semibold tracking-wider font-mono text-cyan-400 uppercase">
+                <span>CLIENT:</span>
+                <span>{selectedProject.client}</span>
               </div>
             </div>
+
+            {/* Immersive Large Image */}
+            <div className="relative w-full h-[50vh] overflow-hidden rounded-3xl bg-slate-950 border border-purple-500/10 shadow-2xl">
+              <img
+                src={selectedProject.image}
+                alt={selectedProject.client}
+                className="w-full h-full object-cover opacity-80"
+              />
+            </div>
+
+            {/* Metrics Highlight Panels */}
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+              {selectedProject.metrics.map((met, idx) => (
+                <div 
+                  key={idx} 
+                  className="p-6 rounded-3xl glass-panel border border-purple-500/15 text-center flex flex-col justify-center items-center relative overflow-hidden group hover:border-cyan-500/30 transition-all duration-300"
+                  style={{ background: 'var(--gradient-card)' }}
+                >
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-purple-600/5 rounded-full blur-xl pointer-events-none group-hover:bg-cyan-600/10" />
+                  <span className="block text-3xl sm:text-4xl font-black text-white font-display leading-none text-glow-purple">{met.value}</span>
+                  <span className="block text-xs font-black text-purple-300 uppercase tracking-widest font-mono mt-3">{met.label}</span>
+                  {met.subtext && <span className="block text-[10px] text-slate-400 mt-1">{met.subtext}</span>}
+                </div>
+              ))}
+            </div>
+
+            {/* Comprehensive narrative section */}
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-3 pt-10 border-t border-purple-500/10">
+              
+              {/* Detailed Breakdown */}
+              <div className="lg:col-span-2 space-y-8">
+                <div className="space-y-3">
+                  <h4 className="text-lg font-bold uppercase text-purple-300 tracking-wider font-mono">The Challenge</h4>
+                  <p className="text-sm text-slate-300 leading-relaxed font-sans">{selectedProject.challenge}</p>
+                </div>
+                
+                <div className="space-y-3">
+                  <h4 className="text-lg font-bold uppercase text-cyan-300 tracking-wider font-mono">Our Solution Blueprint</h4>
+                  <p className="text-sm text-slate-300 leading-relaxed font-sans">{selectedProject.solution}</p>
+                </div>
+              </div>
+
+              {/* Sidebar Meta info */}
+              <div className="space-y-6 p-6 sm:p-8 rounded-3xl glass-panel" style={{ background: 'rgba(15,15,30,0.4)', height: 'fit-content' }}>
+                <div className="space-y-4">
+                  <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest font-mono">Scope of Deliverables</h4>
+                  <ul className="space-y-3 text-xs text-slate-300">
+                    {selectedProject.scope.map((item, idx) => (
+                      <li key={idx} className="flex items-center gap-3">
+                        <CheckCircle2 className="h-4.5 w-4.5 text-emerald-400 shrink-0" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="pt-6 border-t border-purple-500/10 space-y-3">
+                  <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest font-mono">Project Squad</h4>
+                  <ul className="space-y-1.5 text-xs text-slate-400 font-mono">
+                    {selectedProject.team.map((t, idx) => (
+                      <li key={idx}>• {t}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Bottom Back Button */}
+            <div className="pt-8 border-t border-purple-500/10 flex justify-center">
+              <button
+                onClick={() => { triggerHaptic(10); setSelectedProject(null); }}
+                className="rounded-xl border border-purple-500/25 bg-purple-500/5 px-8 py-3.5 text-xs font-bold text-purple-300 hover:text-white hover:bg-purple-600/20 transition-all haptic-press text-center"
+              >
+                Return to Masterpieces Grid
+              </button>
+            </div>
+            
           </div>
         </div>
       )}
