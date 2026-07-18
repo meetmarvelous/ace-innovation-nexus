@@ -2,6 +2,10 @@
   "cleanUrls": true,
   "rewrites": [
     {
+      "source": "/work",
+      "destination": "/work.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
