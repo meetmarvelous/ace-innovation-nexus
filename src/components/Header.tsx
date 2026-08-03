@@ -41,15 +41,14 @@ export default function Header({ currentTab, setCurrentTab, openContactModal }: 
           onClick={() => handleNavClick('home')}
           className="group flex items-center gap-2.5 text-left focus:outline-none haptic-press"
         >
-          <div
-            className="flex h-11 w-11 items-center justify-center rounded-xl text-white font-semibold text-lg shadow-sm transition-transform group-hover:scale-105"
+          <img
+            src="/images/1.svg"
+            alt="AN"
+            className="h-10 w-10 object-contain transition-transform group-hover:scale-105"
             style={{
-              background: 'linear-gradient(135deg, var(--cosmic-accent), var(--cosmic-cyan))',
-              boxShadow: '0 0 20px rgba(139, 92, 246, 0.3)',
+              filter: 'drop-shadow(0 0 10px rgba(139, 92, 246, 0.4))',
             }}
-          >
-            AN
-          </div>
+          />
           <div>
             <div className="text-lg font-extrabold tracking-tight text-white font-display leading-tight">
               ACE INNOVATION

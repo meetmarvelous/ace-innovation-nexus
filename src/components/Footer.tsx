@@ -57,15 +57,14 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
           {/* Logo Profile */}
           <div className="lg:col-span-4">
             <div className="flex items-center gap-2.5">
-              <div
-                className="flex h-10 w-10 items-center justify-center rounded-xl text-white font-semibold text-base"
+              <img
+                src="/images/1.svg"
+                alt="AN"
+                className="h-9 w-9 object-contain"
                 style={{
-                  background: 'linear-gradient(135deg, var(--cosmic-accent), var(--cosmic-cyan))',
-                  boxShadow: '0 0 15px rgba(139, 92, 246, 0.3)',
+                  filter: 'drop-shadow(0 0 10px rgba(139, 92, 246, 0.4))',
                 }}
-              >
-                AN
-              </div>
+              />
               <div>
                 <div className="text-base font-extrabold tracking-tight text-white font-display leading-none">
                   ACE INNOVATION
