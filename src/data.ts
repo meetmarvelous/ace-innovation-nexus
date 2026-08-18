@@ -1,4 +1,4 @@
-import { CaseStudy, TeamMember, JobRole, PartnerTier, RegionPartner, InsightArticle } from './types';
+import { CaseStudy, TeamMember, JobRole, PartnerTier, RegionPartner, InsightArticle, AssociatedOrganization } from './types';
 
 export const caseStudies: CaseStudy[] = [
   {
@@ -263,3 +263,141 @@ export const staticInsights: InsightArticle[] = [
     author: "Zainab Alao"
   }
 ];
+
+export const associatedOrganizations: AssociatedOrganization[] = [
+  {
+    id: "org-academy-suites-old-ife",
+    name: "Academy Suites",
+    location: "Old-Ife Road, Ibadan",
+    category: "Hospitality",
+    logo: "/logos/academy-suites.svg",
+    description: "Premier hospitality and luxury accommodation experience situated along Old-Ife Road, Ibadan.",
+    links: [
+      { label: "Instagram", url: "https://www.instagram.com/academysuitesoldiferoad", type: "instagram" }
+    ]
+  },
+  {
+    id: "org-siloan-med",
+    name: "Siloan Medical Center",
+    location: "Ibadan, Nigeria",
+    category: "Healthcare",
+    logo: "/logos/placeholder.svg",
+    description: "Comprehensive medical services and patient-centered healthcare solutions.",
+    links: [
+      { label: "Instagram", url: "https://www.instagram.com/siloanmedcenter", type: "instagram" }
+    ]
+  },
+  {
+    id: "org-coxwell-hospital",
+    name: "Coxwell Specialist Hospital",
+    location: "Ibadan, Nigeria",
+    category: "Healthcare",
+    logo: "/logos/coxwell.svg",
+    description: "Specialized clinical care, surgical excellence, and advanced medical diagnostics.",
+    links: [
+      { label: "Instagram", url: "https://www.instagram.com/coxwellspecialisthospital", type: "instagram" }
+    ]
+  },
+  {
+    id: "org-academy-suites-abeokuta",
+    name: "Academy Suites",
+    location: "Abeokuta, Ogun State",
+    category: "Hospitality",
+    logo: "/logos/academy-suites.svg",
+    description: "Modern luxury suites and hotel hospitality services in Abeokuta.",
+    links: [
+      { label: "Instagram", url: "https://www.instagram.com/academysuitesabeokuta3", type: "instagram" }
+    ]
+  },
+  {
+    id: "org-ibadan-central-hospital",
+    name: "Ibadan Central Hospital",
+    location: "Old-Ife Road, Ibadan",
+    category: "Healthcare",
+    logo: "/logos/ibadan-central-hospital.svg",
+    description: "Leading healthcare center providing emergency, maternal, and specialized medical solutions.",
+    links: [
+      { label: "Instagram", url: "https://www.instagram.com/ibadancentralhospital", type: "instagram" }
+    ]
+  },
+  {
+    id: "org-100-10-academy",
+    name: "100/10 Academy",
+    location: "Nigeria",
+    category: "Education",
+    logo: "/logos/100-10-academy.svg",
+    description: "Educational academy focused on skill acquisition, empowerment, and academic excellence.",
+    links: [
+      { label: "Instagram", url: "https://www.instagram.com/thehundredtenacademy", type: "instagram" }
+    ]
+  },
+  {
+    id: "org-bbfresh",
+    name: "BBFRESH Seafood Experience",
+    location: "Nigeria",
+    category: "Food & Beverage",
+    logo: "/logos/bbfresh.svg",
+    description: "Premium seafood dining, fresh oceanic cuisine, and memorable culinary experiences.",
+    links: [
+      { label: "Instagram", url: "https://www.instagram.com/bbfreshseafoodexperience", type: "instagram" }
+    ]
+  },
+  {
+    id: "org-wwwm",
+    name: "Women Winning With Money (WWWM)",
+    location: "Nigeria",
+    category: "Creative & Lifestyle",
+    logo: "/logos/wwwm.svg",
+    description: "Empowering women with financial literacy, wealth-building strategies, and community growth.",
+    links: [
+      { label: "Instagram", url: "https://www.instagram.com/women_winning_with_money", type: "instagram" }
+    ]
+  },
+  {
+    id: "org-bam-t",
+    name: "BAM-T Dance Studio",
+    location: "Ibadan, Nigeria",
+    category: "Creative & Lifestyle",
+    logo: "/logos/bam-t-dance.svg",
+    description: "Vibrant dance academy, choreography training, and performing arts center in Ibadan.",
+    links: [
+      { label: "Instagram", url: "https://www.instagram.com/bamtdance_ibadan", type: "instagram" }
+    ]
+  },
+  {
+    id: "org-tolu-med",
+    name: "Tolu Medical Centre",
+    location: "Nigeria",
+    category: "Healthcare",
+    logo: "/logos/tolu-medical-centre.svg",
+    description: "Full-service healthcare provider dedicated to quality medical care and clinical innovation.",
+    links: [
+      { label: "Instagram", url: "https://www.instagram.com/tolumedicalcentre/?hl=en", type: "instagram" },
+      { label: "Facebook", url: "https://web.facebook.com/profile.php?id=61564994861472", type: "facebook" },
+      { label: "Website", url: "http://www.tolumedcenter.com/", type: "website" }
+    ]
+  },
+  {
+    id: "org-creative-thinkers",
+    name: "Creative Thinkers International Academy",
+    location: "Nigeria",
+    category: "Education",
+    logo: "/logos/placeholder.svg",
+    description: "Innovative learning institution nurturing young minds, creativity, and future leadership.",
+    links: [
+      { label: "Instagram", url: "https://www.instagram.com/creativethinkers_academy?igsh=MTNhY3Fya2V6Mjh3dg==", type: "instagram" }
+    ]
+  },
+  {
+    id: "org-event-signatures",
+    name: "Event Signatures",
+    location: "Nigeria",
+    category: "Creative & Lifestyle",
+    logo: "/logos/placeholder.svg",
+    description: "Bespoke event management, creative styling, and signature celebration experiences.",
+    links: [
+      { label: "Instagram", url: "https://www.instagram.com/eventsignature1972?igsh=MW9mZzdidGJydHF0Zg==", type: "instagram" }
+    ]
+  }
+];
+

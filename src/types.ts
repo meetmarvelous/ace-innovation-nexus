@@ -67,3 +67,20 @@ export interface InsightArticle {
   image: string;
   author: string;
 }
+
+export interface AssociatedLink {
+  label: string;
+  url: string;
+  type: 'instagram' | 'facebook' | 'website' | 'other';
+}
+
+export interface AssociatedOrganization {
+  id: string;
+  name: string;
+  category: 'Hospitality' | 'Healthcare' | 'Education' | 'Food & Beverage' | 'Creative & Lifestyle';
+  logo: string;
+  location?: string;
+  description?: string;
+  links: AssociatedLink[];
+}
+

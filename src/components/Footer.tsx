@@ -128,7 +128,7 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
                 <button onClick={() => handleNavClick('partnerships')} className="text-slate-400 hover:text-purple-300 transition-colors haptic-press">Partnerships</button>
               </li>
               <li>
-                <button onClick={() => handleNavClick('careers')} className="text-slate-400 hover:text-purple-300 transition-colors haptic-press">Careers</button>
+                <button onClick={() => handleNavClick('network')} className="text-slate-400 hover:text-purple-300 transition-colors haptic-press">Associated Brands</button>
               </li>
             </ul>
           </div>

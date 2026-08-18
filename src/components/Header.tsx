@@ -21,7 +21,7 @@ export default function Header({ currentTab, setCurrentTab, openContactModal }: 
     { id: 'services', label: 'Our Work' },
     { id: 'about', label: 'About Us' },
     { id: 'partnerships', label: 'Partnerships' },
-    { id: 'careers', label: 'Careers' }
+    { id: 'network', label: 'Associated Brands' }
   ];
 
   const handleNavClick = (tabId: string) => {

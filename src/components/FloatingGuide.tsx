@@ -32,11 +32,17 @@ const guideMessages: Record<string, string[]> = {
     "From talent hubs to tech integrations — there's a tier for every kind of org.",
     "Our Ibadan HQ is the nerve center, but our reach is global! 🌐",
   ],
+  network: [
+    "Explore the brands and organizations in our active network! 🔗",
+    "From healthcare and hospitality to education and entertainment — we build with the best.",
+    "Click any official channel button to connect directly with our partner brands! 🌐",
+    "Want your organization listed in our ecosystem? Let's talk! 🤝",
+  ],
   careers: [
-    "Looking for your next adventure? We might be building something you'd love! 💼",
-    "We're remote-first and async-powered. Work from anywhere that inspires you.",
-    "Our team gets access to premium learning resources and co-working hubs! 🏢",
-    "Tip: Attach a killer portfolio link — it makes a BIG difference! 🎨",
+    "Explore the brands and organizations in our active network! 🔗",
+    "From healthcare and hospitality to education and entertainment — we build with the best.",
+    "Click any official channel button to connect directly with our partner brands! 🌐",
+    "Want your organization listed in our ecosystem? Let's talk! 🤝",
   ],
 };
 

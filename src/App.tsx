@@ -7,6 +7,7 @@ import AboutView from './components/AboutView';
 import PartnershipsView from './components/PartnershipsView';
 import CareersView from './components/CareersView';
 import WorkView from './components/WorkView';
+import NetworkView from './components/NetworkView';
 import FloatingGuide from './components/FloatingGuide';
 import ParticleField from './components/ParticleField';
 import { Send, CheckCircle2, Shield, Sparkles, X } from 'lucide-react';
@@ -78,7 +79,9 @@ export default function App() {
         {currentTab === 'services' && <WorkView />}
         {currentTab === 'about' && <AboutView />}
         {currentTab === 'partnerships' && <PartnershipsView />}
-        {currentTab === 'careers' && <CareersView />}
+        {(currentTab === 'network' || currentTab === 'careers') && (
+          <NetworkView openContactModal={() => { triggerHaptic(20); setContactModalOpen(true); }} />
+        )}
       </main>
 
       {/* Footer element */}
