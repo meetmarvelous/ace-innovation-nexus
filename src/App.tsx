@@ -95,19 +95,19 @@ export default function App() {
 
       {/* GLOBAL STRATEGY CONSULTATION MODAL PORTAL */}
       {contactModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md" style={{ background: 'rgba(5, 5, 15, 0.85)' }}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md" style={{ background: 'rgba(15, 23, 42, 0.4)' }}>
           <div
             id="global-contact-modal-container"
             className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl p-6 sm:p-8 shadow-2xl glass-panel-strong"
             style={{
               animation: 'fade-in-up 0.3s ease forwards',
-              boxShadow: '0 0 40px rgba(139, 92, 246, 0.15), 0 25px 50px rgba(0,0,0,0.5)',
+              boxShadow: '0 20px 50px rgba(0, 74, 173, 0.15), 0 4px 12px rgba(15, 23, 42, 0.08)',
             }}
           >
             {/* Close trigger button */}
             <button
               onClick={closeAndResetContact}
-              className="absolute top-5 right-5 flex h-9 w-9 items-center justify-center rounded-full border border-purple-500/30 text-purple-300 hover:text-white hover:bg-purple-600/30 focus:outline-none transition-colors haptic-press"
+              className="absolute top-5 right-5 flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-100 focus:outline-none transition-colors haptic-press"
               title="Close Portal"
             >
               <X className="h-5 w-5" />
@@ -116,20 +116,20 @@ export default function App() {
             {/* Success pipeline complete */}
             {contactSuccess ? (
               <div className="space-y-6 text-center py-6">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400" style={{ boxShadow: '0 0 30px rgba(16, 185, 129, 0.2)' }}>
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600" style={{ boxShadow: '0 0 20px rgba(16, 185, 129, 0.15)' }}>
                   <CheckCircle2 className="h-7 w-7" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-black text-white font-display">We've Got Your Message!</h3>
-                  <p className="text-xs text-slate-400 mt-2 max-w-sm mx-auto">
+                  <h3 className="text-xl font-black text-slate-900 font-display">We've Got Your Message!</h3>
+                  <p className="text-xs text-slate-600 mt-2 max-w-sm mx-auto">
                     Thanks {clientName}! We'll review your details and get back to you within 1-2 business days with a plan tailored to your needs.
                   </p>
                 </div>
 
-                <div className="border border-purple-500/20 p-5 rounded-xl text-left text-xs max-w-sm mx-auto font-mono space-y-1.5 shadow-sm text-slate-300" style={{ background: 'rgba(15, 15, 30, 0.6)' }}>
-                  <div><span className="text-purple-400">WEBSITE:</span> {clientUrl || 'Not provided'}</div>
-                  <div><span className="text-purple-400">SERVICE:</span> {clientChallenge}</div>
-                  <div><span className="text-purple-400">STATUS:</span> <span className="text-emerald-400 font-bold">RECEIVED ✓</span></div>
+                <div className="border border-blue-100 bg-blue-50/50 p-5 rounded-xl text-left text-xs max-w-sm mx-auto font-mono space-y-1.5 shadow-sm text-slate-700">
+                  <div><span className="text-[#004aad] font-bold">WEBSITE:</span> {clientUrl || 'Not provided'}</div>
+                  <div><span className="text-[#004aad] font-bold">SERVICE:</span> {clientChallenge}</div>
+                  <div><span className="text-[#004aad] font-bold">STATUS:</span> <span className="text-emerald-600 font-bold">RECEIVED ✓</span></div>
                 </div>
 
                 <div className="pt-4 flex justify-center">
@@ -147,20 +147,20 @@ export default function App() {
               <div className="space-y-5 text-left">
                 
                 <div>
-                  <span className="inline-flex items-center gap-1 rounded bg-purple-500/15 border border-purple-500/25 px-2.5 py-0.5 text-[9px] font-bold text-purple-300 uppercase tracking-wider font-mono">
-                    <Sparkles className="h-3 w-3 fill-purple-400 text-purple-400" />
+                  <span className="inline-flex items-center gap-1 rounded bg-blue-50 border border-blue-200 px-2.5 py-0.5 text-[9px] font-bold text-[#004aad] uppercase tracking-wider font-mono">
+                    <Sparkles className="h-3 w-3 fill-[#004aad] text-[#004aad]" />
                     Let's Talk
                   </span>
-                  <h3 className="text-xl font-black text-white font-display mt-2 leading-tight">
+                  <h3 className="text-xl font-black text-slate-900 font-display mt-2 leading-tight">
                     Book a Free Consultation
                   </h3>
-                  <p className="text-xs text-slate-400 mt-1">Tell us a bit about your business and what you need help with.</p>
+                  <p className="text-xs text-slate-600 mt-1">Tell us a bit about your business and what you need help with.</p>
                 </div>
 
                 <form onSubmit={handleGlobalContactSubmit} className="space-y-4">
                   
                   <div>
-                    <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Your Name</label>
+                    <label className="text-xs font-bold text-[#004aad] uppercase tracking-wider font-mono">Your Name</label>
                     <input
                       required
                       type="text"
@@ -173,7 +173,7 @@ export default function App() {
 
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Email Address</label>
+                      <label className="text-xs font-bold text-[#004aad] uppercase tracking-wider font-mono">Email Address</label>
                       <input
                         required
                         type="email"
@@ -185,7 +185,7 @@ export default function App() {
                     </div>
 
                     <div>
-                      <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Your Website (Optional)</label>
+                      <label className="text-xs font-bold text-[#004aad] uppercase tracking-wider font-mono">Your Website (Optional)</label>
                       <input
                         type="url"
                         className="mt-2 w-full rounded-xl px-4 py-3 text-sm cosmic-input"
@@ -197,7 +197,7 @@ export default function App() {
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">What Do You Need Help With?</label>
+                    <label className="text-xs font-bold text-[#004aad] uppercase tracking-wider font-mono">What Do You Need Help With?</label>
                     <select
                       className="mt-2 w-full rounded-xl px-4 py-3 text-sm cosmic-select"
                       value={clientChallenge}
@@ -211,7 +211,7 @@ export default function App() {
                   </div>
 
                   <div>
-                    <label className="text-xs font-bold text-purple-300/80 uppercase tracking-wider font-mono">Anything Else You'd Like Us to Know? (Optional)</label>
+                    <label className="text-xs font-bold text-[#004aad] uppercase tracking-wider font-mono">Anything Else You'd Like Us to Know? (Optional)</label>
                     <textarea
                       rows={3}
                       className="mt-2 w-full rounded-xl px-4 py-3 text-sm cosmic-input"
@@ -221,9 +221,9 @@ export default function App() {
                     />
                   </div>
 
-                  <div className="pt-4 border-t border-purple-500/15 flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <span className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500 font-mono tracking-wide">
-                      <Shield className="h-3.5 w-3.5 text-purple-400" />
+                      <Shield className="h-3.5 w-3.5 text-[#004aad]" />
                       YOUR INFO IS SAFE WITH US
                     </span>
                     <button

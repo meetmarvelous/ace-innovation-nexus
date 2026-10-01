@@ -246,10 +246,10 @@ export default function WorkView() {
 
       {/* HERO BANNER SECTION */}
       <section className="relative py-16 lg:py-24 cosmic-section star-field">
-        <div className="absolute inset-0 bg-gradient-to-b from-purple-900/10 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-50/40 via-transparent to-transparent pointer-events-none" />
         <div className="mx-auto max-w-7xl px-6 sm:px-8 text-center max-w-4xl relative z-10 space-y-6">
-          <span className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold text-purple-300 border border-purple-500/25 no-print" style={{ background: 'rgba(139, 92, 246, 0.1)' }}>
-            <Star className="h-3 w-3 fill-purple-400 text-purple-400 animate-pulse" />
+          <span className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold text-[#004aad] border border-blue-200 bg-blue-50/80 no-print">
+            <Star className="h-3 w-3 fill-[#004aad] text-[#004aad] animate-pulse" />
             Case Study Portfolio
           </span>
 
@@ -258,7 +258,7 @@ export default function WorkView() {
               text="Our Success Stories"
               as="h1"
               variant="reveal"
-              className="text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl font-display leading-[1.1]"
+              className="text-4xl font-black tracking-tight text-slate-900 sm:text-5xl lg:text-6xl font-display leading-[1.1]"
               delay={0.1}
             />
             <KineticText
@@ -270,34 +270,34 @@ export default function WorkView() {
             />
           </div>
 
-          <p className="mt-5 text-base text-slate-400 leading-relaxed font-sans max-w-2xl mx-auto">
+          <p className="mt-5 text-base text-slate-600 leading-relaxed font-sans max-w-2xl mx-auto">
             Explore the products, digital campaigns, and custom identity systems we have built for businesses worldwide. Click any card to drill down into our challenges, methods, and outcomes.
           </p>
 
           {/* Quick Metrics Snapshot */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto pt-8 border-t border-purple-500/10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto pt-8 border-t border-slate-200">
             <div className="text-center p-3 rounded-2xl glass-panel no-print print-metric">
-              <div className="text-2xl font-black text-white font-display text-glow-purple">₦52B+</div>
-              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider font-mono mt-1">Client Wealth Tracked</div>
+              <div className="text-2xl font-black text-slate-900 font-display">₦52B+</div>
+              <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono mt-1">Client Wealth Tracked</div>
             </div>
             <div className="text-center p-3 rounded-2xl glass-panel no-print print-metric">
-              <div className="text-2xl font-black text-white font-display gradient-text">3.2M+</div>
-              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider font-mono mt-1">Audience Reached</div>
+              <div className="text-2xl font-black font-display gradient-text">3.2M+</div>
+              <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono mt-1">Audience Reached</div>
             </div>
             <div className="text-center p-3 rounded-2xl glass-panel no-print print-metric">
-              <div className="text-2xl font-black text-white font-display text-glow-cyan">4.8★</div>
-              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider font-mono mt-1">Average App Review</div>
+              <div className="text-2xl font-black text-slate-900 font-display">4.8★</div>
+              <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono mt-1">Average App Review</div>
             </div>
             <div className="text-center p-3 rounded-2xl glass-panel no-print print-metric">
-              <div className="text-2xl font-black text-white font-display text-glow-purple">94%+</div>
-              <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider font-mono mt-1">Retention Rate</div>
+              <div className="text-2xl font-black text-slate-900 font-display">94%+</div>
+              <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono mt-1">Retention Rate</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* FILTER & EXPORT CONTROL PANEL */}
-      <section className="relative py-8 border-y border-purple-500/10 glass-panel no-print">
+      <section className="relative py-8 border-y border-slate-200 glass-panel no-print">
         <div className="mx-auto max-w-7xl px-6 sm:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Category Filter Pills */}
           <div className="flex flex-wrap items-center gap-2">
@@ -307,10 +307,10 @@ export default function WorkView() {
                 onClick={() => { triggerHaptic(10); setFilterCategory(cat); }}
                 className={`rounded-full px-4 py-2 text-xs font-bold transition-all border haptic-press ${
                   filterCategory === cat
-                    ? 'text-white border-purple-500/40 shadow-sm'
-                    : 'text-slate-400 border-purple-500/10 hover:text-white hover:border-purple-500/25'
+                    ? 'text-white border-[#004aad] shadow-sm'
+                    : 'text-slate-600 border-slate-200 bg-slate-50 hover:text-slate-900 hover:border-slate-300'
                 }`}
-                style={filterCategory === cat ? { background: 'linear-gradient(135deg, var(--cosmic-accent), var(--cosmic-cyan))', boxShadow: 'var(--glow-purple)' } : { background: 'rgba(15, 15, 30, 0.4)' }}
+                style={filterCategory === cat ? { background: '#004aad' } : {}}
               >
                 {cat === 'All' ? 'All Masterpieces' : cat}
               </button>
@@ -327,7 +327,7 @@ export default function WorkView() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full md:w-60 pl-10 pr-4 py-2.5 rounded-full text-xs cosmic-input font-sans"
               />
-              <Search className="absolute left-3.5 top-3 h-4 w-4 text-purple-400" />
+              <Search className="absolute left-3.5 top-3 h-4 w-4 text-[#004aad]" />
             </div>
 
             <button
@@ -346,11 +346,11 @@ export default function WorkView() {
       <section className="relative py-16 max-w-7xl mx-auto px-6 sm:px-8">
         {filteredProjects.length === 0 ? (
           <div className="text-center py-12 space-y-4 no-print">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10 text-red-400">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10 text-red-600">
               <ShieldAlert className="h-6 w-6" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white">No projects match your filter</h3>
+              <h3 className="text-lg font-bold text-slate-900">No projects match your filter</h3>
               <p className="text-xs text-slate-500 mt-1">Try resetting the categories or search parameters.</p>
             </div>
           </div>
@@ -364,37 +364,37 @@ export default function WorkView() {
               >
                 <div>
                   {/* Thumbnail Cover */}
-                  <div className="relative aspect-[16/10] overflow-hidden rounded-2xl" style={{ background: 'rgba(15, 15, 30, 0.5)' }}>
+                  <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-slate-100">
                     <img
                       src={project.image}
                       alt={project.client}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute top-3 left-3 rounded-lg px-2.5 py-1 text-[9px] font-bold text-purple-200 uppercase tracking-widest font-mono glass-panel print-badge">
+                    <div className="absolute top-3 left-3 rounded-lg px-2.5 py-1 text-[9px] font-bold text-slate-800 uppercase tracking-widest font-mono glass-panel border border-slate-200 shadow-xs print-badge">
                       {project.category}
                     </div>
                   </div>
 
-                  <h3 className="mt-5 text-xs font-bold text-cyan-400 tracking-wider uppercase font-mono">{project.client}</h3>
-                  <h4 className="mt-2 text-xl font-black text-white font-display leading-tight group-hover:text-purple-300 transition-colors">
+                  <h3 className="mt-5 text-xs font-bold text-[#004aad] tracking-wider uppercase font-mono">{project.client}</h3>
+                  <h4 className="mt-2 text-xl font-black text-slate-900 font-display leading-tight group-hover:text-[#004aad] transition-colors">
                     {project.title}
                   </h4>
-                  <p className="mt-3 text-xs leading-relaxed text-slate-400 line-clamp-3">
+                  <p className="mt-3 text-xs leading-relaxed text-slate-600 line-clamp-3">
                     {project.summary}
                   </p>
                 </div>
 
                 {/* Micro Metric Banner */}
-                <div className="mt-6 pt-5 flex items-center justify-between border-t border-purple-500/10">
+                <div className="mt-6 pt-5 flex items-center justify-between border-t border-slate-200">
                   <div className="flex gap-4">
                     {project.metrics.slice(0, 2).map((met, idx) => (
                       <div key={idx} className="text-left">
-                        <div className="text-base font-black text-white font-display leading-none">{met.value}</div>
+                        <div className="text-base font-black text-slate-900 font-display leading-none">{met.value}</div>
                         <div className="text-[8px] text-slate-500 font-bold uppercase tracking-wider font-mono mt-1">{met.label}</div>
                       </div>
                     ))}
                   </div>
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full border border-purple-500/20 text-slate-400 transition-all group-hover:bg-purple-600/30 group-hover:text-white haptic-press no-print">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600 transition-all group-hover:bg-[#004aad] group-hover:text-white group-hover:border-[#004aad] haptic-press no-print">
                     <ArrowUpRight className="h-4 w-4" />
                   </div>
                 </div>
@@ -407,16 +407,16 @@ export default function WorkView() {
       {/* FULL-SCREEN IMMERSIVE CASE STUDY OVERLAY */}
       {selectedProject && (
         <div 
-          className="fixed inset-0 z-50 overflow-y-auto bg-[#0a0a14] flex flex-col no-print"
+          className="fixed inset-0 z-50 overflow-y-auto bg-white flex flex-col no-print"
           style={{
             animation: 'fade-in-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards'
           }}
         >
           {/* Top Sticky Bar */}
-          <div className="sticky top-0 z-20 w-full glass-panel-strong border-b border-purple-500/15 py-4 px-6 sm:px-12 flex justify-between items-center">
+          <div className="sticky top-0 z-20 w-full glass-panel-strong border-b border-slate-200 py-4 px-6 sm:px-12 flex justify-between items-center">
             <button
               onClick={() => { triggerHaptic(10); setSelectedProject(null); }}
-              className="group flex items-center gap-2 rounded-xl border border-purple-500/30 px-4 py-2.5 text-xs font-bold text-purple-300 hover:text-white hover:bg-purple-600/20 transition-all haptic-press"
+              className="group flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-all haptic-press"
             >
               <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
               <span>Back to Portfolio</span>
@@ -436,24 +436,24 @@ export default function WorkView() {
             
             {/* Header info */}
             <div className="space-y-4">
-              <span className="inline-flex items-center gap-1 rounded bg-purple-500/15 border border-purple-500/25 px-3 py-1 text-xs font-bold text-purple-300 uppercase tracking-wider font-mono">
+              <span className="inline-flex items-center gap-1 rounded bg-blue-50 border border-blue-200 px-3 py-1 text-xs font-bold text-[#004aad] uppercase tracking-wider font-mono">
                 {selectedProject.category}
               </span>
-              <h2 className="text-3xl sm:text-5xl font-black text-white font-display leading-tight tracking-tight">
+              <h2 className="text-3xl sm:text-5xl font-black text-slate-900 font-display leading-tight tracking-tight">
                 {selectedProject.title}
               </h2>
-              <div className="flex items-center gap-2 text-sm font-semibold tracking-wider font-mono text-cyan-400 uppercase">
+              <div className="flex items-center gap-2 text-sm font-bold tracking-wider font-mono text-[#004aad] uppercase">
                 <span>CLIENT:</span>
                 <span>{selectedProject.client}</span>
               </div>
             </div>
 
             {/* Immersive Large Image */}
-            <div className="relative w-full h-[50vh] overflow-hidden rounded-3xl bg-slate-950 border border-purple-500/10 shadow-2xl">
+            <div className="relative w-full h-[50vh] overflow-hidden rounded-3xl bg-slate-100 border border-slate-200 shadow-md">
               <img
                 src={selectedProject.image}
                 alt={selectedProject.client}
-                className="w-full h-full object-cover opacity-80"
+                className="w-full h-full object-cover"
               />
             </div>
 
@@ -462,50 +462,48 @@ export default function WorkView() {
               {selectedProject.metrics.map((met, idx) => (
                 <div 
                   key={idx} 
-                  className="p-6 rounded-3xl glass-panel border border-purple-500/15 text-center flex flex-col justify-center items-center relative overflow-hidden group hover:border-cyan-500/30 transition-all duration-300"
-                  style={{ background: 'var(--gradient-card)' }}
+                  className="p-6 rounded-3xl glass-panel border border-slate-200 text-center flex flex-col justify-center items-center relative overflow-hidden group hover:border-[#004aad]/40 transition-all duration-300"
                 >
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-purple-600/5 rounded-full blur-xl pointer-events-none group-hover:bg-cyan-600/10" />
-                  <span className="block text-3xl sm:text-4xl font-black text-white font-display leading-none text-glow-purple">{met.value}</span>
-                  <span className="block text-xs font-black text-purple-300 uppercase tracking-widest font-mono mt-3">{met.label}</span>
-                  {met.subtext && <span className="block text-[10px] text-slate-400 mt-1">{met.subtext}</span>}
+                  <span className="block text-3xl sm:text-4xl font-black text-slate-900 font-display leading-none">{met.value}</span>
+                  <span className="block text-xs font-black text-[#004aad] uppercase tracking-widest font-mono mt-3">{met.label}</span>
+                  {met.subtext && <span className="block text-[10px] text-slate-500 font-medium mt-1">{met.subtext}</span>}
                 </div>
               ))}
             </div>
 
             {/* Comprehensive narrative section */}
-            <div className="grid grid-cols-1 gap-12 lg:grid-cols-3 pt-10 border-t border-purple-500/10">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-3 pt-10 border-t border-slate-200">
               
               {/* Detailed Breakdown */}
               <div className="lg:col-span-2 space-y-8">
                 <div className="space-y-3">
-                  <h4 className="text-lg font-bold uppercase text-purple-300 tracking-wider font-mono">The Challenge</h4>
-                  <p className="text-sm text-slate-300 leading-relaxed font-sans">{selectedProject.challenge}</p>
+                  <h4 className="text-lg font-bold uppercase text-[#004aad] tracking-wider font-mono">The Challenge</h4>
+                  <p className="text-sm text-slate-700 leading-relaxed font-sans">{selectedProject.challenge}</p>
                 </div>
                 
                 <div className="space-y-3">
-                  <h4 className="text-lg font-bold uppercase text-cyan-300 tracking-wider font-mono">Our Solution Blueprint</h4>
-                  <p className="text-sm text-slate-300 leading-relaxed font-sans">{selectedProject.solution}</p>
+                  <h4 className="text-lg font-bold uppercase text-[#004aad] tracking-wider font-mono">Our Solution Blueprint</h4>
+                  <p className="text-sm text-slate-700 leading-relaxed font-sans">{selectedProject.solution}</p>
                 </div>
               </div>
 
               {/* Sidebar Meta info */}
-              <div className="space-y-6 p-6 sm:p-8 rounded-3xl glass-panel" style={{ background: 'rgba(15,15,30,0.4)', height: 'fit-content' }}>
+              <div className="space-y-6 p-6 sm:p-8 rounded-3xl glass-panel border border-slate-200 bg-slate-50/50" style={{ height: 'fit-content' }}>
                 <div className="space-y-4">
-                  <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest font-mono">Scope of Deliverables</h4>
-                  <ul className="space-y-3 text-xs text-slate-300">
+                  <h4 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest font-mono">Scope of Deliverables</h4>
+                  <ul className="space-y-3 text-xs text-slate-700">
                     {selectedProject.scope.map((item, idx) => (
                       <li key={idx} className="flex items-center gap-3">
-                        <CheckCircle2 className="h-4.5 w-4.5 text-emerald-400 shrink-0" />
+                        <CheckCircle2 className="h-4.5 w-4.5 text-emerald-600 shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="pt-6 border-t border-purple-500/10 space-y-3">
-                  <h4 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest font-mono">Project Squad</h4>
-                  <ul className="space-y-1.5 text-xs text-slate-400 font-mono">
+                <div className="pt-6 border-t border-slate-200 space-y-3">
+                  <h4 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest font-mono">Project Squad</h4>
+                  <ul className="space-y-1.5 text-xs text-slate-600 font-mono">
                     {selectedProject.team.map((t, idx) => (
                       <li key={idx}>• {t}</li>
                     ))}
@@ -516,10 +514,10 @@ export default function WorkView() {
             </div>
 
             {/* Bottom Back Button */}
-            <div className="pt-8 border-t border-purple-500/10 flex justify-center">
+            <div className="pt-8 border-t border-slate-200 flex justify-center">
               <button
                 onClick={() => { triggerHaptic(10); setSelectedProject(null); }}
-                className="rounded-xl border border-purple-500/25 bg-purple-500/5 px-8 py-3.5 text-xs font-bold text-purple-300 hover:text-white hover:bg-purple-600/20 transition-all haptic-press text-center"
+                className="rounded-xl border border-slate-300 bg-white px-8 py-3.5 text-xs font-bold text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition-all haptic-press text-center shadow-xs"
               >
                 Return to Masterpieces Grid
               </button>

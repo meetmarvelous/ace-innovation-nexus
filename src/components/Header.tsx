@@ -32,7 +32,7 @@ export default function Header({ currentTab, setCurrentTab, openContactModal }: 
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full glass-panel-strong" style={{ borderBottom: '1px solid rgba(139, 92, 246, 0.1)' }}>
+    <header className="sticky top-0 z-50 w-full glass-panel-strong" style={{ borderBottom: '1px solid rgba(0, 74, 173, 0.1)' }}>
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 sm:px-8">
         
         {/* Brand Logo */}
@@ -42,15 +42,12 @@ export default function Header({ currentTab, setCurrentTab, openContactModal }: 
           className="group flex items-center gap-2.5 text-left focus:outline-none haptic-press"
         >
           <img
-            src="/images/1.svg"
+            src="/images/2.svg"
             alt="AN"
             className="h-10 w-10 object-contain transition-transform group-hover:scale-105"
-            style={{
-              filter: 'drop-shadow(0 0 10px rgba(139, 92, 246, 0.4))',
-            }}
           />
           <div>
-            <div className="text-lg font-extrabold tracking-tight text-white font-display leading-tight">
+            <div className="text-lg font-extrabold tracking-tight text-slate-900 font-display leading-tight">
               ACE INNOVATION
             </div>
             <div className="text-xs font-semibold tracking-widest font-mono uppercase gradient-text">
@@ -68,17 +65,17 @@ export default function Header({ currentTab, setCurrentTab, openContactModal }: 
                 key={item.id}
                 id={`nav-item-${item.id}`}
                 onClick={() => handleNavClick(item.id)}
-                className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg haptic-press ${
+                className={`relative px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-lg haptic-press ${
                   isActive
-                    ? 'text-purple-300 bg-purple-500/10'
-                    : 'text-slate-400 hover:text-white hover:bg-white/5'
+                    ? 'text-[#004aad] bg-blue-50/80 shadow-xs'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
                 }`}
               >
                 {item.label}
                 {isActive && (
                   <span
-                    className="absolute bottom-1 left-4 right-4 h-0.5 rounded"
-                    style={{ background: 'linear-gradient(90deg, var(--cosmic-accent), var(--cosmic-cyan))' }}
+                    className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full"
+                    style={{ background: '#004aad' }}
                   />
                 )}
               </button>
@@ -102,7 +99,7 @@ export default function Header({ currentTab, setCurrentTab, openContactModal }: 
         <button
           id="mobile-menu-btn"
           onClick={() => { triggerHaptic(10); setIsOpen(!isOpen); }}
-          className="flex h-10 w-10 items-center justify-center rounded-xl border border-purple-500/20 text-slate-300 transition-colors hover:bg-purple-500/10 md:hidden focus:outline-none haptic-press"
+          className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-slate-700 transition-colors hover:bg-slate-100 md:hidden focus:outline-none haptic-press"
           aria-expanded={isOpen}
           aria-label="Toggle Menu"
         >
@@ -112,7 +109,7 @@ export default function Header({ currentTab, setCurrentTab, openContactModal }: 
 
       {/* Mobile Sidebar Backing Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 top-20 z-40 md:hidden" style={{ background: 'rgba(5, 5, 15, 0.7)', backdropFilter: 'blur(4px)' }} onClick={() => setIsOpen(false)} />
+        <div className="fixed inset-0 top-20 z-40 md:hidden" style={{ background: 'rgba(15, 23, 42, 0.3)', backdropFilter: 'blur(4px)' }} onClick={() => setIsOpen(false)} />
       )}
 
       {/* Mobile Drawer */}
@@ -120,7 +117,7 @@ export default function Header({ currentTab, setCurrentTab, openContactModal }: 
         className={`fixed top-20 left-0 right-0 z-40 px-6 py-8 shadow-xl transition-all duration-300 md:hidden glass-panel-strong ${
           isOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'
         }`}
-        style={{ borderBottom: '1px solid rgba(139, 92, 246, 0.15)' }}
+        style={{ borderBottom: '1px solid rgba(0, 74, 173, 0.15)' }}
       >
         <div className="flex flex-col gap-4">
           {navItems.map((item) => {
@@ -132,16 +129,16 @@ export default function Header({ currentTab, setCurrentTab, openContactModal }: 
                 onClick={() => handleNavClick(item.id)}
                 className={`flex w-full items-center justify-between rounded-xl px-4 py-3 text-base font-semibold transition-colors haptic-press ${
                   isActive
-                    ? 'bg-purple-500/15 text-purple-300'
-                    : 'text-slate-300 hover:bg-white/5'
+                    ? 'bg-blue-50 text-[#004aad]'
+                    : 'text-slate-700 hover:bg-slate-100'
                 }`}
               >
                 {item.label}
-                <div className={`h-1.5 w-1.5 rounded-full ${isActive ? 'bg-purple-400' : 'bg-transparent'}`} />
+                <div className={`h-1.5 w-1.5 rounded-full ${isActive ? 'bg-[#004aad]' : 'bg-transparent'}`} />
               </button>
             );
           })}
-          <div className="mt-4 border-t border-purple-500/15 pt-6">
+          <div className="mt-4 border-t border-slate-200 pt-6">
             <button
               id="mobile-nav-cta-btn"
               onClick={() => {

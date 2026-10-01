@@ -161,29 +161,29 @@ export default function FloatingGuide({ currentTab }: FloatingGuideProps) {
             animation: 'bubble-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
           }}
         >
-          <div className="glass-panel-strong rounded-2xl rounded-br-md px-4 py-3 shadow-xl">
+          <div className="glass-panel-strong rounded-2xl rounded-br-md px-4 py-3 shadow-xl border border-slate-200">
             <button
               onClick={() => {
                 setShowBubble(false);
                 triggerHaptic(10);
               }}
-              className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-[#1a1040] border border-purple-500/30 text-purple-300 hover:text-white hover:bg-purple-600/50 transition-colors"
+              className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-white border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors shadow-xs"
               title="Dismiss"
             >
               <X className="h-3 w-3" />
             </button>
-            <p className="text-sm text-slate-200 leading-relaxed font-sans">
+            <p className="text-sm text-slate-800 leading-relaxed font-sans">
               {currentMessage}
             </p>
             <div className="mt-2 flex items-center gap-2">
-              <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[9px] font-bold text-purple-400 tracking-wider font-mono uppercase">
+              <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[9px] font-bold text-[#004aad] tracking-wider font-mono uppercase">
                 TEGA • FOUNDER
               </span>
             </div>
           </div>
           {/* Bubble pointer */}
-          <div className="absolute -bottom-1.5 right-8 h-3 w-3 rotate-45 bg-[rgba(15,15,30,0.85)] border-b border-r border-purple-500/20" />
+          <div className="absolute -bottom-1.5 right-8 h-3 w-3 rotate-45 bg-white border-b border-r border-slate-200" />
         </div>
       )}
 
@@ -194,9 +194,9 @@ export default function FloatingGuide({ currentTab }: FloatingGuideProps) {
           <button
             id="guide-minimized-btn"
             onClick={handleGuideClick}
-            className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-cyan-500 shadow-lg haptic-press animate-float"
+            className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[#004aad] to-[#0284c7] shadow-lg haptic-press animate-float"
             style={{
-              boxShadow: '0 0 20px rgba(139, 92, 246, 0.4), 0 0 60px rgba(139, 92, 246, 0.1)',
+              boxShadow: '0 8px 25px rgba(0, 74, 173, 0.35)',
             }}
             title="Talk to Tega"
           >
@@ -207,7 +207,7 @@ export default function FloatingGuide({ currentTab }: FloatingGuideProps) {
             {/* Minimize button */}
             <button
               onClick={handleMinimize}
-              className="absolute -top-2 -left-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-[#1a1040] border border-purple-500/30 text-purple-300 hover:text-white hover:bg-purple-600/50 transition-colors opacity-0 group-hover:opacity-100"
+              className="absolute -top-2 -left-2 z-10 flex h-6 w-6 items-center justify-center rounded-full bg-white border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors opacity-0 group-hover:opacity-100 shadow-xs"
               title="Minimize guide"
             >
               <X className="h-3 w-3" />

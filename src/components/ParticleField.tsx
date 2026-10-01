@@ -25,10 +25,10 @@ export default function ParticleField() {
     if (!ctx) return;
 
     const colors = [
-      'rgba(139, 92, 246,',   // purple
-      'rgba(6, 182, 212,',    // cyan
-      'rgba(236, 72, 153,',   // magenta
-      'rgba(255, 255, 255,',  // white
+      'rgba(0, 74, 173,',    // royal blue
+      'rgba(2, 132, 199,',   // sky blue
+      'rgba(37, 99, 235,',   // blue-600
+      'rgba(148, 163, 184,', // slate-400
     ];
 
     const resize = () => {
@@ -47,7 +47,7 @@ export default function ParticleField() {
           vx: (Math.random() - 0.5) * 0.3,
           vy: (Math.random() - 0.5) * 0.2,
           radius: Math.random() * 2 + 0.5,
-          opacity: Math.random() * 0.5 + 0.1,
+          opacity: Math.random() * 0.4 + 0.1,
           color: colors[Math.floor(Math.random() * colors.length)],
           pulseSpeed: Math.random() * 0.02 + 0.005,
           pulsePhase: Math.random() * Math.PI * 2,
@@ -108,8 +108,8 @@ export default function ParticleField() {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            const lineOpacity = (1 - dist / 150) * 0.08;
-            ctx.strokeStyle = `rgba(139, 92, 246, ${lineOpacity})`;
+            const lineOpacity = (1 - dist / 150) * 0.07;
+            ctx.strokeStyle = `rgba(0, 74, 173, ${lineOpacity})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }

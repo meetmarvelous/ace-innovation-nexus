@@ -49,17 +49,17 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
       {/* SECTION 1: HERO */}
       <section className="relative overflow-hidden py-20 lg:py-28 star-field cosmic-section">
         {/* Decorative cosmic gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/10 via-transparent to-cyan-900/10 pointer-events-none" />
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-600/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-cyan-600/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-transparent to-sky-50/30 pointer-events-none" />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-sky-500/5 rounded-full blur-3xl pointer-events-none" />
         
         <div className="mx-auto max-w-7xl px-6 sm:px-8 relative z-10">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
             
             {/* Left Narrative */}
             <div className="lg:col-span-7 space-y-6 text-left">
-              <span className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold text-purple-300 border border-purple-500/25" style={{ background: 'rgba(139, 92, 246, 0.1)' }}>
-                <Zap className="h-3.5 w-3.5 fill-purple-400 text-purple-400" />
+              <span className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold text-[#004aad] border border-blue-200 bg-blue-50/80 shadow-xs">
+                <Zap className="h-3.5 w-3.5 fill-[#004aad] text-[#004aad]" />
                 Digital Agency · Nigeria & Worldwide
               </span>
 
@@ -68,7 +68,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
                   text="Helping Brands"
                   as="h1"
                   variant="reveal"
-                  className="text-4xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl font-display leading-[1.1]"
+                  className="text-4xl font-black tracking-tight text-slate-900 sm:text-5xl lg:text-6xl font-display leading-[1.1]"
                   delay={0.2}
                 />
                 <KineticText
@@ -80,7 +80,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
                 />
               </div>
 
-              <p className="max-w-xl text-lg text-slate-400 leading-relaxed font-sans" style={{ animation: 'fade-in-up 0.8s ease 1s forwards', opacity: 0 }}>
+              <p className="max-w-xl text-lg text-slate-600 leading-relaxed font-sans" style={{ animation: 'fade-in-up 0.8s ease 1s forwards', opacity: 0 }}>
                 We help businesses grow with digital marketing, content creation, professional photography & videography, websites, and mobile apps. From Nigeria to the world — we turn your online presence into real customers.
               </p>
               
@@ -100,21 +100,21 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
                     setCurrentTab('services');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className="flex items-center justify-center gap-1 rounded-xl border border-purple-500/25 bg-purple-500/5 px-6 py-4 text-sm font-bold text-purple-300 hover:bg-purple-500/10 hover:border-purple-500/40 transition-all haptic-press"
+                  className="flex items-center justify-center gap-1 rounded-xl border border-slate-300 bg-white px-6 py-4 text-sm font-bold text-slate-700 hover:bg-slate-100 hover:border-slate-400 transition-all haptic-press shadow-xs"
                 >
                   See Our Work
                 </button>
               </div>
 
               {/* Trust Metric list */}
-              <div className="grid grid-cols-2 gap-6 pt-10" style={{ borderTop: '1px solid rgba(139, 92, 246, 0.15)', animation: 'fade-in-up 0.8s ease 1.4s forwards', opacity: 0 }}>
+              <div className="grid grid-cols-2 gap-6 pt-10" style={{ borderTop: '1px solid rgba(226, 232, 240, 0.9)', animation: 'fade-in-up 0.8s ease 1.4s forwards', opacity: 0 }}>
                 <div>
-                  <div className="text-2xl font-black text-white font-display text-glow-purple">94%+</div>
-                  <div className="text-xs text-slate-500 font-medium font-sans uppercase tracking-wider mt-1">Client Retention Rate</div>
+                  <div className="text-2xl font-black text-slate-900 font-display">94%+</div>
+                  <div className="text-xs text-slate-500 font-bold font-sans uppercase tracking-wider mt-1">Client Retention Rate</div>
                 </div>
                 <div>
                   <div className="text-2xl font-black font-display gradient-text">₦18B+</div>
-                  <div className="text-xs text-slate-500 font-medium font-sans uppercase tracking-wider mt-1">Client Revenue Generated</div>
+                  <div className="text-xs text-slate-500 font-bold font-sans uppercase tracking-wider mt-1">Client Revenue Generated</div>
                 </div>
               </div>
 
@@ -127,22 +127,22 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
                 <div
                   className="w-80 h-80 rounded-full animate-glow"
                   style={{
-                    background: 'radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(6, 182, 212, 0.08) 50%, transparent 70%)',
+                    background: 'radial-gradient(circle, rgba(0, 74, 173, 0.12) 0%, rgba(2, 132, 199, 0.05) 50%, transparent 70%)',
                   }}
                 />
               </div>
               {/* Orbital ring */}
               <div
-                className="absolute w-72 h-72 rounded-full border border-purple-500/10"
+                className="absolute w-72 h-72 rounded-full border border-blue-100"
                 style={{ animation: 'cosmic-rotate 30s linear infinite' }}
               >
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-cyan-400/50" />
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-1.5 h-1.5 rounded-full bg-purple-400/50" />
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-[#004aad]" />
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 rounded-full bg-sky-400" />
               </div>
               <div
                 className="relative animate-float"
                 style={{
-                  filter: 'drop-shadow(0 0 30px rgba(139, 92, 246, 0.2))',
+                  filter: 'drop-shadow(0 10px 25px rgba(0, 74, 173, 0.15))',
                   animation: 'float 5s ease-in-out infinite, fade-in-up 1s ease 0.5s forwards',
                   opacity: 0,
                 }}
@@ -160,7 +160,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
       </section>
 
       {/* SECTION 2: HOW WE WORK */}
-      <section className="relative py-20 lg:py-24 cosmic-section" style={{ borderTop: '1px solid rgba(139, 92, 246, 0.1)', borderBottom: '1px solid rgba(139, 92, 246, 0.1)' }}>
+      <section className="relative py-20 lg:py-24 cosmic-section" style={{ borderTop: '1px solid rgba(226, 232, 240, 0.9)', borderBottom: '1px solid rgba(226, 232, 240, 0.9)' }}>
         <div className="mx-auto max-w-7xl px-6 sm:px-8 relative z-10">
           
           <div className="text-center max-w-3xl mx-auto space-y-4">
@@ -169,11 +169,11 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
               text="How We Work"
               as="h2"
               variant="reveal"
-              className="text-3xl font-black tracking-tight text-white sm:text-4xl font-display"
+              className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl font-display"
               delay={0.1}
               stagger={0.02}
             />
-            <p className="text-base text-slate-400 font-sans">
+            <p className="text-base text-slate-600 font-sans">
               We keep it simple. Here's how every project works — from the first conversation to real results you can see.
             </p>
           </div>
@@ -188,25 +188,25 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
                   style={{ animationDelay: `${idx * 0.1}s` }}
                 >
                   {/* Step number background */}
-                  <div className="absolute -top-2 -right-2 text-7xl font-black font-display opacity-5 text-purple-300 pointer-events-none select-none">
+                  <div className="absolute -top-2 -right-2 text-7xl font-black font-display opacity-10 text-[#004aad] pointer-events-none select-none">
                     {step.step}
                   </div>
 
                   <div className="relative space-y-4">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-purple-500/15 text-purple-300">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-[#004aad] border border-blue-100">
                         <Icon className="h-5 w-5" />
                       </div>
-                      <span className="text-[10px] font-bold text-slate-500 font-mono tracking-widest uppercase">Step {step.step}</span>
+                      <span className="text-[10px] font-bold text-[#004aad] font-mono tracking-widest uppercase">Step {step.step}</span>
                     </div>
 
-                    <h3 className="text-lg font-bold text-white font-display">{step.title}</h3>
-                    <p className="text-sm text-slate-400 leading-relaxed font-sans">{step.description}</p>
+                    <h3 className="text-lg font-bold text-slate-900 font-display">{step.title}</h3>
+                    <p className="text-sm text-slate-600 leading-relaxed font-sans">{step.description}</p>
                   </div>
 
-                  <div className="mt-6 pt-4 flex items-center justify-between text-[11px] font-bold font-mono" style={{ borderTop: '1px solid rgba(139, 92, 246, 0.1)' }}>
-                    <span className="text-slate-600">STEP {step.step} OF 04</span>
-                    <span className="text-emerald-400">✓</span>
+                  <div className="mt-6 pt-4 flex items-center justify-between text-[11px] font-bold font-mono" style={{ borderTop: '1px solid rgba(226, 232, 240, 0.8)' }}>
+                    <span className="text-slate-400">STEP {step.step} OF 04</span>
+                    <span className="text-emerald-600">✓</span>
                   </div>
                 </div>
               );
@@ -230,14 +230,14 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
       <section className="relative py-20 lg:py-24 cosmic-section star-field">
         <div className="mx-auto max-w-7xl px-6 sm:px-8 relative z-10">
           
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10" style={{ borderBottom: '1px solid rgba(139, 92, 246, 0.15)' }}>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10" style={{ borderBottom: '1px solid rgba(226, 232, 240, 0.9)' }}>
             <div className="space-y-3">
               <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">Our Projects</span>
               <KineticText
                 text="Work We've Done"
                 as="h2"
                 variant="reveal"
-                className="text-3xl font-black tracking-tight text-white sm:text-4xl font-display"
+                className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl font-display"
                 delay={0.1}
                 stagger={0.02}
               />
@@ -249,7 +249,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
                 setCurrentTab('services');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="flex items-center gap-1.5 text-sm font-bold text-purple-300 hover:text-cyan-300 group mt-2 transition-colors haptic-press"
+              className="flex items-center gap-1.5 text-sm font-bold text-[#004aad] hover:text-blue-700 group mt-2 transition-colors haptic-press"
             >
               See All Projects
               <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -264,33 +264,33 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
                 style={{ animationDelay: `${idx * 0.15}s` }}
               >
                 <div>
-                  <div className="relative aspect-video overflow-hidden rounded-xl" style={{ background: 'rgba(15, 15, 30, 0.5)' }}>
+                  <div className="relative aspect-video overflow-hidden rounded-xl bg-slate-100">
                     <img
                       referrerPolicy="no-referrer"
                       src={project.image}
                       alt={project.client}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute top-3 left-3 rounded-lg px-2.5 py-1 text-[10px] font-bold text-purple-200 uppercase tracking-wider font-mono glass-panel">
+                    <div className="absolute top-3 left-3 rounded-lg px-2.5 py-1 text-[10px] font-bold text-slate-800 uppercase tracking-wider font-mono glass-panel border border-slate-200 shadow-xs">
                       {project.category}
                     </div>
                   </div>
                   
-                  <h3 className="mt-5 text-xs font-bold text-cyan-400">{project.client}</h3>
-                  <h4 className="mt-2 text-lg font-bold text-white leading-snug group-hover:text-purple-300 font-display transition-colors">
+                  <h3 className="mt-5 text-xs font-bold text-[#004aad] uppercase tracking-wider font-mono">{project.client}</h3>
+                  <h4 className="mt-2 text-lg font-bold text-slate-900 leading-snug group-hover:text-[#004aad] font-display transition-colors">
                     {project.title}
                   </h4>
-                  <p className="mt-3 text-sm text-slate-400 line-clamp-3">
+                  <p className="mt-3 text-sm text-slate-600 line-clamp-3">
                     {project.summary}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-5 flex items-center justify-between" style={{ borderTop: '1px solid rgba(139, 92, 246, 0.1)' }}>
+                <div className="mt-6 pt-5 flex items-center justify-between" style={{ borderTop: '1px solid rgba(226, 232, 240, 0.8)' }}>
                   <div className="flex gap-4">
                     {project.metrics.slice(0, 2).map((met, i) => (
                       <div key={i}>
-                        <div className="text-base font-extrabold text-white font-display leading-[1]">{met.value}</div>
-                        <div className="text-[10px] text-slate-500 font-medium font-mono mt-0.5">{met.label}</div>
+                        <div className="text-base font-extrabold text-slate-900 font-display leading-[1]">{met.value}</div>
+                        <div className="text-[10px] text-slate-500 font-bold font-mono mt-0.5">{met.label}</div>
                       </div>
                     ))}
                   </div>
@@ -301,7 +301,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
                       setCurrentTab('services');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-purple-500/20 text-slate-400 transition-all group-hover:bg-purple-500/20 group-hover:text-purple-300 group-hover:border-purple-500/40 haptic-press"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600 transition-all group-hover:bg-[#004aad] group-hover:text-white group-hover:border-[#004aad] haptic-press"
                   >
                     <ArrowUpRight className="h-4 w-4" />
                   </button>
@@ -315,7 +315,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
       </section>
 
       {/* SECTION 4: FROM OUR BLOG */}
-      <section className="relative py-20 lg:py-24 cosmic-section" style={{ borderTop: '1px solid rgba(139, 92, 246, 0.1)' }}>
+      <section className="relative py-20 lg:py-24 cosmic-section" style={{ borderTop: '1px solid rgba(226, 232, 240, 0.9)' }}>
         <div className="mx-auto max-w-7xl px-6 sm:px-8 relative z-10">
           
           <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
@@ -324,11 +324,11 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
               text="Tips, Insights & Ideas"
               as="h2"
               variant="reveal"
-              className="text-3xl font-black tracking-tight text-white sm:text-4xl font-display"
+              className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl font-display"
               delay={0.1}
               stagger={0.02}
             />
-            <p className="text-base text-slate-400">
+            <p className="text-base text-slate-600">
               Helpful articles from our team on marketing, branding, photography, and building great websites.
             </p>
           </div>
@@ -341,14 +341,14 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
                 style={{ animationDelay: `${idx * 0.1}s` }}
               >
                 <div>
-                  <div className="aspect-11/8 overflow-hidden rounded-xl relative" style={{ background: 'rgba(15, 15, 30, 0.5)' }}>
+                  <div className="aspect-11/8 overflow-hidden rounded-xl relative bg-slate-100">
                     <img
                       referrerPolicy="no-referrer"
                       src={article.image}
                       alt={article.title}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105 opacity-75 group-hover:opacity-100"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute bottom-3 left-3 rounded-lg px-2 py-1 text-[9px] font-bold text-cyan-200 tracking-wider font-mono glass-panel">
+                    <div className="absolute bottom-3 left-3 rounded-lg px-2 py-1 text-[9px] font-bold text-slate-800 tracking-wider font-mono glass-panel border border-slate-200">
                       {article.category}
                     </div>
                   </div>
@@ -357,23 +357,23 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
                     {article.date} &bull; {article.readTime}
                   </span>
                   
-                  <h3 className="mt-2 text-sm font-bold text-white group-hover:text-purple-300 transition-colors leading-snug font-display">
+                  <h3 className="mt-2 text-sm font-bold text-slate-900 group-hover:text-[#004aad] transition-colors leading-snug font-display">
                     {article.title}
                   </h3>
                   
-                  <p className="mt-2.5 text-xs text-slate-500 leading-relaxed line-clamp-3">
+                  <p className="mt-2.5 text-xs text-slate-600 leading-relaxed line-clamp-3">
                     {article.summary}
                   </p>
                 </div>
 
-                <div className="mt-5 pt-4 flex items-center justify-between" style={{ borderTop: '1px solid rgba(139, 92, 246, 0.1)' }}>
+                <div className="mt-5 pt-4 flex items-center justify-between" style={{ borderTop: '1px solid rgba(226, 232, 240, 0.8)' }}>
                   <div className="flex items-center gap-2">
-                    <div className="h-6 w-6 rounded-full bg-purple-500/20 flex items-center justify-center text-[10px] font-bold text-purple-300">
+                    <div className="h-6 w-6 rounded-full bg-blue-50 flex items-center justify-center text-[10px] font-bold text-[#004aad] border border-blue-100">
                       {article.author.split(' ')[0][0]}
                     </div>
-                    <span className="text-[11px] font-semibold text-slate-400">{article.author}</span>
+                    <span className="text-[11px] font-semibold text-slate-700">{article.author}</span>
                   </div>
-                  <ChevronRight className="h-4 w-4 text-slate-600 group-hover:text-purple-400 transition-transform group-hover:translate-x-0.5" />
+                  <ChevronRight className="h-4 w-4 text-slate-400 group-hover:text-[#004aad] transition-transform group-hover:translate-x-0.5" />
                 </div>
 
               </div>
