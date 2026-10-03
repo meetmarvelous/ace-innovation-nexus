@@ -127,11 +127,7 @@ export default function AdminView() {
         setIsAuthenticated(true);
       }
     } else {
-      if (password === 'admin123' || email.length > 0) {
-        setIsAuthenticated(true);
-      } else {
-        setAuthError('Please enter email and password (or use password "admin123" for demo mode).');
-      }
+      setAuthError('Supabase credentials missing. Please set NEXT_PUBLIC_SUPABASE_URL & NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY to allow admin authentication.');
     }
     setAuthLoading(false);
   };
@@ -358,18 +354,6 @@ CREATE POLICY "Admin write" ON public.insight_articles FOR ALL TO authenticated 
               {isSettingNewPassword ? 'Complete your invitation setup' : 'Ace Innovation Nexus Website Content CMS'}
             </p>
           </div>
-
-          {!isSupabaseConfigured && (
-            <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs space-y-1">
-              <div className="font-bold flex items-center gap-1.5">
-                <AlertCircle className="h-4 w-4 text-amber-600 shrink-0" />
-                <span>Supabase Demo Mode</span>
-              </div>
-              <p className="text-[11px] text-amber-700 leading-relaxed">
-                Log in with any email & password (or <code className="bg-amber-100 px-1 rounded">admin123</code>) to preview CMS content editing.
-              </p>
-            </div>
-          )}
 
           {authError && (
             <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
