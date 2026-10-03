@@ -319,36 +319,36 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
   // SEPARATE ADMIN LOGIN SCREEN (WHITE MINIMALIST THEME)
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col justify-between p-4 sm:p-8 font-sans">
+      <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col justify-between p-3 sm:p-8 font-sans">
         
         {/* STANDALONE ADMIN LOGIN NAVBAR */}
-        <header className="w-full max-w-7xl mx-auto flex items-center justify-between py-4 border-b border-slate-200">
-          <div className="flex items-center gap-3">
-            <img src="/images/2.svg" alt="Ace Nexus Logo" className="h-9 w-9 object-contain" />
-            <div>
-              <div className="text-sm font-black tracking-tight text-slate-900 font-display">ACE INNOVATION NEXUS</div>
-              <div className="text-[9px] font-mono font-semibold uppercase tracking-widest text-[#004aad]">ADMIN PORTAL</div>
+        <header className="w-full max-w-7xl mx-auto flex items-center justify-between py-3 sm:py-4 border-b border-slate-200 gap-2">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+            <img src="/images/2.svg" alt="Ace Nexus Logo" className="h-8 w-8 sm:h-9 sm:w-9 object-contain shrink-0" />
+            <div className="min-w-0">
+              <div className="text-xs sm:text-sm font-black tracking-tight text-slate-900 font-display truncate">ACE INNOVATION NEXUS</div>
+              <div className="text-[8px] sm:text-[9px] font-mono font-semibold uppercase tracking-widest text-[#004aad]">ADMIN PORTAL</div>
             </div>
           </div>
 
           {onBackToWebsite && (
             <button
               onClick={onBackToWebsite}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 text-xs font-bold transition-all haptic-press shadow-xs"
+              className="shrink-0 flex items-center gap-1.5 sm:gap-2 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 text-[11px] sm:text-xs font-bold transition-all haptic-press shadow-xs"
             >
-              <ArrowLeft className="h-4 w-4 text-[#004aad]" />
+              <ArrowLeft className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#004aad]" />
               <span>Back to Website</span>
             </button>
           )}
         </header>
 
         {/* LOGIN FORM CARD */}
-        <div className="w-full max-w-md mx-auto my-12 space-y-6 p-6 sm:p-8 bg-white rounded-3xl border border-slate-200 shadow-xl text-left">
+        <div className="w-full max-w-md mx-auto my-6 sm:my-12 space-y-5 sm:space-y-6 p-5 sm:p-8 bg-white rounded-3xl border border-slate-200 shadow-xl text-left">
           <div className="text-center space-y-2">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-[#004aad] border border-blue-100 shadow-xs">
-              <ShieldCheck className="h-7 w-7" />
+            <div className="mx-auto flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-2xl bg-blue-50 text-[#004aad] border border-blue-100 shadow-xs">
+              <ShieldCheck className="h-6 w-6 sm:h-7 sm:w-7" />
             </div>
-            <h1 className="text-2xl font-black text-slate-900 font-display tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 font-display tracking-tight">
               {isSettingNewPassword ? 'Set Admin Password' : 'Authorized Admin Portal'}
             </h1>
             <p className="text-xs text-slate-500 font-sans">
@@ -380,7 +380,7 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="At least 6 characters"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 cosmic-input"
+                  className="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-slate-200 cosmic-input"
                 />
               </div>
 
@@ -392,14 +392,14 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Re-enter password"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 cosmic-input"
+                  className="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-slate-200 cosmic-input"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={authLoading}
-                className="w-full py-3.5 rounded-xl font-bold text-white transition-all neon-btn haptic-press flex items-center justify-center gap-2 text-xs"
+                className="w-full py-3 sm:py-3.5 rounded-xl font-bold text-white transition-all neon-btn haptic-press flex items-center justify-center gap-2 text-xs sm:text-sm"
               >
                 {authLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
                 <span>Save Password & Launch CMS</span>
@@ -415,7 +415,7 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@aceinnovationnexus.com"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 cosmic-input"
+                  className="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-slate-200 cosmic-input"
                 />
               </div>
 
@@ -427,14 +427,14 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 cosmic-input"
+                  className="w-full px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-slate-200 cosmic-input"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={authLoading}
-                className="w-full py-3.5 rounded-xl font-bold text-white transition-all neon-btn haptic-press flex items-center justify-center gap-2 text-xs"
+                className="w-full py-3 sm:py-3.5 rounded-xl font-bold text-white transition-all neon-btn haptic-press flex items-center justify-center gap-2 text-xs sm:text-sm"
               >
                 {authLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
                 <span>Sign In to Admin Portal</span>
@@ -442,13 +442,13 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
             </form>
           )}
 
-          <div className="pt-4 border-t border-slate-200 text-center text-[10px] text-slate-400 font-mono tracking-wider">
+          <div className="pt-4 border-t border-slate-200 text-center text-[9px] sm:text-[10px] text-slate-400 font-mono tracking-wider">
             RESTRICTED ACCESS &bull; ENCRYPTED SUPABASE PORTAL
           </div>
         </div>
 
         {/* FOOTER BAR */}
-        <footer className="w-full max-w-7xl mx-auto py-4 border-t border-slate-200 text-center text-xs text-slate-500">
+        <footer className="w-full max-w-7xl mx-auto py-3 sm:py-4 border-t border-slate-200 text-center text-[11px] sm:text-xs text-slate-500">
           &copy; {new Date().getFullYear()} Ace Innovation Nexus Admin Portal. Authorized Users Only.
         </footer>
       </div>
@@ -460,20 +460,20 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
       
       {/* SEPARATE DEDICATED ADMIN HEADER */}
-      <header className="sticky top-0 z-40 w-full bg-white/95 border-b border-slate-200 backdrop-blur-md px-4 sm:px-8 py-3.5 shadow-xs">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <header className="sticky top-0 z-40 w-full bg-white/95 border-b border-slate-200 backdrop-blur-md px-3 sm:px-8 py-3 sm:py-3.5 shadow-xs">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
           
-          <div className="flex items-center justify-between sm:justify-start gap-3 w-full sm:w-auto">
-            <div className="flex items-center gap-3">
-              <img src="/images/2.svg" alt="Ace Nexus Logo" className="h-8 w-8 sm:h-9 sm:w-9 object-contain" />
-              <div>
+          <div className="flex items-center justify-between sm:justify-start gap-2.5 w-full sm:w-auto">
+            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+              <img src="/images/2.svg" alt="Ace Nexus Logo" className="h-7 w-7 sm:h-9 sm:w-9 object-contain shrink-0" />
+              <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <h1 className="text-sm sm:text-base font-black tracking-tight text-slate-900 font-display">ACE INNOVATION NEXUS</h1>
+                  <h1 className="text-xs sm:text-base font-black tracking-tight text-slate-900 font-display truncate">ACE INNOVATION NEXUS</h1>
                   <span className="hidden sm:inline-block text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-50 text-[#004aad] border border-blue-200">
                     CMS CONTROL
                   </span>
                 </div>
-                <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium">Live Website Content Manager</p>
+                <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium truncate">Live Website Content Manager</p>
               </div>
             </div>
 
@@ -486,16 +486,16 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
             {onBackToWebsite && (
               <button
                 onClick={onBackToWebsite}
-                className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 text-xs font-bold transition-all haptic-press shadow-xs"
+                className="flex-1 sm:flex-initial flex items-center justify-center gap-1 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 text-[11px] sm:text-xs font-bold transition-all haptic-press shadow-xs shrink-0"
               >
                 <ArrowLeft className="h-3.5 w-3.5 text-[#004aad]" />
-                <span>Exit to Website</span>
+                <span className="truncate">Exit to Website</span>
               </button>
             )}
 
             <button
               onClick={loadAllData}
-              className="flex items-center justify-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2 rounded-xl border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-bold transition-all haptic-press"
+              className="flex items-center justify-center gap-1 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-xl border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200 text-[11px] sm:text-xs font-bold transition-all haptic-press shrink-0"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${subLoading ? 'animate-spin' : ''}`} />
               <span className="hidden sm:inline">Sync Live</span>
@@ -503,7 +503,7 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
 
             <button
               onClick={handleLogout}
-              className="flex items-center justify-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2 rounded-xl border border-red-200 bg-red-50 text-red-700 hover:bg-red-100 text-xs font-bold transition-all haptic-press"
+              className="flex items-center justify-center gap-1 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-xl border border-red-200 bg-red-50 text-red-700 hover:bg-red-100 text-[11px] sm:text-xs font-bold transition-all haptic-press shrink-0"
             >
               <LogOut className="h-3.5 w-3.5" />
               <span>Sign Out</span>
