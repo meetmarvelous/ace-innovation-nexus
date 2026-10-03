@@ -1,8 +1,30 @@
+# Dependencies
 node_modules/
-build/
+.pnpm-store/
+
+# Production & Build outputs
 dist/
+build/
+out/
 coverage/
-.DS_Store
-*.log
-.env*
+
+# Environment & Sensitive API Secrets (NEVER COMMIT)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+*.env
 !.env.example
+
+# IDE & Operating System Clutter
+.DS_Store
+Thumbs.db
+*.pem
+*.key
+*.cert
+*.log
+.vscode/*
+!.vscode/extensions.json
+.idea/
