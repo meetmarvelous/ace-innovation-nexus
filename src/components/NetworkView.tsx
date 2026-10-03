@@ -4,6 +4,7 @@ import { associatedOrganizations as defaultOrganizations } from '../data';
 import { getAssociatedOrganizations } from '../lib/dataService';
 import { AssociatedOrganization, AssociatedLink } from '../types';
 import KineticText from './KineticText';
+import { formatExternalUrl } from '../utils/urlFormatter';
 
 interface NetworkViewProps {
   openContactModal: () => void;
@@ -218,24 +219,27 @@ export default function NetworkView({ openContactModal }: NetworkViewProps) {
                 {/* Associated Links Buttons Footer */}
                 <div className="mt-6 pt-5 border-t border-slate-200 space-y-2">
                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest font-mono block mb-2">
-                    {org.links.length > 1 ? 'Associated Platforms' : 'Official Channel'}
+                    {(org.links || []).length > 1 ? 'Associated Platforms' : 'Official Channel'}
                   </span>
 
                   <div className="flex flex-wrap gap-2">
-                    {org.links.map((link, idx) => (
-                      <a
-                        key={idx}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => triggerHaptic(15)}
-                        className="group/btn inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-700 border border-slate-200 bg-slate-50 hover:bg-[#004aad] hover:text-white hover:border-[#004aad] transition-all haptic-press"
-                      >
-                        {renderLinkIcon(link.type)}
-                        <span>{link.label}</span>
-                        <ArrowUpRight className="h-3 w-3 text-slate-400 group-hover/btn:text-white transition-colors" />
-                      </a>
-                    ))}
+                    {(org.links || []).map((link, idx) => {
+                      const targetUrl = formatExternalUrl(link.url);
+                      return (
+                        <a
+                          key={idx}
+                          href={targetUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => triggerHaptic(15)}
+                          className="group/btn inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-700 border border-slate-200 bg-slate-50 hover:bg-[#004aad] hover:text-white hover:border-[#004aad] transition-all haptic-press"
+                        >
+                          {renderLinkIcon(link.type)}
+                          <span>{link.label || 'Visit Link'}</span>
+                          <ArrowUpRight className="h-3 w-3 text-slate-400 group-hover/btn:text-white transition-colors" />
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
 

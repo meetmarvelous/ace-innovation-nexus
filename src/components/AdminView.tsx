@@ -11,6 +11,7 @@ import {
 } from '../lib/dataService';
 import { CaseStudy, InsightArticle, AssociatedOrganization } from '../types';
 import { triggerHaptic } from '../utils/haptics';
+import { formatExternalUrl } from '../utils/urlFormatter';
 
 interface ContactSubmission {
   id: string;
@@ -229,6 +230,14 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
     if (!editOrg?.name) return alert('Organization name is required.');
     triggerHaptic(20);
 
+    const rawLinks = editOrg.links || [];
+    const formattedLinks = rawLinks
+      .filter(l => l.url && l.url.trim().length > 0)
+      .map(l => ({
+        ...l,
+        url: formatExternalUrl(l.url)
+      }));
+
     const orgToSave: AssociatedOrganization = {
       id: editOrg.id || `org-${Date.now()}`,
       name: editOrg.name,
@@ -236,7 +245,7 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
       location: editOrg.location || 'Nigeria',
       description: editOrg.description || '',
       logo: editOrg.logo || '/logos/placeholder.svg',
-      links: editOrg.links || [{ label: 'Instagram', url: 'https://www.instagram.com', type: 'instagram' }],
+      links: formattedLinks.length > 0 ? formattedLinks : [{ label: 'Instagram', url: 'https://www.instagram.com', type: 'instagram' }],
     };
 
     try {
@@ -832,20 +841,67 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Instagram Link URL</label>
+                  <label className="block font-bold text-slate-700 mb-1">Instagram Link URL / Handle</label>
                   <input
                     type="text"
-                    value={editOrg.links?.[0]?.url || ''}
+                    value={editOrg.links?.find(l => l.type === 'instagram')?.url || editOrg.links?.[0]?.url || ''}
                     onChange={e => {
                       const url = e.target.value;
-                      setEditOrg({
-                        ...editOrg,
-                        links: [{ label: 'Instagram', url, type: 'instagram' }]
-                      });
+                      const currentLinks = [...(editOrg.links || [])];
+                      const idx = currentLinks.findIndex(l => l.type === 'instagram');
+                      if (idx >= 0) {
+                        currentLinks[idx] = { label: 'Instagram', url, type: 'instagram' };
+                      } else {
+                        currentLinks.unshift({ label: 'Instagram', url, type: 'instagram' });
+                      }
+                      setEditOrg({ ...editOrg, links: currentLinks });
                     }}
-                    placeholder="https://www.instagram.com/yourhandle"
+                    placeholder="https://www.instagram.com/yourhandle or @yourhandle"
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
                   />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Website Link (Optional)</label>
+                    <input
+                      type="text"
+                      value={editOrg.links?.find(l => l.type === 'website')?.url || ''}
+                      onChange={e => {
+                        const url = e.target.value;
+                        const currentLinks = [...(editOrg.links || [])];
+                        const idx = currentLinks.findIndex(l => l.type === 'website');
+                        if (idx >= 0) {
+                          currentLinks[idx] = { label: 'Website', url, type: 'website' };
+                        } else {
+                          currentLinks.push({ label: 'Website', url, type: 'website' });
+                        }
+                        setEditOrg({ ...editOrg, links: currentLinks });
+                      }}
+                      placeholder="https://www.example.com"
+                      className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Facebook Link (Optional)</label>
+                    <input
+                      type="text"
+                      value={editOrg.links?.find(l => l.type === 'facebook')?.url || ''}
+                      onChange={e => {
+                        const url = e.target.value;
+                        const currentLinks = [...(editOrg.links || [])];
+                        const idx = currentLinks.findIndex(l => l.type === 'facebook');
+                        if (idx >= 0) {
+                          currentLinks[idx] = { label: 'Facebook', url, type: 'facebook' };
+                        } else {
+                          currentLinks.push({ label: 'Facebook', url, type: 'facebook' });
+                        }
+                        setEditOrg({ ...editOrg, links: currentLinks });
+                      }}
+                      placeholder="https://facebook.com/yourpage"
+                      className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                    />
+                  </div>
                 </div>
 
                 <div className="pt-3 flex justify-end gap-3">
