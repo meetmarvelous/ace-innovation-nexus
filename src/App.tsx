@@ -28,6 +28,22 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
+  // Standalone Admin Portal Page (completely separate layout, navbar, and security theme)
+  if (currentTab === 'admin') {
+    return (
+      <div className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased relative selection:bg-[#004aad] selection:text-white">
+        <AdminView
+          onBackToWebsite={() => {
+            triggerHaptic(15);
+            window.location.hash = 'home';
+            setCurrentTab('home');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col justify-between font-sans antialiased relative" style={{ background: 'var(--cosmic-bg)', color: 'var(--cosmic-text)' }}>
       
@@ -55,7 +71,6 @@ export default function App() {
         {(currentTab === 'network' || currentTab === 'careers') && (
           <NetworkView openContactModal={() => { triggerHaptic(20); setContactModalOpen(true); }} />
         )}
-        {currentTab === 'admin' && <AdminView />}
       </main>
 
       {/* Footer element */}
