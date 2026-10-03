@@ -742,13 +742,26 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {orgList.map((org) => (
                 <div key={org.id} className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3 flex flex-col justify-between hover:border-[#004aad]/40 transition-all">
-                  <div className="space-y-2">
+                  <div className="space-y-2.5">
                     <div className="flex items-center justify-between">
                       <span className="text-[9px] font-mono font-bold text-[#004aad] uppercase bg-blue-50 px-2 py-0.5 rounded border border-blue-100">{org.category}</span>
                       <span className="text-[10px] text-slate-400 font-mono">{org.location}</span>
                     </div>
-                    <h3 className="text-sm font-bold text-slate-900">{org.name}</h3>
-                    <p className="text-[11px] text-slate-600 line-clamp-2">{org.description || 'No description added.'}</p>
+
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 shrink-0 rounded-xl p-1 bg-slate-50 border border-slate-200 flex items-center justify-center overflow-hidden">
+                        <img
+                          src={org.logo || '/logos/placeholder.svg'}
+                          alt={org.name}
+                          className="h-full w-full object-contain"
+                          onError={(e) => { (e.target as HTMLImageElement).src = '/logos/placeholder.svg'; }}
+                        />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="text-sm font-bold text-slate-900 truncate">{org.name}</h3>
+                        <p className="text-[11px] text-slate-500 line-clamp-1">{org.description || 'No description added.'}</p>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
@@ -838,6 +851,30 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                     placeholder="Brief description..."
                     className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
                   />
+                </div>
+
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Brand Logo Image URL / Path</label>
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="text"
+                      value={editOrg.logo || ''}
+                      onChange={e => setEditOrg({ ...editOrg, logo: e.target.value })}
+                      placeholder="/logos/academy-suites.svg or https://..."
+                      className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                    />
+                    <div className="h-10 w-10 shrink-0 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-center p-1.5 overflow-hidden">
+                      <img
+                        src={editOrg.logo || '/logos/placeholder.svg'}
+                        alt="Logo preview"
+                        className="h-full w-full object-contain"
+                        onError={(e) => { (e.target as HTMLImageElement).src = '/logos/placeholder.svg'; }}
+                      />
+                    </div>
+                  </div>
+                  <p className="text-[10px] text-slate-400 mt-1">
+                    Enter a relative image path (e.g. <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-600">/logos/my-brand.svg</code>) or full web image URL.
+                  </p>
                 </div>
 
                 <div>
