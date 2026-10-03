@@ -26,8 +26,12 @@ export default function AdminView() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isSettingNewPassword, setIsSettingNewPassword] = useState(false);
   const [authLoading, setAuthLoading] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
+  const [authMsg, setAuthMsg] = useState<string | null>(null);
 
   // Submissions State
   const [submissions, setSubmissions] = useState<ContactSubmission[]>([
@@ -60,15 +64,28 @@ export default function AdminView() {
   const [orgList, setOrgList] = useState<AssociatedOrganization[]>(localOrganizations);
   const [copiedSql, setCopiedSql] = useState(false);
 
-  // Check existing session
+  // Check existing session & invitation tokens
   useEffect(() => {
+    // Check URL hash for invitation or recovery token
+    const hash = window.location.hash;
+    if (hash.includes('type=invite') || hash.includes('type=recovery') || hash.includes('access_token')) {
+      setIsSettingNewPassword(true);
+    }
+
     if (isSupabaseConfigured && supabase) {
       supabase.auth.getSession().then(({ data: { session } }) => {
-        if (session) setIsAuthenticated(true);
+        if (session && !window.location.hash.includes('type=recovery') && !window.location.hash.includes('type=invite')) {
+          setIsAuthenticated(true);
+        }
       });
 
-      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-        setIsAuthenticated(Boolean(session));
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+        if (event === 'PASSWORD_RECOVERY') {
+          setIsSettingNewPassword(true);
+          setIsAuthenticated(false);
+        } else if (session && !isSettingNewPassword) {
+          setIsAuthenticated(true);
+        }
       });
 
       return () => subscription.unsubscribe();
@@ -100,11 +117,12 @@ export default function AdminView() {
     fetchSubmissions();
   }, [fetchSubmissions]);
 
-  // Auth Handler
+  // Auth Handlers
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     triggerHaptic(20);
     setAuthError(null);
+    setAuthMsg(null);
     setAuthLoading(true);
 
     if (isSupabaseConfigured && supabase) {
@@ -121,6 +139,66 @@ export default function AdminView() {
       } else {
         setAuthError('Please enter email and password (or use password "admin123" for demo mode).');
       }
+    }
+    setAuthLoading(false);
+  };
+
+  const handleSetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    triggerHaptic(20);
+    setAuthError(null);
+    setAuthMsg(null);
+
+    if (newPassword !== confirmPassword) {
+      setAuthError("Passwords do not match.");
+      return;
+    }
+    if (newPassword.length < 6) {
+      setAuthError("Password must be at least 6 characters long.");
+      return;
+    }
+
+    setAuthLoading(true);
+    if (isSupabaseConfigured && supabase) {
+      const { error } = await supabase.auth.updateUser({ password: newPassword });
+      if (error) {
+        setAuthError(error.message);
+      } else {
+        setAuthMsg("Password set successfully! Redirecting to dashboard...");
+        setTimeout(() => {
+          setIsSettingNewPassword(false);
+          setIsAuthenticated(true);
+          setAuthMsg(null);
+        }, 1200);
+      }
+    } else {
+      setIsSettingNewPassword(false);
+      setIsAuthenticated(true);
+    }
+    setAuthLoading(false);
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setAuthError("Please enter your admin email in the field above first.");
+      return;
+    }
+    triggerHaptic(15);
+    setAuthLoading(true);
+    setAuthError(null);
+    setAuthMsg(null);
+
+    if (isSupabaseConfigured && supabase) {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/#admin`,
+      });
+      if (error) {
+        setAuthError(error.message);
+      } else {
+        setAuthMsg(`Password reset email sent to ${email}!`);
+      }
+    } else {
+      setAuthMsg("Demo mode active: Configure Supabase credentials in .env to send real emails.");
     }
     setAuthLoading(false);
   };
@@ -201,7 +279,7 @@ CREATE POLICY "Admin full access" ON public.contact_submissions FOR ALL TO authe
 
   const filteredSubmissions = submissions.filter(s => subFilter === 'All' || s.status === subFilter);
 
-  // LOGIN SCREEN IF NOT AUTHENTICATED
+  // LOGIN & PASSWORD SETTING SCREEN IF NOT AUTHENTICATED
   if (!isAuthenticated) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center px-4 py-16">
@@ -211,8 +289,12 @@ CREATE POLICY "Admin full access" ON public.contact_submissions FOR ALL TO authe
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-[#004aad] border border-blue-200">
               <ShieldCheck className="h-6 w-6" />
             </div>
-            <h1 className="text-2xl font-black text-slate-900 font-display">Admin Portal</h1>
-            <p className="text-xs text-slate-500 font-sans">Ace Innovation Nexus Content & Lead Management</p>
+            <h1 className="text-2xl font-black text-slate-900 font-display">
+              {isSettingNewPassword ? 'Set Account Password' : 'Admin Portal'}
+            </h1>
+            <p className="text-xs text-slate-500 font-sans">
+              {isSettingNewPassword ? 'Complete your invitation or password reset setup' : 'Ace Innovation Nexus Content & Lead Management'}
+            </p>
           </div>
 
           {!isSupabaseConfigured && (
@@ -234,40 +316,103 @@ CREATE POLICY "Admin full access" ON public.contact_submissions FOR ALL TO authe
             </div>
           )}
 
-          <form onSubmit={handleLogin} className="space-y-4 font-sans text-xs">
-            <div>
-              <label className="block text-slate-700 font-bold mb-1.5 font-mono uppercase text-[10px]">Admin Email</label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@aceinnovationnexus.com"
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 cosmic-input"
-              />
+          {authMsg && (
+            <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2">
+              <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
+              <span>{authMsg}</span>
             </div>
+          )}
 
-            <div>
-              <label className="block text-slate-700 font-bold mb-1.5 font-mono uppercase text-[10px]">Password</label>
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••••••"
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 cosmic-input"
-              />
-            </div>
+          {isSettingNewPassword ? (
+            <form onSubmit={handleSetPassword} className="space-y-4 font-sans text-xs">
+              <div>
+                <label className="block text-slate-700 font-bold mb-1.5 font-mono uppercase text-[10px]">New Password</label>
+                <input
+                  type="password"
+                  required
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="At least 6 characters"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 cosmic-input"
+                />
+              </div>
 
-            <button
-              type="submit"
-              disabled={authLoading}
-              className="w-full py-3.5 rounded-xl font-bold text-white transition-all neon-btn haptic-press flex items-center justify-center gap-2 text-xs"
-            >
-              {authLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
-              <span>Sign In to Dashboard</span>
-            </button>
-          </form>
+              <div>
+                <label className="block text-slate-700 font-bold mb-1.5 font-mono uppercase text-[10px]">Confirm New Password</label>
+                <input
+                  type="password"
+                  required
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Re-enter password"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 cosmic-input"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={authLoading}
+                className="w-full py-3.5 rounded-xl font-bold text-white transition-all neon-btn haptic-press flex items-center justify-center gap-2 text-xs"
+              >
+                {authLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
+                <span>Save Password & Launch Dashboard</span>
+              </button>
+
+              <div className="text-center pt-2">
+                <button
+                  type="button"
+                  onClick={() => setIsSettingNewPassword(false)}
+                  className="text-xs font-bold text-[#004aad] hover:underline"
+                >
+                  Return to Standard Login
+                </button>
+              </div>
+            </form>
+          ) : (
+            <form onSubmit={handleLogin} className="space-y-4 font-sans text-xs">
+              <div>
+                <label className="block text-slate-700 font-bold mb-1.5 font-mono uppercase text-[10px]">Admin Email</label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="admin@aceinnovationnexus.com"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 cosmic-input"
+                />
+              </div>
+
+              <div>
+                <div className="flex justify-between items-center mb-1.5">
+                  <label className="block text-slate-700 font-bold font-mono uppercase text-[10px]">Password</label>
+                  <button
+                    type="button"
+                    onClick={handleForgotPassword}
+                    className="text-[10px] text-[#004aad] hover:underline font-semibold"
+                  >
+                    Forgot Password?
+                  </button>
+                </div>
+                <input
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••••••"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 cosmic-input"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={authLoading}
+                className="w-full py-3.5 rounded-xl font-bold text-white transition-all neon-btn haptic-press flex items-center justify-center gap-2 text-xs"
+              >
+                {authLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
+                <span>Sign In to Dashboard</span>
+              </button>
+            </form>
+          )}
 
           <div className="pt-4 border-t border-slate-200 text-center text-[10px] text-slate-400 font-mono">
             SECURE ROW-LEVEL ENCRYPTED PORTAL
