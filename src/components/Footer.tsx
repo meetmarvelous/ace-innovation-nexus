@@ -124,6 +124,9 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
               <li>
                 <button onClick={() => handleNavClick('network')} className="text-slate-600 hover:text-[#004aad] transition-colors haptic-press">Associated Brands</button>
               </li>
+              <li>
+                <button onClick={() => handleNavClick('admin')} className="text-[#004aad] font-bold hover:underline transition-colors haptic-press">Admin Portal 🔒</button>
+              </li>
             </ul>
           </div>
 
@@ -156,7 +159,7 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
           <div className="flex gap-6">
             <a href="#" className="hover:text-[#004aad] transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-[#004aad] transition-colors">Terms of Service</a>
-            <a href="#" className="hover:text-[#004aad] transition-colors">Sitemap</a>
+            <button onClick={() => handleNavClick('admin')} className="hover:text-[#004aad] font-bold transition-colors">Admin Portal</button>
           </div>
         </div>
 

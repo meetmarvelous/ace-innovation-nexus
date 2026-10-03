@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle2, Shield, Sparkles, X } from 'lucide-react';
 import { triggerHaptic } from '../utils/haptics';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -18,17 +19,37 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!clientName || !clientEmail) return alert("Please fill in your name and email address.");
 
     triggerHaptic([20, 40, 20]);
     setContactLoading(true);
+
+    if (isSupabaseConfigured && supabase) {
+      try {
+        const { error } = await supabase.from('contact_submissions').insert([
+          {
+            full_name: clientName,
+            email: clientEmail,
+            company: clientUrl,
+            service_requested: clientChallenge,
+            message: clientNotes || 'No additional details provided.',
+          }
+        ]);
+        if (error) {
+          console.warn('Supabase submission warning:', error.message);
+        }
+      } catch (err) {
+        console.error('Failed to submit lead to Supabase:', err);
+      }
+    }
+
     setTimeout(() => {
       setContactLoading(false);
       setContactSuccess(true);
       triggerHaptic([30, 60, 30, 60, 30]);
-    }, 1200);
+    }, 800);
   };
 
   const handleClose = () => {

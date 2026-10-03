@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomeView from './components/HomeView';
@@ -6,6 +6,7 @@ import AboutView from './components/AboutView';
 import PartnershipsView from './components/PartnershipsView';
 import WorkView from './components/WorkView';
 import NetworkView from './components/NetworkView';
+import AdminView from './components/AdminView';
 import FloatingGuide from './components/FloatingGuide';
 import ParticleField from './components/ParticleField';
 import ContactModal from './components/ContactModal';
@@ -14,6 +15,18 @@ import { triggerHaptic } from './utils/haptics';
 export default function App() {
   const [currentTab, setCurrentTab] = useState<string>('home');
   const [contactModalOpen, setContactModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (['home', 'services', 'about', 'partnerships', 'network', 'admin'].includes(hash)) {
+        setCurrentTab(hash);
+      }
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col justify-between font-sans antialiased relative" style={{ background: 'var(--cosmic-bg)', color: 'var(--cosmic-text)' }}>
@@ -42,6 +55,7 @@ export default function App() {
         {(currentTab === 'network' || currentTab === 'careers') && (
           <NetworkView openContactModal={() => { triggerHaptic(20); setContactModalOpen(true); }} />
         )}
+        {currentTab === 'admin' && <AdminView />}
       </main>
 
       {/* Footer element */}
