@@ -6,6 +6,19 @@ import {
 } from '../data';
 import { CaseStudy, InsightArticle, AssociatedOrganization } from '../types';
 
+function parseJsonArray<T>(data: any): T[] {
+  if (Array.isArray(data)) return data;
+  if (typeof data === 'string') {
+    try {
+      const parsed = JSON.parse(data);
+      if (Array.isArray(parsed)) return parsed;
+    } catch {
+      return [];
+    }
+  }
+  return [];
+}
+
 // =====================================================================
 // ASSOCIATED ORGANIZATIONS (NETWORK BRANDS) API
 // =====================================================================
@@ -25,7 +38,7 @@ export async function getAssociatedOrganizations(): Promise<AssociatedOrganizati
           location: item.location,
           description: item.description,
           logo: item.logo || '/logos/placeholder.svg',
-          links: Array.isArray(item.links) ? item.links : [],
+          links: parseJsonArray(item.links),
         }));
       }
     } catch (err) {
@@ -165,9 +178,9 @@ export async function getCaseStudies(): Promise<CaseStudy[]> {
           challenge: item.challenge,
           solution: item.solution,
           image: item.image,
-          metrics: Array.isArray(item.metrics) ? item.metrics : [],
-          scope: item.scope || [],
-          team: item.team || [],
+          metrics: parseJsonArray(item.metrics),
+          scope: parseJsonArray(item.scope),
+          team: parseJsonArray(item.team),
         }));
       }
     } catch (err) {
