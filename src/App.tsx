@@ -28,10 +28,10 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
-  // Standalone Admin Portal Page (completely separate layout, navbar, and security theme)
+  // Standalone Admin Portal Page (completely separate layout, navbar, white minimalist theme)
   if (currentTab === 'admin') {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased relative selection:bg-[#004aad] selection:text-white">
+      <div className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased relative selection:bg-[#004aad] selection:text-white">
         <AdminView
           onBackToWebsite={() => {
             triggerHaptic(15);

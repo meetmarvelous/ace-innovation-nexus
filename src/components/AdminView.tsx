@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
-  ShieldCheck, Database, Users, Briefcase, Building2, Key, Lock, FileText, ArrowLeft,
-  LogOut, Plus, Trash2, Edit3, CheckCircle2, AlertCircle, RefreshCw, Copy, Check, ExternalLink, Download, Search, X, ShieldAlert
+  ShieldCheck, Users, Briefcase, Building2, Lock, FileText, ArrowLeft,
+  LogOut, Plus, Trash2, Edit3, CheckCircle2, RefreshCw, X, ShieldAlert
 } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { 
@@ -316,56 +316,56 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
     }
   };
 
-  // SEPARATE ADMIN LOGIN SCREEN
+  // SEPARATE ADMIN LOGIN SCREEN (WHITE MINIMALIST THEME)
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between p-4 sm:p-8 font-sans selection:bg-[#004aad] selection:text-white">
+      <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col justify-between p-4 sm:p-8 font-sans">
         
         {/* STANDALONE ADMIN LOGIN NAVBAR */}
-        <header className="w-full max-w-7xl mx-auto flex items-center justify-between py-4 border-b border-slate-800">
+        <header className="w-full max-w-7xl mx-auto flex items-center justify-between py-4 border-b border-slate-200">
           <div className="flex items-center gap-3">
-            <img src="/images/1.svg" alt="Ace Nexus Logo" className="h-9 w-9 object-contain" />
+            <img src="/images/2.svg" alt="Ace Nexus Logo" className="h-9 w-9 object-contain" />
             <div>
-              <div className="text-sm font-black tracking-tight text-white font-display">ACE INNOVATION NEXUS</div>
-              <div className="text-[9px] font-mono font-semibold uppercase tracking-widest text-blue-400">ADMIN CONTROL CENTER</div>
+              <div className="text-sm font-black tracking-tight text-slate-900 font-display">ACE INNOVATION NEXUS</div>
+              <div className="text-[9px] font-mono font-semibold uppercase tracking-widest text-[#004aad]">ADMIN PORTAL</div>
             </div>
           </div>
 
           {onBackToWebsite && (
             <button
               onClick={onBackToWebsite}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-700 bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800 text-xs font-bold transition-all haptic-press shadow-sm"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 text-xs font-bold transition-all haptic-press shadow-xs"
             >
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="h-4 w-4 text-[#004aad]" />
               <span>Back to Website</span>
             </button>
           )}
         </header>
 
         {/* LOGIN FORM CARD */}
-        <div className="w-full max-w-md mx-auto my-12 space-y-6 p-8 bg-slate-900/90 rounded-3xl border border-slate-800 shadow-2xl text-left backdrop-blur-xl">
+        <div className="w-full max-w-md mx-auto my-12 space-y-6 p-6 sm:p-8 bg-white rounded-3xl border border-slate-200 shadow-xl text-left">
           <div className="text-center space-y-2">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-400 border border-blue-500/20 shadow-inner">
-              <ShieldCheck className="h-7 w-7 text-blue-400" />
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-[#004aad] border border-blue-100 shadow-xs">
+              <ShieldCheck className="h-7 w-7" />
             </div>
-            <h1 className="text-2xl font-black text-white font-display tracking-tight">
+            <h1 className="text-2xl font-black text-slate-900 font-display tracking-tight">
               {isSettingNewPassword ? 'Set Admin Password' : 'Authorized Admin Portal'}
             </h1>
-            <p className="text-xs text-slate-400 font-sans">
+            <p className="text-xs text-slate-500 font-sans">
               {isSettingNewPassword ? 'Complete your account invitation setup' : 'Restricted Content & Lead Management CMS'}
             </p>
           </div>
 
           {authError && (
-            <div className="p-3.5 rounded-2xl bg-red-950/80 border border-red-800 text-red-300 text-xs flex items-center gap-2.5">
-              <ShieldAlert className="h-4 w-4 shrink-0 text-red-400" />
+            <div className="p-3.5 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2.5">
+              <ShieldAlert className="h-4 w-4 shrink-0 text-red-600" />
               <span>{authError}</span>
             </div>
           )}
 
           {authMsg && (
-            <div className="p-3.5 rounded-2xl bg-emerald-950/80 border border-emerald-800 text-emerald-300 text-xs flex items-center gap-2.5">
-              <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
+            <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2.5">
+              <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
               <span>{authMsg}</span>
             </div>
           )}
@@ -373,33 +373,33 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
           {isSettingNewPassword ? (
             <form onSubmit={handleSetPassword} className="space-y-4 font-sans text-xs">
               <div>
-                <label className="block text-slate-300 font-bold mb-1.5 font-mono uppercase text-[10px]">New Password</label>
+                <label className="block text-slate-700 font-bold mb-1.5 font-mono uppercase text-[10px]">New Password</label>
                 <input
                   type="password"
                   required
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   placeholder="At least 6 characters"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 transition-colors font-mono"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 cosmic-input"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-bold mb-1.5 font-mono uppercase text-[10px]">Confirm Password</label>
+                <label className="block text-slate-700 font-bold mb-1.5 font-mono uppercase text-[10px]">Confirm Password</label>
                 <input
                   type="password"
                   required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Re-enter password"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 transition-colors font-mono"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 cosmic-input"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={authLoading}
-                className="w-full py-3.5 rounded-xl font-bold text-white transition-all bg-[#004aad] hover:bg-blue-600 shadow-md haptic-press flex items-center justify-center gap-2 text-xs"
+                className="w-full py-3.5 rounded-xl font-bold text-white transition-all neon-btn haptic-press flex items-center justify-center gap-2 text-xs"
               >
                 {authLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
                 <span>Save Password & Launch CMS</span>
@@ -408,33 +408,33 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
           ) : (
             <form onSubmit={handleLogin} className="space-y-4 font-sans text-xs">
               <div>
-                <label className="block text-slate-300 font-bold mb-1.5 font-mono uppercase text-[10px]">Authorized Admin Email</label>
+                <label className="block text-slate-700 font-bold mb-1.5 font-mono uppercase text-[10px]">Authorized Admin Email</label>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@aceinnovationnexus.com"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 transition-colors font-mono"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 cosmic-input"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-300 font-bold mb-1.5 font-mono uppercase text-[10px]">Password</label>
+                <label className="block text-slate-700 font-bold mb-1.5 font-mono uppercase text-[10px]">Password</label>
                 <input
                   type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 transition-colors font-mono"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 cosmic-input"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={authLoading}
-                className="w-full py-3.5 rounded-xl font-bold text-white transition-all bg-[#004aad] hover:bg-blue-600 shadow-md haptic-press flex items-center justify-center gap-2 text-xs"
+                className="w-full py-3.5 rounded-xl font-bold text-white transition-all neon-btn haptic-press flex items-center justify-center gap-2 text-xs"
               >
                 {authLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
                 <span>Sign In to Admin Portal</span>
@@ -442,62 +442,68 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
             </form>
           )}
 
-          <div className="pt-4 border-t border-slate-800 text-center text-[10px] text-slate-500 font-mono tracking-wider">
+          <div className="pt-4 border-t border-slate-200 text-center text-[10px] text-slate-400 font-mono tracking-wider">
             RESTRICTED ACCESS &bull; ENCRYPTED SUPABASE PORTAL
           </div>
         </div>
 
         {/* FOOTER BAR */}
-        <footer className="w-full max-w-7xl mx-auto py-4 border-t border-slate-800 text-center text-xs text-slate-500">
+        <footer className="w-full max-w-7xl mx-auto py-4 border-t border-slate-200 text-center text-xs text-slate-500">
           &copy; {new Date().getFullYear()} Ace Innovation Nexus Admin Portal. Authorized Users Only.
         </footer>
       </div>
     );
   }
 
-  // MAIN STANDALONE AUTHENTICATED CMS DASHBOARD
+  // MAIN STANDALONE AUTHENTICATED CMS DASHBOARD (WHITE MINIMALIST THEME)
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-[#004aad] selection:text-white">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
       
       {/* SEPARATE DEDICATED ADMIN HEADER */}
-      <header className="sticky top-0 z-40 w-full bg-slate-900/90 border-b border-slate-800 backdrop-blur-xl px-6 py-4">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <header className="sticky top-0 z-40 w-full bg-white/95 border-b border-slate-200 backdrop-blur-md px-4 sm:px-8 py-3.5 shadow-xs">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           
-          <div className="flex items-center gap-4">
-            <img src="/images/1.svg" alt="Ace Nexus Logo" className="h-10 w-10 object-contain" />
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-base font-black tracking-tight text-white font-display">ACE INNOVATION NEXUS</h1>
-                <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                  CMS CONTROL CENTER
-                </span>
+          <div className="flex items-center justify-between sm:justify-start gap-3 w-full sm:w-auto">
+            <div className="flex items-center gap-3">
+              <img src="/images/2.svg" alt="Ace Nexus Logo" className="h-8 w-8 sm:h-9 sm:w-9 object-contain" />
+              <div>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-sm sm:text-base font-black tracking-tight text-slate-900 font-display">ACE INNOVATION NEXUS</h1>
+                  <span className="hidden sm:inline-block text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-50 text-[#004aad] border border-blue-200">
+                    CMS CONTROL
+                  </span>
+                </div>
+                <p className="text-[10px] sm:text-[11px] text-slate-500 font-medium">Live Website Content Manager</p>
               </div>
-              <p className="text-[11px] text-slate-400 mt-0.5">Live Database Website Content Manager</p>
             </div>
+
+            <span className="sm:hidden text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-50 text-[#004aad] border border-blue-200 shrink-0">
+              CMS
+            </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-end">
             {onBackToWebsite && (
               <button
                 onClick={onBackToWebsite}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-700 bg-slate-950 text-slate-300 hover:text-white hover:bg-slate-800 text-xs font-bold transition-all haptic-press shadow-sm"
+                className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2 rounded-xl border border-slate-200 bg-white text-slate-700 hover:bg-slate-100 text-xs font-bold transition-all haptic-press shadow-xs"
               >
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeft className="h-3.5 w-3.5 text-[#004aad]" />
                 <span>Exit to Website</span>
               </button>
             )}
 
             <button
               onClick={loadAllData}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-700 bg-slate-900 text-slate-300 hover:text-white text-xs font-bold transition-all haptic-press"
+              className="flex items-center justify-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2 rounded-xl border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-bold transition-all haptic-press"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${subLoading ? 'animate-spin' : ''}`} />
-              <span>Sync Live</span>
+              <span className="hidden sm:inline">Sync Live</span>
             </button>
 
             <button
               onClick={handleLogout}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-red-900/50 bg-red-950/40 text-red-400 hover:bg-red-900/60 text-xs font-bold transition-all haptic-press"
+              className="flex items-center justify-center gap-1.5 px-3 py-2 sm:px-4 sm:py-2 rounded-xl border border-red-200 bg-red-50 text-red-700 hover:bg-red-100 text-xs font-bold transition-all haptic-press"
             >
               <LogOut className="h-3.5 w-3.5" />
               <span>Sign Out</span>
@@ -508,28 +514,28 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
       </header>
 
       {/* MAIN CONTENT AREA */}
-      <main className="py-8 px-4 sm:px-8 max-w-7xl mx-auto space-y-8 text-left">
+      <main className="py-6 sm:py-8 px-4 sm:px-8 max-w-7xl mx-auto space-y-6 sm:space-y-8 text-left">
         
         {/* CMS TABS NAVIGATION BAR */}
-        <div className="flex flex-wrap items-center gap-2 border-b border-slate-800 pb-3">
+        <div className="flex items-center gap-2 border-b border-slate-200 pb-3 overflow-x-auto no-scrollbar w-full">
           <button
             onClick={() => { triggerHaptic(10); setActiveTab('insights'); }}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all haptic-press ${
+            className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all haptic-press ${
               activeTab === 'insights'
-                ? 'bg-[#004aad] text-white shadow-md'
-                : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                ? 'bg-[#004aad] text-white shadow-sm'
+                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 hover:text-slate-900'
             }`}
           >
             <FileText className="h-4 w-4" />
-            <span>Blog Posts / Insights ({insightList.length})</span>
+            <span>Blog Posts ({insightList.length})</span>
           </button>
 
           <button
             onClick={() => { triggerHaptic(10); setActiveTab('organizations'); }}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all haptic-press ${
+            className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all haptic-press ${
               activeTab === 'organizations'
-                ? 'bg-[#004aad] text-white shadow-md'
-                : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                ? 'bg-[#004aad] text-white shadow-sm'
+                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 hover:text-slate-900'
             }`}
           >
             <Building2 className="h-4 w-4" />
@@ -538,10 +544,10 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
 
           <button
             onClick={() => { triggerHaptic(10); setActiveTab('case-studies'); }}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all haptic-press ${
+            className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all haptic-press ${
               activeTab === 'case-studies'
-                ? 'bg-[#004aad] text-white shadow-md'
-                : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                ? 'bg-[#004aad] text-white shadow-sm'
+                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 hover:text-slate-900'
             }`}
           >
             <Briefcase className="h-4 w-4" />
@@ -550,59 +556,59 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
 
           <button
             onClick={() => { triggerHaptic(10); setActiveTab('submissions'); }}
-            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all haptic-press ${
+            className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition-all haptic-press ${
               activeTab === 'submissions'
-                ? 'bg-[#004aad] text-white shadow-md'
-                : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                ? 'bg-[#004aad] text-white shadow-sm'
+                : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 hover:text-slate-900'
             }`}
           >
             <Users className="h-4 w-4" />
-            <span>Client Inquiries ({submissions.length})</span>
+            <span>Inquiries ({submissions.length})</span>
           </button>
         </div>
 
         {/* TAB 1: BLOG POSTS / INSIGHTS CMS */}
         {activeTab === 'insights' && (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h2 className="text-lg font-black text-white font-display">Blog Posts & Insights CMS</h2>
-                <p className="text-xs text-slate-400">Edit titles, summaries, and authors displayed on the website homepage.</p>
+                <h2 className="text-base sm:text-lg font-black text-slate-900 font-display">Blog Posts & Insights CMS</h2>
+                <p className="text-xs text-slate-500">Edit titles, summaries, and authors displayed on the website homepage.</p>
               </div>
               <button
                 onClick={() => setEditInsight({ title: '', category: 'Marketing', summary: '', author: 'Kofi Owusu', date: 'June 2026', readTime: '5 Min Read' })}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#004aad] hover:bg-blue-600 text-white text-xs font-bold transition-all shadow-md"
+                className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#004aad] hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-xs shrink-0"
               >
                 <Plus className="h-4 w-4" />
                 <span>Create New Post</span>
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {insightList.map((art) => (
-                <div key={art.id} className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between space-y-4 hover:border-blue-500/40 transition-all">
+                <div key={art.id} className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between space-y-4 hover:border-[#004aad]/40 transition-all">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-bold font-mono text-blue-400 uppercase bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">{art.category}</span>
-                      <span className="text-[10px] font-mono text-slate-500">{art.date} &bull; {art.readTime}</span>
+                      <span className="text-[10px] font-bold font-mono text-[#004aad] uppercase bg-blue-50 px-2 py-0.5 rounded border border-blue-100">{art.category}</span>
+                      <span className="text-[10px] font-mono text-slate-400">{art.date} &bull; {art.readTime}</span>
                     </div>
-                    <h3 className="text-base font-black text-white font-display leading-snug">{art.title}</h3>
-                    <p className="text-xs text-slate-400 line-clamp-3 leading-relaxed">{art.summary}</p>
+                    <h3 className="text-sm sm:text-base font-black text-slate-900 font-display leading-snug">{art.title}</h3>
+                    <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">{art.summary}</p>
                   </div>
 
-                  <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
-                    <span className="font-bold text-slate-300">Author: {art.author}</span>
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                    <span className="font-bold text-slate-700 text-xs">Author: {art.author}</span>
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => setEditInsight(art)}
-                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 text-slate-200 hover:text-white hover:bg-slate-700 text-xs font-bold"
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 text-xs font-bold"
                       >
-                        <Edit3 className="h-3.5 w-3.5 text-blue-400" />
+                        <Edit3 className="h-3.5 w-3.5 text-[#004aad]" />
                         <span>Edit</span>
                       </button>
                       <button
                         onClick={() => handleDeleteInsight(art.id)}
-                        className="p-1.5 rounded-lg border border-red-900/50 bg-red-950/40 text-red-400 hover:bg-red-900/60 text-xs"
+                        className="p-1.5 rounded-lg border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 text-xs"
                         title="Delete blog post"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
@@ -617,73 +623,73 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
 
         {/* EDIT BLOG POST MODAL */}
         {editInsight && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-slate-950/80">
-            <div className="w-full max-w-xl max-h-[90vh] overflow-y-auto bg-slate-900 p-6 rounded-3xl space-y-4 text-left shadow-2xl border border-slate-800">
-              <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 className="text-lg font-bold text-white font-display">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-slate-900/40">
+            <div className="w-full max-w-xl max-h-[90vh] overflow-y-auto bg-white p-5 sm:p-6 rounded-3xl space-y-4 text-left shadow-2xl border border-slate-200">
+              <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 font-display">
                   {editInsight.id ? 'Edit Blog Post' : 'Create New Blog Post'}
                 </h3>
-                <button onClick={() => setEditInsight(null)} className="p-1 rounded-full text-slate-400 hover:text-white">
+                <button onClick={() => setEditInsight(null)} className="p-1 rounded-full text-slate-400 hover:text-slate-900">
                   <X className="h-5 w-5" />
                 </button>
               </div>
 
               <form onSubmit={handleSaveInsight} className="space-y-4 text-xs font-sans">
                 <div>
-                  <label className="block font-bold text-slate-300 mb-1">Post Title *</label>
+                  <label className="block font-bold text-slate-700 mb-1">Post Title *</label>
                   <input
                     type="text"
                     required
                     value={editInsight.title || ''}
                     onChange={e => setEditInsight({ ...editInsight, title: e.target.value })}
                     placeholder="e.g. Why Your Business Needs SEO"
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 font-mono"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-bold text-slate-300 mb-1">Category</label>
+                    <label className="block font-bold text-slate-700 mb-1">Category</label>
                     <input
                       type="text"
                       value={editInsight.category || 'Marketing'}
                       onChange={e => setEditInsight({ ...editInsight, category: e.target.value })}
                       placeholder="Marketing / Branding / Tech"
-                      className="w-full px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 font-mono"
+                      className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
                     />
                   </div>
                   <div>
-                    <label className="block font-bold text-slate-300 mb-1">Author Name</label>
+                    <label className="block font-bold text-slate-700 mb-1">Author Name</label>
                     <input
                       type="text"
                       value={editInsight.author || 'Kofi Owusu'}
                       onChange={e => setEditInsight({ ...editInsight, author: e.target.value })}
                       placeholder="e.g. Kofi Owusu"
-                      className="w-full px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 font-mono"
+                      className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-300 mb-1">Article Summary Text *</label>
+                  <label className="block font-bold text-slate-700 mb-1">Article Summary Text *</label>
                   <textarea
                     required
                     rows={4}
                     value={editInsight.summary || ''}
                     onChange={e => setEditInsight({ ...editInsight, summary: e.target.value })}
                     placeholder="Write summary text displayed on website blog card..."
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 font-sans"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-300 mb-1">Cover Image URL</label>
+                  <label className="block font-bold text-slate-700 mb-1">Cover Image URL</label>
                   <input
                     type="text"
                     value={editInsight.image || ''}
                     onChange={e => setEditInsight({ ...editInsight, image: e.target.value })}
                     placeholder="https://images.unsplash.com/..."
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 font-mono"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
                   />
                 </div>
 
@@ -691,13 +697,13 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                   <button
                     type="button"
                     onClick={() => setEditInsight(null)}
-                    className="px-4 py-2 rounded-xl border border-slate-800 bg-slate-950 text-slate-300 font-bold hover:bg-slate-800"
+                    className="px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-bold hover:bg-slate-100"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2 rounded-xl bg-[#004aad] hover:bg-blue-600 text-white font-bold shadow-md"
+                    className="px-6 py-2 rounded-xl bg-[#004aad] hover:bg-blue-700 text-white font-bold shadow-xs"
                   >
                     Save Changes Live
                   </button>
@@ -710,14 +716,14 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
         {/* TAB 2: ASSOCIATED BRANDS CMS */}
         {activeTab === 'organizations' && (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h2 className="text-lg font-black text-white font-display">Associated Brands CMS</h2>
-                <p className="text-xs text-slate-400">Edit brand details and social links live on the website.</p>
+                <h2 className="text-base sm:text-lg font-black text-slate-900 font-display">Associated Brands CMS</h2>
+                <p className="text-xs text-slate-500">Edit brand details and social links live on the website.</p>
               </div>
               <button
                 onClick={() => setEditOrg({ name: '', category: 'Creative & Lifestyle', location: 'Ibadan, Nigeria', description: '', logo: '/logos/placeholder.svg' })}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#004aad] hover:bg-blue-600 text-white text-xs font-bold transition-all shadow-md"
+                className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#004aad] hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-xs shrink-0"
               >
                 <Plus className="h-4 w-4" />
                 <span>Add Associated Brand</span>
@@ -726,29 +732,29 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {orgList.map((org) => (
-                <div key={org.id} className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 flex flex-col justify-between hover:border-blue-500/40 transition-all">
+                <div key={org.id} className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3 flex flex-col justify-between hover:border-[#004aad]/40 transition-all">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-[9px] font-mono font-bold text-blue-400 uppercase bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">{org.category}</span>
-                      <span className="text-[10px] text-slate-500 font-mono">{org.location}</span>
+                      <span className="text-[9px] font-mono font-bold text-[#004aad] uppercase bg-blue-50 px-2 py-0.5 rounded border border-blue-100">{org.category}</span>
+                      <span className="text-[10px] text-slate-400 font-mono">{org.location}</span>
                     </div>
-                    <h3 className="text-sm font-bold text-white">{org.name}</h3>
-                    <p className="text-[11px] text-slate-400 line-clamp-2">{org.description || 'No description added.'}</p>
+                    <h3 className="text-sm font-bold text-slate-900">{org.name}</h3>
+                    <p className="text-[11px] text-slate-600 line-clamp-2">{org.description || 'No description added.'}</p>
                   </div>
 
-                  <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
-                    <span className="text-[10px] font-mono text-slate-500">{org.links?.length || 0} Links</span>
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                    <span className="text-[10px] font-mono text-slate-400">{org.links?.length || 0} Links</span>
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => setEditOrg(org)}
-                        className="flex items-center gap-1 px-3 py-1 rounded-lg border border-slate-700 bg-slate-800 text-slate-200 hover:text-white text-xs font-bold"
+                        className="flex items-center gap-1 px-3 py-1 rounded-lg border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 text-xs font-bold"
                       >
-                        <Edit3 className="h-3 w-3 text-blue-400" />
+                        <Edit3 className="h-3 w-3 text-[#004aad]" />
                         <span>Edit</span>
                       </button>
                       <button
                         onClick={() => handleDeleteOrg(org.id)}
-                        className="p-1 rounded-lg border border-red-900/50 bg-red-950/40 text-red-400 hover:bg-red-900/60 text-xs"
+                        className="p-1 rounded-lg border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 text-xs"
                         title="Delete organization"
                       >
                         <Trash2 className="h-3 w-3" />
@@ -763,37 +769,37 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
 
         {/* EDIT ORGANIZATION MODAL */}
         {editOrg && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-slate-950/80">
-            <div className="w-full max-w-xl max-h-[90vh] overflow-y-auto bg-slate-900 p-6 rounded-3xl space-y-4 text-left shadow-2xl border border-slate-800">
-              <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-                <h3 className="text-lg font-bold text-white font-display">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-slate-900/40">
+            <div className="w-full max-w-xl max-h-[90vh] overflow-y-auto bg-white p-5 sm:p-6 rounded-3xl space-y-4 text-left shadow-2xl border border-slate-200">
+              <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 font-display">
                   {editOrg.id ? 'Edit Brand Details' : 'Add New Associated Brand'}
                 </h3>
-                <button onClick={() => setEditOrg(null)} className="p-1 rounded-full text-slate-400 hover:text-white">
+                <button onClick={() => setEditOrg(null)} className="p-1 rounded-full text-slate-400 hover:text-slate-900">
                   <X className="h-5 w-5" />
                 </button>
               </div>
 
               <form onSubmit={handleSaveOrg} className="space-y-4 text-xs font-sans">
                 <div>
-                  <label className="block font-bold text-slate-300 mb-1">Brand Name *</label>
+                  <label className="block font-bold text-slate-700 mb-1">Brand Name *</label>
                   <input
                     type="text"
                     required
                     value={editOrg.name || ''}
                     onChange={e => setEditOrg({ ...editOrg, name: e.target.value })}
                     placeholder="e.g. Siloan Medical Center"
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 font-mono"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block font-bold text-slate-300 mb-1">Category</label>
+                    <label className="block font-bold text-slate-700 mb-1">Category</label>
                     <select
                       value={editOrg.category || 'Creative & Lifestyle'}
                       onChange={e => setEditOrg({ ...editOrg, category: e.target.value as any })}
-                      className="w-full px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-950 text-white focus:outline-none focus:border-blue-500 font-mono"
+                      className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
                     >
                       <option value="Healthcare">Healthcare</option>
                       <option value="Hospitality">Hospitality</option>
@@ -803,30 +809,30 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                     </select>
                   </div>
                   <div>
-                    <label className="block font-bold text-slate-300 mb-1">Location</label>
+                    <label className="block font-bold text-slate-700 mb-1">Location</label>
                     <input
                       type="text"
                       value={editOrg.location || 'Ibadan, Nigeria'}
                       onChange={e => setEditOrg({ ...editOrg, location: e.target.value })}
                       placeholder="e.g. Old-Ife Road, Ibadan"
-                      className="w-full px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 font-mono"
+                      className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-300 mb-1">Description Text</label>
+                  <label className="block font-bold text-slate-700 mb-1">Description Text</label>
                   <textarea
                     rows={3}
                     value={editOrg.description || ''}
                     onChange={e => setEditOrg({ ...editOrg, description: e.target.value })}
                     placeholder="Brief description..."
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 font-sans"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-300 mb-1">Instagram Link URL</label>
+                  <label className="block font-bold text-slate-700 mb-1">Instagram Link URL</label>
                   <input
                     type="text"
                     value={editOrg.links?.[0]?.url || ''}
@@ -838,7 +844,7 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                       });
                     }}
                     placeholder="https://www.instagram.com/yourhandle"
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-950 text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 font-mono"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
                   />
                 </div>
 
@@ -846,13 +852,13 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                   <button
                     type="button"
                     onClick={() => setEditOrg(null)}
-                    className="px-4 py-2 rounded-xl border border-slate-800 bg-slate-950 text-slate-300 font-bold hover:bg-slate-800"
+                    className="px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-bold hover:bg-slate-100"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2 rounded-xl bg-[#004aad] hover:bg-blue-600 text-white font-bold shadow-md"
+                    className="px-6 py-2 rounded-xl bg-[#004aad] hover:bg-blue-700 text-white font-bold shadow-xs"
                   >
                     Save Brand Details
                   </button>
@@ -865,45 +871,45 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
         {/* TAB 3: CASE STUDIES PORTFOLIO CMS */}
         {activeTab === 'case-studies' && (
           <div className="space-y-6">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h2 className="text-lg font-black text-white font-display">Case Studies CMS</h2>
-                <p className="text-xs text-slate-400">Edit titles, summaries, and solutions for Our Work page.</p>
+                <h2 className="text-base sm:text-lg font-black text-slate-900 font-display">Case Studies CMS</h2>
+                <p className="text-xs text-slate-500">Edit titles, summaries, and solutions for Our Work page.</p>
               </div>
               <button
                 onClick={() => setEditCaseStudy({ client: '', title: '', category: 'Digital Marketing', summary: '', solution: '' })}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#004aad] hover:bg-blue-600 text-white text-xs font-bold transition-all shadow-md"
+                className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#004aad] hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-xs shrink-0"
               >
                 <Plus className="h-4 w-4" />
                 <span>Add Case Study</span>
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {caseStudyList.map((cs) => (
-                <div key={cs.id} className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between space-y-4 hover:border-blue-500/40 transition-all">
+                <div key={cs.id} className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between space-y-4 hover:border-[#004aad]/40 transition-all">
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-bold font-mono text-blue-400 uppercase bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">{cs.category}</span>
-                      <span className="text-[10px] font-mono text-slate-500">ID: {cs.id}</span>
+                      <span className="text-[10px] font-bold font-mono text-[#004aad] uppercase bg-blue-50 px-2 py-0.5 rounded border border-blue-100">{cs.category}</span>
+                      <span className="text-[10px] font-mono text-slate-400">ID: {cs.id}</span>
                     </div>
-                    <h3 className="text-base font-black text-white font-display">{cs.title}</h3>
-                    <p className="text-xs text-slate-400 line-clamp-2">{cs.summary}</p>
+                    <h3 className="text-sm sm:text-base font-black text-slate-900 font-display">{cs.title}</h3>
+                    <p className="text-xs text-slate-600 line-clamp-2">{cs.summary}</p>
                   </div>
 
-                  <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
-                    <span className="font-bold text-slate-300">Client: {cs.client}</span>
+                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                    <span className="font-bold text-slate-700 text-xs">Client: {cs.client}</span>
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => setEditCaseStudy(cs)}
-                        className="flex items-center gap-1 px-3 py-1 rounded-lg border border-slate-700 bg-slate-800 text-slate-200 hover:text-white text-xs font-bold"
+                        className="flex items-center gap-1 px-3 py-1 rounded-lg border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 text-xs font-bold"
                       >
-                        <Edit3 className="h-3 w-3 text-blue-400" />
+                        <Edit3 className="h-3 w-3 text-[#004aad]" />
                         <span>Edit</span>
                       </button>
                       <button
                         onClick={() => handleDeleteCaseStudy(cs.id)}
-                        className="p-1 rounded-lg border border-red-900/50 bg-red-950/40 text-red-400 hover:bg-red-900/60 text-xs"
+                        className="p-1 rounded-lg border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 text-xs"
                         title="Delete case study"
                       >
                         <Trash2 className="h-3 w-3" />
@@ -921,29 +927,29 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
           <div className="space-y-6">
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="text-lg font-black text-white font-display">Client Consultations & Inquiries</h2>
-                <p className="text-xs text-slate-400">Strategy request submissions sent from the website contact modal.</p>
+                <h2 className="text-base sm:text-lg font-black text-slate-900 font-display">Client Consultations & Inquiries</h2>
+                <p className="text-xs text-slate-500">Strategy request submissions sent from the website contact modal.</p>
               </div>
             </div>
 
             {submissions.length === 0 ? (
-              <div className="p-12 text-center bg-slate-900/90 rounded-3xl border border-slate-800 space-y-2">
-                <Users className="h-8 w-8 text-slate-500 mx-auto" />
-                <h3 className="text-sm font-bold text-slate-300">No client submissions yet</h3>
+              <div className="p-8 sm:p-12 text-center bg-white rounded-3xl border border-slate-200 space-y-2 shadow-xs">
+                <Users className="h-8 w-8 text-slate-400 mx-auto" />
+                <h3 className="text-sm font-bold text-slate-700">No client submissions yet</h3>
                 <p className="text-xs text-slate-500">Inquiries submitted by website visitors will appear here.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-4">
                 {submissions.filter(s => subFilter === 'All' || s.status === subFilter).map((sub) => (
-                  <div key={sub.id} className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3">
-                    <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                      <span className="font-bold text-white">{sub.full_name} ({sub.company || 'Direct Inquiry'})</span>
-                      <span className="text-[10px] font-mono text-slate-500">{new Date(sub.created_at).toLocaleDateString()}</span>
+                  <div key={sub.id} className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+                    <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                      <span className="font-bold text-slate-900 text-xs sm:text-sm">{sub.full_name} ({sub.company || 'Direct Inquiry'})</span>
+                      <span className="text-[10px] font-mono text-slate-400">{new Date(sub.created_at).toLocaleDateString()}</span>
                     </div>
-                    <div className="text-xs text-slate-300 space-y-1 font-sans">
-                      <div><strong className="text-slate-400">Email:</strong> {sub.email}</div>
-                      <div><strong className="text-slate-400">Service:</strong> {sub.service_requested}</div>
-                      <div className="bg-slate-950 p-3 rounded-xl border border-slate-800 mt-2 text-slate-300 font-mono text-[11px] leading-relaxed">{sub.message}</div>
+                    <div className="text-xs text-slate-600 space-y-1 font-sans">
+                      <div><strong className="text-slate-800">Email:</strong> {sub.email}</div>
+                      <div><strong className="text-slate-800">Service:</strong> {sub.service_requested}</div>
+                      <div className="bg-slate-50 p-3 rounded-xl border border-slate-100 mt-2 text-slate-700 font-mono text-[11px] leading-relaxed">{sub.message}</div>
                     </div>
                   </div>
                 ))}
