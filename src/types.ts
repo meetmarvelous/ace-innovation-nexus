@@ -1,17 +1,20 @@
 export interface CaseStudy {
   id: string;
   title: string;
-  category: 'Branding & Strategy' | 'Digital Marketing' | 'Tech Products' | 'All';
+  category: 'Branding & Strategy' | 'Digital Marketing' | 'Tech Products' | 'Branding & Content' | 'Web & App Development';
   client: string;
   summary: string;
   description: string;
+  challenge?: string;
   solution: string;
   image: string;
   metrics: {
     label: string;
     value: string;
+    subtext?: string;
   }[];
   scope: string[];
+  team?: string[];
 }
 
 export interface TeamMember {

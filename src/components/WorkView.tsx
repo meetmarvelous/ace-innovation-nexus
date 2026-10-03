@@ -1,141 +1,15 @@
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { Download, Search, ArrowUpRight, CheckCircle2, ArrowLeft, Star, BarChart, Users, ShieldAlert } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Download, Search, ArrowUpRight, CheckCircle2, ArrowLeft, Star, ShieldAlert } from 'lucide-react';
 import KineticText from './KineticText';
-
-interface CaseStudyDemo {
-  id: string;
-  client: string;
-  title: string;
-  category: 'Branding & Strategy' | 'Digital Marketing' | 'Tech Products';
-  summary: string;
-  challenge: string;
-  solution: string;
-  image: string;
-  metrics: {
-    label: string;
-    value: string;
-    subtext?: string;
-  }[];
-  scope: string[];
-  team: string[];
-}
-
-const demoCaseStudies: CaseStudyDemo[] = [
-  {
-    id: "hp-life",
-    client: "HP LIFE Academy",
-    title: "Helping Thousands of Nigerians Learn Free Digital Skills",
-    category: "Digital Marketing",
-    summary: "Ran a regional digital marketing campaign that registered over 48,000 students for free online courses across Nigeria and other African countries.",
-    challenge: "HP LIFE needed to reach young Nigerians and other Africans who could benefit from their free online business courses. The challenge was that many people in these communities had limited data and low trust in online platforms.",
-    solution: "We created targeted ads on Facebook, Instagram, and WhatsApp that spoke directly to young learners. We built simple, fast-loading landing pages that worked well even on slow internet. We also set up WhatsApp groups to keep students engaged throughout their courses.",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
-    metrics: [
-      { label: "Students Enrolled", value: "48,000+", subtext: "Across Sub-Saharan Africa" },
-      { label: "Return on Ad Spend", value: "3.4x", subtext: "Performance campaign average" },
-      { label: "Completion Rate", value: "+42%", subtext: "Boosted by community support" }
-    ],
-    scope: ["Facebook & Instagram Ads", "WhatsApp Marketing", "Content Creation", "Landing Page Design"],
-    team: ["Kofi Owusu (Marketing & SEO)", "Amara Nwachukwu (Creative Director)"]
-  },
-  {
-    id: "checkers",
-    client: "Checkers Africa (Nigeria)",
-    title: "Building a Stronger Brand for Checkers Across Nigeria",
-    category: "Branding & Strategy",
-    summary: "Refreshed the Checkers brand with new packaging visuals, professional photography, and video content, driving retail sales up by 124%.",
-    challenge: "Checkers wanted to connect with a younger audience in Nigeria. Their packaging looked outdated and they had almost no social media presence. They needed a complete brand refresh that would make people excited about their products.",
-    solution: "We redesigned their product packaging with fresh, modern visuals. Our team shot professional product photos and created short video ads for social media. We also ran a viral recipe challenge on Instagram that got millions of views and drove people to buy in stores.",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
-    metrics: [
-      { label: "Sales Increase", value: "+124%", subtext: "Shelf-movement growth" },
-      { label: "Video Views", value: "3.2M+", subtext: "Viral campaign reach" },
-      { label: "Brand Rating", value: "9.2/10", subtext: "Customer preference survey" }
-    ],
-    scope: ["Brand Identity Redesign", "Product Photography", "Video Production", "Social Media Campaigns"],
-    team: ["Amara Nwachukwu (Creative Director)", "Kofi Owusu (Head of Growth)"]
-  },
-  {
-    id: "fintech",
-    client: "NexusPay Technologies",
-    title: "Building a Payment App That Processed Over ₦18 Billion",
-    category: "Tech Products",
-    summary: "Designed and engineered a mobile payment application and merchant dashboard processing ₦18B+ in micro-transactions.",
-    challenge: "NexusPay had a great idea for a mobile payment platform for small businesses and market traders. They needed a team to build an app that was simple enough for anyone to use, even people who weren't tech-savvy, and functioned in weak networks.",
-    solution: "We built a clean, easy-to-use mobile app for both Android and iOS, along with a web dashboard for merchants to track their sales. The app works even with poor internet connection, so traders in rural areas can still accept payments. We also helped them with SEO and content marketing to attract new users.",
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80",
-    metrics: [
-      { label: "Transactions", value: "₦18B+", subtext: "In 8 months post-launch" },
-      { label: "Sign-up Time", value: "< 2 mins", subtext: "Simplified merchant intake" },
-      { label: "New Users", value: "+450%", subtext: "Quarter-on-quarter growth" }
-    ],
-    scope: ["Mobile App Development", "Web Dashboard", "SEO & Content Marketing", "UI/UX Design"],
-    team: ["Zainab Alao (Lead Dev)", "Tega John-Sola (Product Strategist)"]
-  },
-  {
-    id: "zenith-fintech",
-    client: "Zenith Global Solutions",
-    title: "Reimagining Digital Banking for Emerging Markets",
-    category: "Tech Products",
-    summary: "Built a high-performance cross-border payment app processing over ₦34 Billion in micro-transactions with zero downtime.",
-    challenge: "Emerging market merchants struggled with slow, high-fee cross-border transactions, leading to 45% cart abandonment. They needed a lightweight, secure app that could operate on low-bandwidth networks.",
-    solution: "We designed a custom micro-banking app using modern react-native interfaces, supported by an optimized API layer that compresses payload size by 70%. Integrated real-time offline payment confirmations via SMS fallback.",
-    image: "/images/zenith_fintech_mockup.png",
-    metrics: [
-      { label: "Transaction Volume", value: "₦34B+", subtext: "Within 10 months" },
-      { label: "Active Users", value: "250k+", subtext: "Daily active merchants" },
-      { label: "App Store Rating", value: "4.8★", subtext: "From 15k+ reviews" }
-    ],
-    scope: ["Mobile App Development", "High-Load API Gateway", "UX/UI Architecture", "Security Auditing"],
-    team: ["Zainab Alao (Lead Dev)", "Tega John-Sola (Product Strategist)"]
-  },
-  {
-    id: "kola-apparel",
-    client: "Kola Group (Nigeria)",
-    title: "Scaling African Luxury Fashion to a Global Audience",
-    category: "Branding & Strategy",
-    summary: "Rebranded Kola Group with elegant editorial designs, professional content shoots, and a targeted global ecommerce pipeline.",
-    challenge: "Kola Apparel had premium artisan garments but struggled to convey value online. Their digital presence felt localized and failed to convert international visitors.",
-    solution: "We engineered a clean, high-fashion brand identity, shot custom product commercials, and built an optimized international checkout funnel with multi-currency support and tailored SEO.",
-    image: "/images/kola_apparel_branding.png",
-    metrics: [
-      { label: "E-Commerce Conversions", value: "18.5%", subtext: "Up from 2.1%" },
-      { label: "Social Impressions", value: "3.2M+", subtext: "During launch week" },
-      { label: "Sales Increase", value: "+180%", subtext: "In global markets" }
-    ],
-    scope: ["Brand Identity Redesign", "Ecommerce Development", "Editorial Videography", "International SEO"],
-    team: ["Amara Nwachukwu (Creative Director)", "Kofi Owusu (Head of Growth)"]
-  },
-  {
-    id: "eko-solar",
-    client: "Eko Solar & Clean Energy",
-    title: "Electrifying Communities via Sustainable Campaigns",
-    category: "Digital Marketing",
-    summary: "Supercharged solar panel subscription sales across southwestern Nigeria through localized storytelling and high-performing ads.",
-    challenge: "High upfront installation costs and limited solar awareness meant Eko Solar struggled to close deals, spending too much on cold sales outreach.",
-    solution: "Developed educational video funnels explaining savings, created a simple solar sizing web calculator, and ran targeted lead-generation social ads that pre-qualified leads before sales calls.",
-    image: "/images/eko_solar_dashboard.png",
-    metrics: [
-      { label: "Return on Ad Spend", value: "4.5x", subtext: "Verified ROAS" },
-      { label: "Qualified Leads", value: "12,000+", subtext: "With verified contact info" },
-      { label: "Customer Acquisition", value: "-25%", subtext: "Reduced marketing cost" }
-    ],
-    scope: ["Paid Social Campaigns", "Lead-Sizing Tool Dev", "Copywriting", "Performance Analytics"],
-    team: ["Kofi Owusu (Marketing & SEO)", "Zainab Alao (Frontend Dev)"]
-  }
-];
+import { caseStudies } from '../data';
+import { CaseStudy } from '../types';
+import { triggerHaptic } from '../utils/haptics';
 
 export default function WorkView() {
   const [filterCategory, setFilterCategory] = useState<'All' | 'Branding & Strategy' | 'Digital Marketing' | 'Tech Products'>('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedProject, setSelectedProject] = useState<CaseStudyDemo | null>(null);
+  const [selectedProject, setSelectedProject] = useState<CaseStudy | null>(null);
   const [isExporting, setIsExporting] = useState(false);
-
-  const triggerHaptic = useCallback((pattern: number | number[] = 15) => {
-    if ('vibrate' in navigator) {
-      try { navigator.vibrate(pattern); } catch { /* silent */ }
-    }
-  }, []);
 
   // Lock body scroll when a case study is open to prevent double scrollbars
   useEffect(() => {
@@ -158,7 +32,7 @@ export default function WorkView() {
 
   // Filtering Logic
   const filteredProjects = useMemo(() => {
-    return demoCaseStudies.filter(p => {
+    return caseStudies.filter(p => {
       const matchesCategory = filterCategory === 'All' || p.category === filterCategory;
       const matchesSearch = p.client.toLowerCase().includes(searchQuery.toLowerCase()) || 
                             p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -478,7 +352,7 @@ export default function WorkView() {
               <div className="lg:col-span-2 space-y-8">
                 <div className="space-y-3">
                   <h4 className="text-lg font-bold uppercase text-[#004aad] tracking-wider font-mono">The Challenge</h4>
-                  <p className="text-sm text-slate-700 leading-relaxed font-sans">{selectedProject.challenge}</p>
+                  <p className="text-sm text-slate-700 leading-relaxed font-sans">{selectedProject.challenge || selectedProject.description}</p>
                 </div>
                 
                 <div className="space-y-3">
@@ -501,14 +375,16 @@ export default function WorkView() {
                   </ul>
                 </div>
 
-                <div className="pt-6 border-t border-slate-200 space-y-3">
-                  <h4 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest font-mono">Project Squad</h4>
-                  <ul className="space-y-1.5 text-xs text-slate-600 font-mono">
-                    {selectedProject.team.map((t, idx) => (
-                      <li key={idx}>• {t}</li>
-                    ))}
-                  </ul>
-                </div>
+                {selectedProject.team && selectedProject.team.length > 0 && (
+                  <div className="pt-6 border-t border-slate-200 space-y-3">
+                    <h4 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest font-mono">Project Squad</h4>
+                    <ul className="space-y-1.5 text-xs text-slate-600 font-mono">
+                      {selectedProject.team.map((t, idx) => (
+                        <li key={idx}>• {t}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
 
             </div>
