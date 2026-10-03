@@ -120,8 +120,8 @@ export default function NetworkView({ openContactModal }: NetworkViewProps) {
           <div className="flex flex-wrap items-center gap-2">
             {categories.map((cat) => {
               const count = cat === 'All' 
-                ? associatedOrganizations.length 
-                : associatedOrganizations.filter(o => o.category === cat).length;
+                ? orgList.length 
+                : orgList.filter(o => o.category === cat).length;
               return (
                 <button
                   key={cat}
