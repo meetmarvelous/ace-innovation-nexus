@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Download, Search, ArrowUpRight, CheckCircle2, ArrowLeft, Star, ShieldAlert } from 'lucide-react';
 import KineticText from './KineticText';
-import { caseStudies } from '../data';
+import { caseStudies as defaultCaseStudies } from '../data';
+import { getCaseStudies } from '../lib/dataService';
 import { CaseStudy } from '../types';
 import { triggerHaptic } from '../utils/haptics';
 
@@ -10,6 +11,11 @@ export default function WorkView() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState<CaseStudy | null>(null);
   const [isExporting, setIsExporting] = useState(false);
+  const [caseStudyList, setCaseStudyList] = useState<CaseStudy[]>(defaultCaseStudies);
+
+  useEffect(() => {
+    getCaseStudies().then(setCaseStudyList).catch(() => {});
+  }, []);
 
   // Lock body scroll when a case study is open to prevent double scrollbars
   useEffect(() => {
@@ -32,7 +38,7 @@ export default function WorkView() {
 
   // Filtering Logic
   const filteredProjects = useMemo(() => {
-    return caseStudies.filter(p => {
+    return caseStudyList.filter(p => {
       const matchesCategory = filterCategory === 'All' || p.category === filterCategory;
       const matchesSearch = p.client.toLowerCase().includes(searchQuery.toLowerCase()) || 
                             p.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -40,7 +46,7 @@ export default function WorkView() {
                             p.scope.some(s => s.toLowerCase().includes(searchQuery.toLowerCase()));
       return matchesCategory && matchesSearch;
     });
-  }, [filterCategory, searchQuery]);
+  }, [caseStudyList, filterCategory, searchQuery]);
 
   const handlePrint = () => {
     triggerHaptic([30, 80, 30]);

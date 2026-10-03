@@ -1,6 +1,7 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Instagram, Facebook, Globe, ExternalLink, Search, MapPin, Sparkles, Building2, ArrowUpRight, Share2, ShieldCheck } from 'lucide-react';
-import { associatedOrganizations } from '../data';
+import { associatedOrganizations as defaultOrganizations } from '../data';
+import { getAssociatedOrganizations } from '../lib/dataService';
 import { AssociatedOrganization, AssociatedLink } from '../types';
 import KineticText from './KineticText';
 
@@ -11,6 +12,11 @@ interface NetworkViewProps {
 export default function NetworkView({ openContactModal }: NetworkViewProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [orgList, setOrgList] = useState<AssociatedOrganization[]>(defaultOrganizations);
+
+  useEffect(() => {
+    getAssociatedOrganizations().then(setOrgList).catch(() => {});
+  }, []);
 
   const triggerHaptic = useCallback((pattern: number | number[] = 15) => {
     if ('vibrate' in navigator) {
@@ -21,14 +27,14 @@ export default function NetworkView({ openContactModal }: NetworkViewProps) {
   const categories = ['All', 'Healthcare', 'Hospitality', 'Education', 'Food & Beverage', 'Creative & Lifestyle'];
 
   const filteredOrganizations = useMemo(() => {
-    return associatedOrganizations.filter((org) => {
+    return orgList.filter((org) => {
       const matchesCategory = selectedCategory === 'All' || org.category === selectedCategory;
       const matchesSearch = org.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                             (org.location && org.location.toLowerCase().includes(searchQuery.toLowerCase())) ||
                             (org.description && org.description.toLowerCase().includes(searchQuery.toLowerCase()));
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [orgList, selectedCategory, searchQuery]);
 
   const renderLinkIcon = (linkType: AssociatedLink['type']) => {
     switch (linkType) {

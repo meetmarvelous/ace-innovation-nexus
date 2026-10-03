@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
-  ShieldCheck, Database, Users, Briefcase, Building2, Key, Lock, 
-  LogOut, Plus, Trash2, CheckCircle2, AlertCircle, RefreshCw, Copy, Check, ExternalLink, Download, Search
+  ShieldCheck, Database, Users, Briefcase, Building2, Key, Lock, FileText,
+  LogOut, Plus, Trash2, Edit3, CheckCircle2, AlertCircle, RefreshCw, Copy, Check, ExternalLink, Download, Search, X
 } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
-import { caseStudies as localCaseStudies, associatedOrganizations as localOrganizations } from '../data';
-import { CaseStudy, AssociatedOrganization } from '../types';
+import { 
+  getAssociatedOrganizations, saveAssociatedOrganization, deleteAssociatedOrganization,
+  getInsightArticles, saveInsightArticle, deleteInsightArticle,
+  getCaseStudies, saveCaseStudy, deleteCaseStudy
+} from '../lib/dataService';
+import { CaseStudy, InsightArticle, AssociatedOrganization } from '../types';
 import { triggerHaptic } from '../utils/haptics';
 
 interface ContactSubmission {
@@ -22,7 +26,7 @@ interface ContactSubmission {
 }
 
 export default function AdminView() {
-  const [activeTab, setActiveTab] = useState<'submissions' | 'case-studies' | 'organizations' | 'security'>('submissions');
+  const [activeTab, setActiveTab] = useState<'insights' | 'organizations' | 'case-studies' | 'submissions' | 'security'>('insights');
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -34,39 +38,54 @@ export default function AdminView() {
   const [authMsg, setAuthMsg] = useState<string | null>(null);
 
   // Submissions State
-  const [submissions, setSubmissions] = useState<ContactSubmission[]>([
-    {
-      id: 'demo-sub-1',
-      created_at: new Date(Date.now() - 3600000 * 4).toISOString(),
-      full_name: 'Dr. Samuel Adebayo',
-      email: 's.adebayo@siloanhealth.org',
-      company: 'Siloan Medical Center',
-      service_requested: 'Tech Products',
-      message: 'Interested in a patient portal and mobile appointment app for our clinic branches.',
-      status: 'New'
-    },
-    {
-      id: 'demo-sub-2',
-      created_at: new Date(Date.now() - 3600000 * 24).toISOString(),
-      full_name: 'Kemi Balogun',
-      email: 'kemi@academysuites.com',
-      company: 'Academy Suites',
-      service_requested: 'Digital Marketing',
-      message: 'Looking for a 6-month social media growth and performance marketing campaign.',
-      status: 'Contacted'
-    }
-  ]);
+  const [submissions, setSubmissions] = useState<ContactSubmission[]>([]);
   const [subLoading, setSubLoading] = useState(false);
   const [subFilter, setSubFilter] = useState<'All' | 'New' | 'Contacted' | 'Closed'>('All');
 
-  // Content States
-  const [caseStudyList, setCaseStudyList] = useState<CaseStudy[]>(localCaseStudies);
-  const [orgList, setOrgList] = useState<AssociatedOrganization[]>(localOrganizations);
+  // CMS Content States
+  const [insightList, setInsightList] = useState<InsightArticle[]>([]);
+  const [orgList, setOrgList] = useState<AssociatedOrganization[]>([]);
+  const [caseStudyList, setCaseStudyList] = useState<CaseStudy[]>([]);
   const [copiedSql, setCopiedSql] = useState(false);
 
-  // Check existing session & invitation tokens
+  // Modal / Form Edit States
+  const [editInsight, setEditInsight] = useState<Partial<InsightArticle> | null>(null);
+  const [editOrg, setEditOrg] = useState<Partial<AssociatedOrganization> | null>(null);
+  const [editCaseStudy, setEditCaseStudy] = useState<Partial<CaseStudy> | null>(null);
+
+  // Load initial content
+  const loadAllData = useCallback(async () => {
+    setSubLoading(true);
+    try {
+      const [insights, orgs, studies] = await Promise.all([
+        getInsightArticles(),
+        getAssociatedOrganizations(),
+        getCaseStudies()
+      ]);
+      setInsightList(insights);
+      setOrgList(orgs);
+      setCaseStudyList(studies);
+
+      if (isSupabaseConfigured && supabase) {
+        const { data } = await supabase
+          .from('contact_submissions')
+          .select('*')
+          .order('created_at', { ascending: false });
+        if (data) setSubmissions(data);
+      }
+    } catch (err) {
+      console.warn('Data load error:', err);
+    } finally {
+      setSubLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
-    // Check URL hash for invitation or recovery token
+    loadAllData();
+  }, [loadAllData]);
+
+  // Session Check & Invitation Token Detection
+  useEffect(() => {
     const hash = window.location.hash;
     if (hash.includes('type=invite') || hash.includes('type=recovery') || hash.includes('access_token')) {
       setIsSettingNewPassword(true);
@@ -90,32 +109,7 @@ export default function AdminView() {
 
       return () => subscription.unsubscribe();
     }
-  }, []);
-
-  // Fetch Submissions from Supabase if connected
-  const fetchSubmissions = useCallback(async () => {
-    if (!isSupabaseConfigured || !supabase) return;
-    setSubLoading(true);
-    try {
-      const { data, error } = await supabase
-        .from('contact_submissions')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      if (data && data.length > 0) {
-        setSubmissions(data);
-      }
-    } catch (err: any) {
-      console.warn('Could not fetch Supabase submissions:', err.message);
-    } finally {
-      setSubLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchSubmissions();
-  }, [fetchSubmissions]);
+  }, [isSettingNewPassword]);
 
   // Auth Handlers
   const handleLogin = async (e: React.FormEvent) => {
@@ -133,7 +127,6 @@ export default function AdminView() {
         setIsAuthenticated(true);
       }
     } else {
-      // Demo authentication mode when Supabase env vars are not set
       if (password === 'admin123' || email.length > 0) {
         setIsAuthenticated(true);
       } else {
@@ -164,7 +157,7 @@ export default function AdminView() {
       if (error) {
         setAuthError(error.message);
       } else {
-        setAuthMsg("Password set successfully! Redirecting to dashboard...");
+        setAuthMsg("Password saved successfully! Launching dashboard...");
         setTimeout(() => {
           setIsSettingNewPassword(false);
           setIsAuthenticated(true);
@@ -178,31 +171,6 @@ export default function AdminView() {
     setAuthLoading(false);
   };
 
-  const handleForgotPassword = async () => {
-    if (!email) {
-      setAuthError("Please enter your admin email in the field above first.");
-      return;
-    }
-    triggerHaptic(15);
-    setAuthLoading(true);
-    setAuthError(null);
-    setAuthMsg(null);
-
-    if (isSupabaseConfigured && supabase) {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/#admin`,
-      });
-      if (error) {
-        setAuthError(error.message);
-      } else {
-        setAuthMsg(`Password reset email sent to ${email}!`);
-      }
-    } else {
-      setAuthMsg("Demo mode active: Configure Supabase credentials in .env to send real emails.");
-    }
-    setAuthLoading(false);
-  };
-
   const handleLogout = async () => {
     triggerHaptic(15);
     if (isSupabaseConfigured && supabase) {
@@ -211,80 +179,174 @@ export default function AdminView() {
     setIsAuthenticated(false);
   };
 
-  const updateSubmissionStatus = async (id: string, status: 'New' | 'Contacted' | 'Closed') => {
-    triggerHaptic(15);
-    setSubmissions(prev => prev.map(s => s.id === id ? { ...s, status } : s));
+  // CMS Handlers: Blog Posts / Insights
+  const handleSaveInsight = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editInsight?.title || !editInsight?.summary) return alert('Title and Summary are required.');
+    triggerHaptic(20);
 
-    if (isSupabaseConfigured && supabase) {
-      await supabase.from('contact_submissions').update({ status }).eq('id', id);
+    const articleToSave: InsightArticle = {
+      id: editInsight.id || `ins-${Date.now()}`,
+      title: editInsight.title,
+      category: editInsight.category || 'Marketing',
+      readTime: editInsight.readTime || '5 Min Read',
+      date: editInsight.date || new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+      summary: editInsight.summary,
+      image: editInsight.image || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
+      author: editInsight.author || 'Ace Nexus Team',
+    };
+
+    try {
+      await saveInsightArticle(articleToSave);
+      setInsightList(prev => {
+        const idx = prev.findIndex(item => item.id === articleToSave.id);
+        if (idx >= 0) {
+          const updated = [...prev];
+          updated[idx] = articleToSave;
+          return updated;
+        }
+        return [articleToSave, ...prev];
+      });
+      setEditInsight(null);
+    } catch (err: any) {
+      alert(`Could not save blog post: ${err.message}`);
     }
   };
 
-  const deleteSubmission = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this submission?')) return;
+  const handleDeleteInsight = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this blog post?')) return;
     triggerHaptic(25);
-    setSubmissions(prev => prev.filter(s => s.id !== id));
-
-    if (isSupabaseConfigured && supabase) {
-      await supabase.from('contact_submissions').delete().eq('id', id);
+    try {
+      await deleteInsightArticle(id);
+      setInsightList(prev => prev.filter(item => item.id !== id));
+    } catch (err: any) {
+      alert(`Could not delete post: ${err.message}`);
     }
   };
 
-  const exportSubmissionsCSV = () => {
-    triggerHaptic([30, 60, 30]);
-    const headers = ['Date', 'Full Name', 'Email', 'Company', 'Service', 'Message', 'Status'];
-    const rows = submissions.map(s => [
-      new Date(s.created_at).toLocaleDateString(),
-      `"${s.full_name}"`,
-      `"${s.email}"`,
-      `"${s.company || ''}"`,
-      `"${s.service_requested}"`,
-      `"${s.message.replace(/"/g, '""')}"`,
-      s.status
-    ]);
-    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement('a');
-    link.setAttribute('href', encodedUri);
-    link.setAttribute('download', `ace_nexus_leads_${new Date().toISOString().slice(0, 10)}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  // CMS Handlers: Associated Organizations
+  const handleSaveOrg = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editOrg?.name) return alert('Organization name is required.');
+    triggerHaptic(20);
+
+    const orgToSave: AssociatedOrganization = {
+      id: editOrg.id || `org-${Date.now()}`,
+      name: editOrg.name,
+      category: (editOrg.category as any) || 'Creative & Lifestyle',
+      location: editOrg.location || 'Nigeria',
+      description: editOrg.description || '',
+      logo: editOrg.logo || '/logos/placeholder.svg',
+      links: editOrg.links || [{ label: 'Instagram', url: 'https://www.instagram.com', type: 'instagram' }],
+    };
+
+    try {
+      await saveAssociatedOrganization(orgToSave);
+      setOrgList(prev => {
+        const idx = prev.findIndex(item => item.id === orgToSave.id);
+        if (idx >= 0) {
+          const updated = [...prev];
+          updated[idx] = orgToSave;
+          return updated;
+        }
+        return [orgToSave, ...prev];
+      });
+      setEditOrg(null);
+    } catch (err: any) {
+      alert(`Could not save organization: ${err.message}`);
+    }
+  };
+
+  const handleDeleteOrg = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this organization?')) return;
+    triggerHaptic(25);
+    try {
+      await deleteAssociatedOrganization(id);
+      setOrgList(prev => prev.filter(item => item.id !== id));
+    } catch (err: any) {
+      alert(`Could not delete organization: ${err.message}`);
+    }
+  };
+
+  // CMS Handlers: Case Studies
+  const handleSaveCaseStudy = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editCaseStudy?.client || !editCaseStudy?.title) return alert('Client name and Title are required.');
+    triggerHaptic(20);
+
+    const csToSave: CaseStudy = {
+      id: editCaseStudy.id || `cs-${Date.now()}`,
+      client: editCaseStudy.client,
+      title: editCaseStudy.title,
+      category: (editCaseStudy.category as any) || 'Digital Marketing',
+      summary: editCaseStudy.summary || '',
+      description: editCaseStudy.description || editCaseStudy.summary || '',
+      challenge: editCaseStudy.challenge || editCaseStudy.summary || '',
+      solution: editCaseStudy.solution || '',
+      image: editCaseStudy.image || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
+      metrics: editCaseStudy.metrics || [{ label: 'Performance', value: '+100%' }],
+      scope: editCaseStudy.scope || ['Digital Campaigns'],
+      team: editCaseStudy.team || ['Ace Nexus Team'],
+    };
+
+    try {
+      await saveCaseStudy(csToSave);
+      setCaseStudyList(prev => {
+        const idx = prev.findIndex(item => item.id === csToSave.id);
+        if (idx >= 0) {
+          const updated = [...prev];
+          updated[idx] = csToSave;
+          return updated;
+        }
+        return [csToSave, ...prev];
+      });
+      setEditCaseStudy(null);
+    } catch (err: any) {
+      alert(`Could not save case study: ${err.message}`);
+    }
+  };
+
+  const handleDeleteCaseStudy = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this case study?')) return;
+    triggerHaptic(25);
+    try {
+      await deleteCaseStudy(id);
+      setCaseStudyList(prev => prev.filter(item => item.id !== id));
+    } catch (err: any) {
+      alert(`Could not delete case study: ${err.message}`);
+    }
   };
 
   const copySqlSchema = () => {
     triggerHaptic(20);
-    const sqlScript = `-- Supabase Table Schema Setup for Ace Innovation Nexus
-CREATE TABLE IF NOT EXISTS public.contact_submissions (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    const sqlScript = `-- Run this in your Supabase SQL Editor to enable full CMS functionality
+CREATE TABLE IF NOT EXISTS public.insight_articles (
+  id TEXT PRIMARY KEY,
   created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
-  full_name TEXT NOT NULL,
-  email TEXT NOT NULL,
-  phone TEXT,
-  company TEXT,
-  service_requested TEXT NOT NULL,
-  project_budget TEXT,
-  message TEXT NOT NULL,
-  status TEXT DEFAULT 'New' CHECK (status IN ('New', 'Contacted', 'Closed', 'Archived'))
+  title TEXT NOT NULL,
+  category TEXT NOT NULL,
+  read_time TEXT DEFAULT '5 Min Read',
+  date TEXT NOT NULL,
+  summary TEXT NOT NULL,
+  image TEXT NOT NULL,
+  author TEXT NOT NULL,
+  published BOOLEAN DEFAULT true
 );
 
-ALTER TABLE public.contact_submissions ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Public insert" ON public.contact_submissions FOR INSERT TO public WITH CHECK (true);
-CREATE POLICY "Admin full access" ON public.contact_submissions FOR ALL TO authenticated USING (true);`;
+ALTER TABLE public.insight_articles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public read" ON public.insight_articles FOR SELECT TO public USING (published = true);
+CREATE POLICY "Admin write" ON public.insight_articles FOR ALL TO authenticated USING (true);`;
 
     navigator.clipboard.writeText(sqlScript);
     setCopiedSql(true);
     setTimeout(() => setCopiedSql(false), 2500);
   };
 
-  const filteredSubmissions = submissions.filter(s => subFilter === 'All' || s.status === subFilter);
-
-  // LOGIN & PASSWORD SETTING SCREEN IF NOT AUTHENTICATED
+  // LOGIN SCREEN
   if (!isAuthenticated) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center px-4 py-16">
         <div className="w-full max-w-md space-y-6 p-8 glass-panel-strong rounded-3xl border border-slate-200 shadow-xl text-left">
-          
           <div className="text-center space-y-2">
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-[#004aad] border border-blue-200">
               <ShieldCheck className="h-6 w-6" />
@@ -293,7 +355,7 @@ CREATE POLICY "Admin full access" ON public.contact_submissions FOR ALL TO authe
               {isSettingNewPassword ? 'Set Account Password' : 'Admin Portal'}
             </h1>
             <p className="text-xs text-slate-500 font-sans">
-              {isSettingNewPassword ? 'Complete your invitation or password reset setup' : 'Ace Innovation Nexus Content & Lead Management'}
+              {isSettingNewPassword ? 'Complete your invitation setup' : 'Ace Innovation Nexus Website Content CMS'}
             </p>
           </div>
 
@@ -301,10 +363,10 @@ CREATE POLICY "Admin full access" ON public.contact_submissions FOR ALL TO authe
             <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs space-y-1">
               <div className="font-bold flex items-center gap-1.5">
                 <AlertCircle className="h-4 w-4 text-amber-600 shrink-0" />
-                <span>Supabase Not Connected Yet</span>
+                <span>Supabase Demo Mode</span>
               </div>
               <p className="text-[11px] text-amber-700 leading-relaxed">
-                You can log in using any email & password (or password <code className="bg-amber-100 px-1 rounded">admin123</code>) to preview the dashboard in Demo Mode.
+                Log in with any email & password (or <code className="bg-amber-100 px-1 rounded">admin123</code>) to preview CMS content editing.
               </p>
             </div>
           )}
@@ -338,7 +400,7 @@ CREATE POLICY "Admin full access" ON public.contact_submissions FOR ALL TO authe
               </div>
 
               <div>
-                <label className="block text-slate-700 font-bold mb-1.5 font-mono uppercase text-[10px]">Confirm New Password</label>
+                <label className="block text-slate-700 font-bold mb-1.5 font-mono uppercase text-[10px]">Confirm Password</label>
                 <input
                   type="password"
                   required
@@ -355,18 +417,8 @@ CREATE POLICY "Admin full access" ON public.contact_submissions FOR ALL TO authe
                 className="w-full py-3.5 rounded-xl font-bold text-white transition-all neon-btn haptic-press flex items-center justify-center gap-2 text-xs"
               >
                 {authLoading ? <RefreshCw className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
-                <span>Save Password & Launch Dashboard</span>
+                <span>Save Password & Launch CMS</span>
               </button>
-
-              <div className="text-center pt-2">
-                <button
-                  type="button"
-                  onClick={() => setIsSettingNewPassword(false)}
-                  className="text-xs font-bold text-[#004aad] hover:underline"
-                >
-                  Return to Standard Login
-                </button>
-              </div>
             </form>
           ) : (
             <form onSubmit={handleLogin} className="space-y-4 font-sans text-xs">
@@ -383,16 +435,7 @@ CREATE POLICY "Admin full access" ON public.contact_submissions FOR ALL TO authe
               </div>
 
               <div>
-                <div className="flex justify-between items-center mb-1.5">
-                  <label className="block text-slate-700 font-bold font-mono uppercase text-[10px]">Password</label>
-                  <button
-                    type="button"
-                    onClick={handleForgotPassword}
-                    className="text-[10px] text-[#004aad] hover:underline font-semibold"
-                  >
-                    Forgot Password?
-                  </button>
-                </div>
+                <label className="block text-slate-700 font-bold mb-1.5 font-mono uppercase text-[10px]">Password</label>
                 <input
                   type="password"
                   required
@@ -415,14 +458,14 @@ CREATE POLICY "Admin full access" ON public.contact_submissions FOR ALL TO authe
           )}
 
           <div className="pt-4 border-t border-slate-200 text-center text-[10px] text-slate-400 font-mono">
-            SECURE ROW-LEVEL ENCRYPTED PORTAL
+            LIVE SUPABASE CONTENT CMS & ADMIN MANAGEMENT
           </div>
         </div>
       </div>
     );
   }
 
-  // AUTHENTICATED DASHBOARD VIEW
+  // MAIN CMS DASHBOARD VIEW
   return (
     <div className="min-h-screen py-10 px-4 sm:px-8 max-w-7xl mx-auto space-y-8 font-sans">
       
@@ -434,24 +477,24 @@ CREATE POLICY "Admin full access" ON public.contact_submissions FOR ALL TO authe
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-black text-slate-900 font-display">Control Center</h1>
-              <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+              <h1 className="text-xl font-black text-slate-900 font-display">Website Content CMS</h1>
+              <span className={`text-[9px] font-mono font-bold px-2.5 py-0.5 rounded-full border ${
                 isSupabaseConfigured ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'
               }`}>
                 {isSupabaseConfigured ? 'SUPABASE LIVE' : 'DEMO MODE'}
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-0.5">Manage Client Consultations, Portfolio & Associated Network</p>
+            <p className="text-xs text-slate-500 mt-0.5">Manage Blog Posts, Associated Brands, and Portfolio Content Live</p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
           <button
-            onClick={fetchSubmissions}
+            onClick={loadAllData}
             className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 hover:text-slate-900 text-xs font-bold transition-all haptic-press"
           >
             <RefreshCw className={`h-3.5 w-3.5 ${subLoading ? 'animate-spin' : ''}`} />
-            <span>Refresh</span>
+            <span>Sync Data</span>
           </button>
           <button
             onClick={handleLogout}
@@ -466,15 +509,27 @@ CREATE POLICY "Admin full access" ON public.contact_submissions FOR ALL TO authe
       {/* DASHBOARD TABS NAVIGATION */}
       <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-2">
         <button
-          onClick={() => { triggerHaptic(10); setActiveTab('submissions'); }}
+          onClick={() => { triggerHaptic(10); setActiveTab('insights'); }}
           className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all haptic-press ${
-            activeTab === 'submissions'
+            activeTab === 'insights'
               ? 'bg-[#004aad] text-white shadow-sm'
               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
           }`}
         >
-          <Users className="h-4 w-4" />
-          <span>Client Leads ({submissions.length})</span>
+          <FileText className="h-4 w-4" />
+          <span>Blog Posts / Insights ({insightList.length})</span>
+        </button>
+
+        <button
+          onClick={() => { triggerHaptic(10); setActiveTab('organizations'); }}
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all haptic-press ${
+            activeTab === 'organizations'
+              ? 'bg-[#004aad] text-white shadow-sm'
+              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+          }`}
+        >
+          <Building2 className="h-4 w-4" />
+          <span>Associated Brands ({orgList.length})</span>
         </button>
 
         <button
@@ -490,33 +545,468 @@ CREATE POLICY "Admin full access" ON public.contact_submissions FOR ALL TO authe
         </button>
 
         <button
-          onClick={() => { triggerHaptic(10); setActiveTab('organizations'); }}
+          onClick={() => { triggerHaptic(10); setActiveTab('submissions'); }}
           className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all haptic-press ${
-            activeTab === 'organizations'
+            activeTab === 'submissions'
               ? 'bg-[#004aad] text-white shadow-sm'
               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
           }`}
         >
-          <Building2 className="h-4 w-4" />
-          <span>Network ({orgList.length})</span>
-        </button>
-
-        <button
-          onClick={() => { triggerHaptic(10); setActiveTab('security'); }}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold transition-all haptic-press ${
-            activeTab === 'security'
-              ? 'bg-[#004aad] text-white shadow-sm'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-          }`}
-        >
-          <Key className="h-4 w-4" />
-          <span>Supabase Security & Schema</span>
+          <Users className="h-4 w-4" />
+          <span>Client Inquiries ({submissions.length})</span>
         </button>
       </div>
 
-      {/* TAB 1: CLIENT LEADS & SUBMISSIONS */}
+      {/* TAB 1: BLOG POSTS / INSIGHTS CMS */}
+      {activeTab === 'insights' && (
+        <div className="space-y-6 text-left">
+          <div className="flex justify-between items-center">
+            <div>
+              <h2 className="text-lg font-bold text-slate-900">Blog Posts & Insights</h2>
+              <p className="text-xs text-slate-500">Edit text, titles, and summaries displayed on the homepage blog section.</p>
+            </div>
+            <button
+              onClick={() => setEditInsight({ title: '', category: 'Marketing', summary: '', author: 'Kofi Owusu', date: 'June 2026', readTime: '5 Min Read' })}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#004aad] text-white text-xs font-bold hover:bg-blue-700 transition-all shadow-sm"
+            >
+              <Plus className="h-4 w-4" />
+              <span>Create New Post</span>
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {insightList.map((art) => (
+              <div key={art.id} className="p-5 rounded-2xl glass-panel border border-slate-200 bg-white flex flex-col justify-between space-y-4 hover:border-[#004aad]/40 transition-all">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold font-mono text-[#004aad] uppercase bg-blue-50 px-2 py-0.5 rounded border border-blue-100">{art.category}</span>
+                    <span className="text-[10px] font-mono text-slate-400">{art.date} &bull; {art.readTime}</span>
+                  </div>
+                  <h3 className="text-base font-black text-slate-900 font-display leading-snug">{art.title}</h3>
+                  <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">{art.summary}</p>
+                </div>
+
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                  <span className="font-bold text-slate-700">Author: {art.author}</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setEditInsight(art)}
+                      className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 text-xs font-bold"
+                    >
+                      <Edit3 className="h-3.5 w-3.5 text-[#004aad]" />
+                      <span>Edit</span>
+                    </button>
+                    <button
+                      onClick={() => handleDeleteInsight(art.id)}
+                      className="p-1.5 rounded-lg border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 text-xs"
+                      title="Delete blog post"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* EDIT BLOG POST MODAL */}
+      {editInsight && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-slate-900/40">
+          <div className="w-full max-w-xl max-h-[90vh] overflow-y-auto glass-panel-strong p-6 rounded-3xl space-y-4 text-left shadow-2xl border border-slate-200">
+            <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+              <h3 className="text-lg font-bold text-slate-900 font-display">
+                {editInsight.id ? 'Edit Blog Post Content' : 'Create New Blog Post'}
+              </h3>
+              <button onClick={() => setEditInsight(null)} className="p-1 rounded-full text-slate-400 hover:text-slate-900">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveInsight} className="space-y-4 text-xs font-sans">
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Post Title *</label>
+                <input
+                  type="text"
+                  required
+                  value={editInsight.title || ''}
+                  onChange={e => setEditInsight({ ...editInsight, title: e.target.value })}
+                  placeholder="e.g. Why Your Business Needs SEO"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Category</label>
+                  <input
+                    type="text"
+                    value={editInsight.category || 'Marketing'}
+                    onChange={e => setEditInsight({ ...editInsight, category: e.target.value })}
+                    placeholder="Marketing / Branding / Tech"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Author Name</label>
+                  <input
+                    type="text"
+                    value={editInsight.author || 'Kofi Owusu'}
+                    onChange={e => setEditInsight({ ...editInsight, author: e.target.value })}
+                    placeholder="e.g. Kofi Owusu"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Article Summary Text *</label>
+                <textarea
+                  required
+                  rows={4}
+                  value={editInsight.summary || ''}
+                  onChange={e => setEditInsight({ ...editInsight, summary: e.target.value })}
+                  placeholder="Write the summary text displayed on the website blog card..."
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Cover Image URL</label>
+                <input
+                  type="text"
+                  value={editInsight.image || ''}
+                  onChange={e => setEditInsight({ ...editInsight, image: e.target.value })}
+                  placeholder="https://images.unsplash.com/..."
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                />
+              </div>
+
+              <div className="pt-3 flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setEditInsight(null)}
+                  className="px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-bold hover:bg-slate-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2 rounded-xl bg-[#004aad] text-white font-bold hover:bg-blue-700 shadow-sm"
+                >
+                  Save Changes to Live Site
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: ASSOCIATED BRANDS / ORGANIZATIONS CMS */}
+      {activeTab === 'organizations' && (
+        <div className="space-y-6 text-left">
+          <div className="flex justify-between items-center">
+            <div>
+              <h2 className="text-lg font-bold text-slate-900">Associated Brands & Organizations</h2>
+              <p className="text-xs text-slate-500">Edit brand names, category tags, descriptions, and Instagram/website links live.</p>
+            </div>
+            <button
+              onClick={() => setEditOrg({ name: '', category: 'Creative & Lifestyle', location: 'Ibadan, Nigeria', description: '', logo: '/logos/placeholder.svg' })}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#004aad] text-white text-xs font-bold hover:bg-blue-700 transition-all shadow-sm"
+            >
+              <Plus className="h-4 w-4" />
+              <span>Add Associated Brand</span>
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {orgList.map((org) => (
+              <div key={org.id} className="p-4 rounded-2xl glass-panel border border-slate-200 bg-white space-y-3 flex flex-col justify-between">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[9px] font-mono font-bold text-[#004aad] uppercase bg-blue-50 px-2 py-0.5 rounded border border-blue-100">{org.category}</span>
+                    <span className="text-[10px] text-slate-400 font-mono">{org.location}</span>
+                  </div>
+                  <h3 className="text-sm font-bold text-slate-900">{org.name}</h3>
+                  <p className="text-[11px] text-slate-600 line-clamp-2">{org.description || 'No description added.'}</p>
+                </div>
+
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                  <span className="text-[10px] font-mono text-slate-400">{org.links?.length || 0} Links</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setEditOrg(org)}
+                      className="flex items-center gap-1 px-3 py-1 rounded-lg border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 text-xs font-bold"
+                    >
+                      <Edit3 className="h-3 w-3 text-[#004aad]" />
+                      <span>Edit</span>
+                    </button>
+                    <button
+                      onClick={() => handleDeleteOrg(org.id)}
+                      className="p-1 rounded-lg border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 text-xs"
+                      title="Delete organization"
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* EDIT ORGANIZATION MODAL */}
+      {editOrg && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-slate-900/40">
+          <div className="w-full max-w-xl max-h-[90vh] overflow-y-auto glass-panel-strong p-6 rounded-3xl space-y-4 text-left shadow-2xl border border-slate-200">
+            <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+              <h3 className="text-lg font-bold text-slate-900 font-display">
+                {editOrg.id ? 'Edit Brand Details' : 'Add New Associated Brand'}
+              </h3>
+              <button onClick={() => setEditOrg(null)} className="p-1 rounded-full text-slate-400 hover:text-slate-900">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveOrg} className="space-y-4 text-xs font-sans">
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Brand Name *</label>
+                <input
+                  type="text"
+                  required
+                  value={editOrg.name || ''}
+                  onChange={e => setEditOrg({ ...editOrg, name: e.target.value })}
+                  placeholder="e.g. Siloan Medical Center"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Category</label>
+                  <select
+                    value={editOrg.category || 'Creative & Lifestyle'}
+                    onChange={e => setEditOrg({ ...editOrg, category: e.target.value as any })}
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                  >
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Hospitality">Hospitality</option>
+                    <option value="Education">Education</option>
+                    <option value="Food & Beverage">Food & Beverage</option>
+                    <option value="Creative & Lifestyle">Creative & Lifestyle</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Location</label>
+                  <input
+                    type="text"
+                    value={editOrg.location || 'Ibadan, Nigeria'}
+                    onChange={e => setEditOrg({ ...editOrg, location: e.target.value })}
+                    placeholder="e.g. Old-Ife Road, Ibadan"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Description Text</label>
+                <textarea
+                  rows={3}
+                  value={editOrg.description || ''}
+                  onChange={e => setEditOrg({ ...editOrg, description: e.target.value })}
+                  placeholder="Write a brief description of the organization..."
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Instagram Link URL</label>
+                <input
+                  type="text"
+                  value={editOrg.links?.[0]?.url || ''}
+                  onChange={e => {
+                    const url = e.target.value;
+                    setEditOrg({
+                      ...editOrg,
+                      links: [{ label: 'Instagram', url, type: 'instagram' }]
+                    });
+                  }}
+                  placeholder="https://www.instagram.com/yourhandle"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                />
+              </div>
+
+              <div className="pt-3 flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setEditOrg(null)}
+                  className="px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-bold hover:bg-slate-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2 rounded-xl bg-[#004aad] text-white font-bold hover:bg-blue-700 shadow-sm"
+                >
+                  Save Brand Details
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 3: CASE STUDIES PORTFOLIO CMS */}
+      {activeTab === 'case-studies' && (
+        <div className="space-y-6 text-left">
+          <div className="flex justify-between items-center">
+            <div>
+              <h2 className="text-lg font-bold text-slate-900">Case Studies & Masterpieces</h2>
+              <p className="text-xs text-slate-500">Edit titles, summaries, and challenges displayed on Our Work page.</p>
+            </div>
+            <button
+              onClick={() => setEditCaseStudy({ client: '', title: '', category: 'Digital Marketing', summary: '', solution: '' })}
+              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#004aad] text-white text-xs font-bold hover:bg-blue-700 transition-all shadow-sm"
+            >
+              <Plus className="h-4 w-4" />
+              <span>Add Case Study</span>
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {caseStudyList.map((cs) => (
+              <div key={cs.id} className="p-5 rounded-2xl glass-panel border border-slate-200 bg-white flex flex-col justify-between space-y-4">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold font-mono text-[#004aad] uppercase bg-blue-50 px-2 py-0.5 rounded border border-blue-100">{cs.category}</span>
+                    <span className="text-[10px] font-mono text-slate-400">ID: {cs.id}</span>
+                  </div>
+                  <h3 className="text-base font-black text-slate-900 font-display">{cs.title}</h3>
+                  <p className="text-xs text-slate-500 line-clamp-2">{cs.summary}</p>
+                </div>
+
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                  <span className="font-bold text-slate-700">Client: {cs.client}</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setEditCaseStudy(cs)}
+                      className="flex items-center gap-1 px-3 py-1 rounded-lg border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 text-xs font-bold"
+                    >
+                      <Edit3 className="h-3 w-3 text-[#004aad]" />
+                      <span>Edit</span>
+                    </button>
+                    <button
+                      onClick={() => handleDeleteCaseStudy(cs.id)}
+                      className="p-1 rounded-lg border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 text-xs"
+                      title="Delete case study"
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* EDIT CASE STUDY MODAL */}
+      {editCaseStudy && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-slate-900/40">
+          <div className="w-full max-w-xl max-h-[90vh] overflow-y-auto glass-panel-strong p-6 rounded-3xl space-y-4 text-left shadow-2xl border border-slate-200">
+            <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+              <h3 className="text-lg font-bold text-slate-900 font-display">
+                {editCaseStudy.id ? 'Edit Case Study' : 'Add New Case Study'}
+              </h3>
+              <button onClick={() => setEditCaseStudy(null)} className="p-1 rounded-full text-slate-400 hover:text-slate-900">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveCaseStudy} className="space-y-4 text-xs font-sans">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Client Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editCaseStudy.client || ''}
+                    onChange={e => setEditCaseStudy({ ...editCaseStudy, client: e.target.value })}
+                    placeholder="e.g. Checkers Africa"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Category</label>
+                  <input
+                    type="text"
+                    value={editCaseStudy.category || 'Digital Marketing'}
+                    onChange={e => setEditCaseStudy({ ...editCaseStudy, category: e.target.value as any })}
+                    placeholder="Digital Marketing / Tech / Branding"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Project Headline / Title *</label>
+                <input
+                  type="text"
+                  required
+                  value={editCaseStudy.title || ''}
+                  onChange={e => setEditCaseStudy({ ...editCaseStudy, title: e.target.value })}
+                  placeholder="e.g. Helping Thousands Learn Free Digital Skills"
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Summary Text</label>
+                <textarea
+                  rows={3}
+                  value={editCaseStudy.summary || ''}
+                  onChange={e => setEditCaseStudy({ ...editCaseStudy, summary: e.target.value })}
+                  placeholder="Summary of the campaign or project..."
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">Solution Description</label>
+                <textarea
+                  rows={3}
+                  value={editCaseStudy.solution || ''}
+                  onChange={e => setEditCaseStudy({ ...editCaseStudy, solution: e.target.value })}
+                  placeholder="Detailed solution blueprint..."
+                  className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                />
+              </div>
+
+              <div className="pt-3 flex justify-end gap-3">
+                <button
+                  type="button"
+                  onClick={() => setEditCaseStudy(null)}
+                  className="px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-bold hover:bg-slate-100"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2 rounded-xl bg-[#004aad] text-white font-bold hover:bg-blue-700 shadow-sm"
+                >
+                  Save Case Study
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 4: CLIENT LEADS / SUBMISSIONS */}
       {activeTab === 'submissions' && (
-        <div className="space-y-6">
+        <div className="space-y-6 text-left">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               {(['All', 'New', 'Contacted', 'Closed'] as const).map((filter) => (
@@ -533,263 +1023,31 @@ CREATE POLICY "Admin full access" ON public.contact_submissions FOR ALL TO authe
                 </button>
               ))}
             </div>
-
-            <button
-              onClick={exportSubmissionsCSV}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-700 transition-all shadow-sm shrink-0"
-            >
-              <Download className="h-3.5 w-3.5" />
-              <span>Export CSV</span>
-            </button>
           </div>
 
-          {filteredSubmissions.length === 0 ? (
+          {submissions.length === 0 ? (
             <div className="p-12 text-center glass-panel rounded-3xl border border-slate-200 space-y-2">
               <Users className="h-8 w-8 text-slate-400 mx-auto" />
-              <h3 className="text-sm font-bold text-slate-700">No client submissions found</h3>
-              <p className="text-xs text-slate-500">Inquiries submitted via the strategy modal will appear here.</p>
+              <h3 className="text-sm font-bold text-slate-700">No client submissions yet</h3>
+              <p className="text-xs text-slate-500">Strategy consultation inquiries submitted by website visitors will appear here.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-4">
-              {filteredSubmissions.map((sub) => (
-                <div 
-                  key={sub.id} 
-                  className="p-6 rounded-2xl glass-panel border border-slate-200 bg-white hover:border-[#004aad]/30 transition-all space-y-4"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
-                    <div>
-                      <span className="text-base font-black text-slate-900 font-display">{sub.full_name}</span>
-                      {sub.company && <span className="ml-2 text-xs font-bold text-slate-500">({sub.company})</span>}
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-[10px] font-mono text-slate-400">
-                        {new Date(sub.created_at).toLocaleString()}
-                      </span>
-                      <span className={`text-[10px] font-bold font-mono px-2.5 py-1 rounded-full border ${
-                        sub.status === 'New' ? 'bg-blue-50 text-[#004aad] border-blue-200' :
-                        sub.status === 'Contacted' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                        'bg-emerald-50 text-emerald-700 border-emerald-200'
-                      }`}>
-                        {sub.status}
-                      </span>
-                    </div>
+              {submissions.filter(s => subFilter === 'All' || s.status === subFilter).map((sub) => (
+                <div key={sub.id} className="p-5 rounded-2xl glass-panel border border-slate-200 bg-white space-y-3">
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                    <span className="font-bold text-slate-900">{sub.full_name} ({sub.company || 'Direct Inquiry'})</span>
+                    <span className="text-[10px] font-mono text-slate-400">{new Date(sub.created_at).toLocaleDateString()}</span>
                   </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                    <div>
-                      <span className="font-mono text-[10px] uppercase font-bold text-slate-400 block">Contact Email</span>
-                      <a href={`mailto:${sub.email}`} className="font-bold text-[#004aad] hover:underline">{sub.email}</a>
-                    </div>
-                    <div>
-                      <span className="font-mono text-[10px] uppercase font-bold text-slate-400 block">Service Requested</span>
-                      <span className="font-bold text-slate-800">{sub.service_requested}</span>
-                    </div>
-                  </div>
-
-                  <div>
-                    <span className="font-mono text-[10px] uppercase font-bold text-slate-400 block mb-1">Message Detail</span>
-                    <p className="text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-100 leading-relaxed font-sans">
-                      {sub.message}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center justify-end gap-2 pt-2">
-                    <button
-                      onClick={() => updateSubmissionStatus(sub.id, 'Contacted')}
-                      className="px-3 py-1.5 rounded-lg border border-amber-200 bg-amber-50 text-amber-700 text-xs font-bold hover:bg-amber-100 transition-all"
-                    >
-                      Mark Contacted
-                    </button>
-                    <button
-                      onClick={() => updateSubmissionStatus(sub.id, 'Closed')}
-                      className="px-3 py-1.5 rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-700 text-xs font-bold hover:bg-emerald-100 transition-all"
-                    >
-                      Mark Closed
-                    </button>
-                    <button
-                      onClick={() => deleteSubmission(sub.id)}
-                      className="p-1.5 rounded-lg border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 transition-all"
-                      title="Delete inquiry"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                  <div className="text-xs text-slate-600 space-y-1">
+                    <div><strong className="text-slate-800">Email:</strong> {sub.email}</div>
+                    <div><strong className="text-slate-800">Service:</strong> {sub.service_requested}</div>
+                    <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-100 mt-2">{sub.message}</div>
                   </div>
                 </div>
               ))}
             </div>
           )}
-        </div>
-      )}
-
-      {/* TAB 2: CASE STUDIES MANAGER */}
-      {activeTab === 'case-studies' && (
-        <div className="space-y-6 text-left">
-          <div className="flex justify-between items-center">
-            <h2 className="text-lg font-bold text-slate-900">Portfolio Masterpieces ({caseStudyList.length})</h2>
-            <button
-              onClick={() => alert("To add a new case study, insert a record into the 'case_studies' table in Supabase or edit src/data.ts.")}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#004aad] text-white text-xs font-bold hover:bg-blue-700 transition-all"
-            >
-              <Plus className="h-4 w-4" />
-              <span>Add Case Study</span>
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {caseStudyList.map((cs) => (
-              <div key={cs.id} className="p-5 rounded-2xl glass-panel border border-slate-200 bg-white flex flex-col justify-between space-y-4">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold font-mono text-[#004aad] uppercase">{cs.category}</span>
-                    <span className="text-[10px] font-mono text-slate-400">ID: {cs.id}</span>
-                  </div>
-                  <h3 className="text-base font-black text-slate-900 font-display">{cs.title}</h3>
-                  <p className="text-xs text-slate-500 line-clamp-2">{cs.summary}</p>
-                </div>
-
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                  <span className="font-bold text-slate-700">Client: {cs.client}</span>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-bold">
-                      Published ✓
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* TAB 3: ASSOCIATED ORGANISATIONS MANAGER */}
-      {activeTab === 'organizations' && (
-        <div className="space-y-6 text-left">
-          <div className="flex justify-between items-center">
-            <h2 className="text-lg font-bold text-slate-900">Associated Organizations ({orgList.length})</h2>
-            <button
-              onClick={() => alert("To add an organization, insert a record into 'associated_organizations' in Supabase or edit src/data.ts.")}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#004aad] text-white text-xs font-bold hover:bg-blue-700 transition-all"
-            >
-              <Plus className="h-4 w-4" />
-              <span>Add Organization</span>
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {orgList.map((org) => (
-              <div key={org.id} className="p-4 rounded-2xl glass-panel border border-slate-200 bg-white space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-[9px] font-mono font-bold text-slate-500 uppercase bg-slate-100 px-2 py-0.5 rounded">{org.category}</span>
-                  <a href={org.link} target="_blank" rel="noopener noreferrer" className="text-[#004aad] hover:underline text-xs flex items-center gap-1 font-mono">
-                    <span>Link</span>
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                </div>
-                <h3 className="text-sm font-bold text-slate-900">{org.name}</h3>
-                <p className="text-[11px] text-slate-500">{org.location}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* TAB 4: SUPABASE SECURITY & SCHEMA HELPER */}
-      {activeTab === 'security' && (
-        <div className="space-y-8 text-left max-w-4xl mx-auto">
-          
-          {/* SECURITY SETTINGS EXPLANATION CARD */}
-          <div className="p-6 rounded-3xl glass-panel border border-slate-200 bg-white space-y-4">
-            <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-              <div className="p-2.5 rounded-xl bg-blue-50 text-[#004aad]">
-                <ShieldCheck className="h-6 w-6" />
-              </div>
-              <div>
-                <h3 className="text-base font-black text-slate-900 font-display">Supabase Security Settings Guide</h3>
-                <p className="text-xs text-slate-500">Recommended choices for project setup modal</p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-              <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200 space-y-2">
-                <div className="flex items-center gap-1.5 font-bold text-emerald-800">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                  <span>1. Enable Data API</span>
-                </div>
-                <span className="inline-block px-2 py-0.5 text-[9px] font-mono font-bold bg-emerald-200 text-emerald-900 rounded">
-                  KEEP CHECKED [✓]
-                </span>
-                <p className="text-[11px] text-emerald-900/80 leading-relaxed">
-                  Required for <code className="bg-emerald-100 px-1">supabase-js</code> to query and update your database from the client application.
-                </p>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-red-50/60 border border-red-200 space-y-2">
-                <div className="flex items-center gap-1.5 font-bold text-red-800">
-                  <AlertCircle className="h-4 w-4 text-red-600 shrink-0" />
-                  <span>2. Automatically Expose New Tables</span>
-                </div>
-                <span className="inline-block px-2 py-0.5 text-[9px] font-mono font-bold bg-red-200 text-red-900 rounded">
-                  UNCHECK THIS [ ]
-                </span>
-                <p className="text-[11px] text-red-900/80 leading-relaxed">
-                  Leaving this checked exposes all newly created tables to the public API automatically. Unchecking enforces manual access control.
-                </p>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200 space-y-2">
-                <div className="flex items-center gap-1.5 font-bold text-emerald-800">
-                  <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
-                  <span>3. Enable Automatic RLS</span>
-                </div>
-                <span className="inline-block px-2 py-0.5 text-[9px] font-mono font-bold bg-emerald-200 text-emerald-900 rounded">
-                  CHECK THIS [✓]
-                </span>
-                <p className="text-[11px] text-emerald-900/80 leading-relaxed">
-                  Automatically enables Row Level Security on all new tables in the public schema to prevent accidental public data leaks.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* SQL SCHEMA SETUP BOX */}
-          <div className="p-6 rounded-3xl glass-panel border border-slate-200 bg-white space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <h3 className="text-base font-black text-slate-900 font-display">Supabase SQL Editor Migration Script</h3>
-                <p className="text-xs text-slate-500">Copy & paste this into your Supabase SQL Editor to initialize tables & security policies.</p>
-              </div>
-              <button
-                onClick={copySqlSchema}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 transition-all shrink-0"
-              >
-                {copiedSql ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
-                <span>{copiedSql ? 'Copied to Clipboard!' : 'Copy SQL Script'}</span>
-              </button>
-            </div>
-
-            <div className="relative">
-              <pre className="p-4 rounded-2xl bg-slate-950 text-slate-200 font-mono text-[11px] overflow-x-auto max-h-72 border border-slate-800">
-                {`-- Run this script in your Supabase SQL Editor
-CREATE TABLE IF NOT EXISTS public.contact_submissions (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
-  full_name TEXT NOT NULL,
-  email TEXT NOT NULL,
-  phone TEXT,
-  company TEXT,
-  service_requested TEXT NOT NULL,
-  project_budget TEXT,
-  message TEXT NOT NULL,
-  status TEXT DEFAULT 'New' CHECK (status IN ('New', 'Contacted', 'Closed', 'Archived'))
-);
-
-ALTER TABLE public.contact_submissions ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Public insert" ON public.contact_submissions FOR INSERT TO public WITH CHECK (true);
-CREATE POLICY "Admin full access" ON public.contact_submissions FOR ALL TO authenticated USING (true);`}
-              </pre>
-            </div>
-          </div>
-
         </div>
       )}
 

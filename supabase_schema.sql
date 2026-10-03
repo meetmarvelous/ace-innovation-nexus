@@ -48,12 +48,28 @@ CREATE TABLE IF NOT EXISTS public.associated_organizations (
   is_verified BOOLEAN DEFAULT true
 );
 
+-- 4. INSIGHT ARTICLES / BLOG POSTS TABLE
+CREATE TABLE IF NOT EXISTS public.insight_articles (
+  id TEXT PRIMARY KEY,
+  created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
+  title TEXT NOT NULL,
+  category TEXT NOT NULL,
+  read_time TEXT DEFAULT '5 Min Read',
+  date TEXT NOT NULL,
+  summary TEXT NOT NULL,
+  image TEXT NOT NULL,
+  author TEXT NOT NULL,
+  content TEXT,
+  published BOOLEAN DEFAULT true
+);
+
 -- =====================================================================
 -- PERFORMANCE INDEXES
 -- =====================================================================
 CREATE INDEX IF NOT EXISTS idx_contact_submissions_created_at ON public.contact_submissions(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_case_studies_category ON public.case_studies(category);
 CREATE INDEX IF NOT EXISTS idx_associated_organizations_category ON public.associated_organizations(category);
+CREATE INDEX IF NOT EXISTS idx_insight_articles_category ON public.insight_articles(category);
 
 -- =====================================================================
 -- ROW LEVEL SECURITY (RLS) POLICIES
@@ -61,6 +77,7 @@ CREATE INDEX IF NOT EXISTS idx_associated_organizations_category ON public.assoc
 ALTER TABLE public.contact_submissions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.case_studies ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.associated_organizations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.insight_articles ENABLE ROW LEVEL SECURITY;
 
 -- ---------------------------------------------------------------------
 -- RLS POLICIES FOR contact_submissions
@@ -111,6 +128,24 @@ CREATE POLICY "Public visitors can view associated organizations"
 DROP POLICY IF EXISTS "Admin users can manage associated organizations" ON public.associated_organizations;
 CREATE POLICY "Admin users can manage associated organizations" 
   ON public.associated_organizations 
+  FOR ALL 
+  TO authenticated 
+  USING (true) 
+  WITH CHECK (true);
+
+-- ---------------------------------------------------------------------
+-- RLS POLICIES FOR insight_articles
+-- ---------------------------------------------------------------------
+DROP POLICY IF EXISTS "Public visitors can view published insight articles" ON public.insight_articles;
+CREATE POLICY "Public visitors can view published insight articles" 
+  ON public.insight_articles 
+  FOR SELECT 
+  TO public 
+  USING (published = true);
+
+DROP POLICY IF EXISTS "Admin users can manage insight articles" ON public.insight_articles;
+CREATE POLICY "Admin users can manage insight articles" 
+  ON public.insight_articles 
   FOR ALL 
   TO authenticated 
   USING (true) 
@@ -355,3 +390,61 @@ ON CONFLICT (id) DO UPDATE SET
   logo = EXCLUDED.logo,
   description = EXCLUDED.description,
   links = EXCLUDED.links;
+
+-- =====================================================================
+-- SEED INITIAL DATA (INSIGHT ARTICLES / BLOG POSTS)
+-- =====================================================================
+INSERT INTO public.insight_articles (id, title, category, read_time, date, summary, image, author, published)
+VALUES
+(
+  'ins-feat',
+  'Why Your Business Needs SEO (Not Just Paid Ads)',
+  'Marketing',
+  '6 Min Read',
+  'June 2026',
+  'Running ads is great, but what happens when you stop paying? Learn why SEO gives you long-term results and how to get started.',
+  'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
+  'Kofi Owusu',
+  true
+),
+(
+  'ins-mktg',
+  'How Good Branding Increases Your Sales',
+  'Branding',
+  '4 Min Read',
+  'May 2026',
+  'Your brand is more than a logo. See how professional branding and quality visuals helped our clients sell more — with real examples.',
+  'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80',
+  'Amara Nwachukwu',
+  true
+),
+(
+  'ins-cons',
+  'Training the Next Generation of Digital Creators',
+  'Training',
+  '5 Min Read',
+  'April 2026',
+  'How our partnership with HP LIFE is helping young Nigerians learn digital skills and land real jobs in marketing, design, and tech.',
+  'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80',
+  'Tega John-Sola',
+  true
+),
+(
+  'ins-tech',
+  'Why Your Website Needs to Load Fast (Especially in Nigeria)',
+  'Development',
+  '7 Min Read',
+  'March 2026',
+  'A slow website loses customers. Here''s how we build websites that load in seconds — even on 3G connections — and why it matters for your bottom line.',
+  'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
+  'Zainab Alao',
+  true
+)
+ON CONFLICT (id) DO UPDATE SET
+  title = EXCLUDED.title,
+  category = EXCLUDED.category,
+  read_time = EXCLUDED.read_time,
+  date = EXCLUDED.date,
+  summary = EXCLUDED.summary,
+  image = EXCLUDED.image,
+  author = EXCLUDED.author;

@@ -1,6 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { ArrowUpRight, CheckCircle2, ChevronRight, Zap, MessageSquare, ClipboardList, Rocket, BarChart3 } from 'lucide-react';
-import { caseStudies, staticInsights } from '../data';
+import { caseStudies as defaultCaseStudies, staticInsights as defaultInsights } from '../data';
+import { getInsightArticles, getCaseStudies } from '../lib/dataService';
+import { CaseStudy, InsightArticle } from '../types';
 import KineticText from './KineticText';
 
 interface HomeViewProps {
@@ -9,6 +11,13 @@ interface HomeViewProps {
 }
 
 export default function HomeView({ setCurrentTab, openContactModal }: HomeViewProps) {
+  const [insightList, setInsightList] = useState<InsightArticle[]>(defaultInsights);
+  const [caseStudyList, setCaseStudyList] = useState<CaseStudy[]>(defaultCaseStudies);
+
+  useEffect(() => {
+    getInsightArticles().then(setInsightList).catch(() => {});
+    getCaseStudies().then(setCaseStudyList).catch(() => {});
+  }, []);
 
   const triggerHaptic = useCallback((pattern: number | number[] = 15) => {
     if ('vibrate' in navigator) {
@@ -257,7 +266,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
           </div>
 
           <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {caseStudies.map((project, idx) => (
+            {caseStudyList.map((project, idx) => (
               <div
                 key={project.id}
                 className="group flex flex-col justify-between rounded-2xl p-5 cosmic-card perspective-container"
@@ -334,7 +343,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
           </div>
 
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {staticInsights.map((article, idx) => (
+            {insightList.map((article, idx) => (
               <div
                 key={article.id}
                 className="group flex flex-col justify-between rounded-2xl p-4.5 cosmic-card"
