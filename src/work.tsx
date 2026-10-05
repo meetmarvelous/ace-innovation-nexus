@@ -37,6 +37,7 @@ function WorkApp() {
 
       {/* Footer element */}
       <Footer
+        currentTab="services"
         setCurrentTab={navigateToHome}
         openContactModal={() => { triggerHaptic(20); setContactModalOpen(true); }}
       />

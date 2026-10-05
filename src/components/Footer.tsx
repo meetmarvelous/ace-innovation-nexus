@@ -1,12 +1,15 @@
-import React from 'react';
-import { ArrowUpRight, Instagram, Mail, MapPin, Phone, Linkedin, Twitter } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowUpRight, Instagram, Mail, MapPin, Phone, Linkedin, Twitter, Sparkles, X } from 'lucide-react';
+import { triggerHaptic } from '../utils/haptics';
 
 interface FooterProps {
+  currentTab?: string;
   setCurrentTab: (tab: string) => void;
   openContactModal: () => void;
 }
 
-export default function Footer({ setCurrentTab, openContactModal }: FooterProps) {
+export default function Footer({ currentTab, setCurrentTab, openContactModal }: FooterProps) {
+  const [quoteToast, setQuoteToast] = useState(false);
   const currentYear = new Date().getFullYear();
 
   const handleNavClick = (tabId: string) => {
@@ -14,42 +17,85 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleInstantQuoteClick = () => {
+    triggerHaptic(20);
+    setQuoteToast(true);
+    setTimeout(() => {
+      setQuoteToast(false);
+    }, 4500);
+  };
+
   const officeHubs = [
     { city: "Ibadan, Nigeria", role: "Headquarters", address: "Ace Innovation Nexus, Jericho, Ibadan" }
   ];
 
+  const shouldShowTopCta = !['about', 'onepercent', 'acedemy'].includes(currentTab || '');
+
   return (
     <footer className="w-full relative z-10" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)', borderTop: '1px solid rgba(226, 232, 240, 0.9)' }}>
       
-      {/* Top Section: CTA Grid */}
-      <div className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center pb-16" style={{ borderBottom: '1px solid rgba(226, 232, 240, 0.8)' }}>
-          <div className="lg:col-span-7">
-            <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl font-display">
-              Ready to grow your business?
-            </h2>
-            <p className="mt-4 max-w-xl text-base text-slate-600">
-              Let us handle your marketing, content, photography, videos, and website so you can focus on running your business.
-            </p>
+      {/* TOAST NOTIFICATION FOR INSTANT QUOTE */}
+      {quoteToast && (
+        <div 
+          className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-slate-900/95 text-white border border-blue-500/30 shadow-2xl backdrop-blur-md transition-all"
+          style={{ animation: 'fade-in-up 0.3s ease forwards' }}
+        >
+          <div className="h-7 w-7 rounded-xl bg-blue-500/20 text-[#004aad] flex items-center justify-center shrink-0">
+            <Sparkles className="h-4 w-4 text-sky-400" />
           </div>
-          <div className="lg:col-span-5 flex flex-col sm:flex-row gap-4 lg:justify-end">
-            <button
-              id="footer-cta-primary"
-              onClick={openContactModal}
-              className="group flex items-center justify-center gap-1.5 rounded-xl px-6 py-4 text-sm font-semibold text-white transition-all neon-btn haptic-press"
-            >
-              Get a Free Quote
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </button>
-            <button
-              id="footer-cta-secondary"
-              onClick={() => handleNavClick('network')}
-              className="flex items-center justify-center rounded-xl border border-slate-300 bg-white px-6 py-4 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-100 hover:border-slate-400 haptic-press"
-            >
-              Associated Brands
-            </button>
+          <div className="text-xs font-semibold pr-2 font-sans">
+            Instant Quote Calculator is coming soon! In the meantime, please book a consultation with our team.
           </div>
+          <button 
+            onClick={() => setQuoteToast(false)}
+            className="text-slate-400 hover:text-white p-1 rounded-lg transition-colors"
+            title="Dismiss"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
         </div>
+      )}
+
+      {/* Top Section: CTA Grid (Only rendered on client/commercial tabs: Home, Work, Brands) */}
+      <div className="mx-auto max-w-7xl px-6 py-16 sm:px-8">
+        {shouldShowTopCta && (
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center pb-16" style={{ borderBottom: '1px solid rgba(226, 232, 240, 0.8)' }}>
+            <div className="lg:col-span-6">
+              <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl font-display">
+                Ready to grow your business?
+              </h2>
+              <p className="mt-4 max-w-xl text-base text-slate-600">
+                Let us handle your marketing, content, photography, videos, and website so you can focus on running your business.
+              </p>
+            </div>
+            <div className="lg:col-span-6 flex flex-wrap gap-3 lg:justify-end items-center">
+              <button
+                id="footer-cta-primary"
+                onClick={openContactModal}
+                className="group flex items-center justify-center gap-1.5 rounded-xl px-6 py-4 text-sm font-semibold text-white transition-all neon-btn haptic-press shadow-md"
+              >
+                Book Consultation
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </button>
+              <button
+                id="footer-cta-quote"
+                onClick={handleInstantQuoteClick}
+                className="flex items-center justify-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50/70 px-5 py-4 text-sm font-semibold text-[#004aad] transition-all hover:bg-blue-100 hover:border-blue-300 haptic-press"
+              >
+                <Sparkles className="h-4 w-4 text-[#004aad]" />
+                <span>Instant Quote</span>
+                <span className="text-[10px] font-bold font-mono px-1.5 py-0.5 rounded bg-blue-200/70 text-[#004aad] uppercase tracking-wider ml-1">SOON</span>
+              </button>
+              <button
+                id="footer-cta-secondary"
+                onClick={() => handleNavClick('network')}
+                className="flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-4 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-100 hover:border-slate-400 haptic-press shadow-xs"
+              >
+                Associated Brands
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Middle Section: Navigation & Hubs */}
         <div className="grid grid-cols-1 gap-12 py-16 md:grid-cols-2 lg:grid-cols-12">

@@ -81,6 +81,7 @@ export default function App() {
 
       {/* Footer element */}
       <Footer
+        currentTab={currentTab}
         setCurrentTab={setCurrentTab}
         openContactModal={() => { triggerHaptic(20); setContactModalOpen(true); }}
       />
