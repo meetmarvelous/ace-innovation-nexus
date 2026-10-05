@@ -20,7 +20,6 @@ export default function Header({ currentTab, setCurrentTab, openContactModal }: 
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About Us' },
     { id: 'services', label: 'Our Work' },
-    { id: 'partnerships', label: 'Partnerships' },
     { id: 'network', label: 'Associated Brands' },
     { id: 'onepercent', label: '1% Ace' },
     { id: 'acedemy', label: 'Acedemy' }

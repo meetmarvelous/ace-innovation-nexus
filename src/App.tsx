@@ -68,7 +68,9 @@ export default function App() {
           />
         )}
         {currentTab === 'services' && <WorkView />}
-        {currentTab === 'about' && <AboutView />}
+        {currentTab === 'about' && (
+          <AboutView openContactModal={() => { triggerHaptic(20); setContactModalOpen(true); }} />
+        )}
         {currentTab === 'partnerships' && <PartnershipsView />}
         {(currentTab === 'network' || currentTab === 'careers') && (
           <NetworkView openContactModal={() => { triggerHaptic(20); setContactModalOpen(true); }} />
