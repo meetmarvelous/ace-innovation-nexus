@@ -22,7 +22,7 @@ export default function Header({ currentTab, setCurrentTab, openContactModal }: 
     { id: 'services', label: 'Our Work' },
     { id: 'network', label: 'Associated Brands' },
     { id: 'onepercent', label: '1% Ace' },
-    { id: 'acedemy', label: 'Acedemy' }
+    { id: 'acedemy', label: 'ACEDEMY' }
   ];
 
   const handleNavClick = (tabId: string) => {

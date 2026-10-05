@@ -164,7 +164,7 @@ export default function Footer({ currentTab, setCurrentTab, openContactModal }: 
                 <button onClick={() => handleNavClick('onepercent')} className="text-slate-600 hover:text-[#004aad] transition-colors haptic-press">1% Ace</button>
               </li>
               <li>
-                <button onClick={() => handleNavClick('acedemy')} className="text-slate-600 hover:text-[#004aad] transition-colors haptic-press">Acedemy</button>
+                <button onClick={() => handleNavClick('acedemy')} className="text-slate-600 hover:text-[#004aad] transition-colors haptic-press">ACEDEMY</button>
               </li>
             </ul>
           </div>
