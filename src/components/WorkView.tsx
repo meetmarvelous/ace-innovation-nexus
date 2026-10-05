@@ -1,10 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Download, Search, ArrowUpRight, CheckCircle2, ArrowLeft, Star, ShieldAlert } from 'lucide-react';
+import { Download, Search, ArrowUpRight, CheckCircle2, ArrowLeft, Star, ShieldAlert, ExternalLink } from 'lucide-react';
 import KineticText from './KineticText';
 import { caseStudies as defaultCaseStudies } from '../data';
 import { getCaseStudies } from '../lib/dataService';
 import { CaseStudy } from '../types';
 import { triggerHaptic } from '../utils/haptics';
+import { formatExternalUrl } from '../utils/urlFormatter';
 
 export default function WorkView() {
   const [filterCategory, setFilterCategory] = useState<'All' | 'Branding & Strategy' | 'Digital Marketing' | 'Tech Products'>('All');
@@ -253,6 +254,12 @@ export default function WorkView() {
                     <div className="absolute top-3 left-3 rounded-lg px-2.5 py-1 text-[9px] font-bold text-slate-800 uppercase tracking-widest font-mono glass-panel border border-slate-200 shadow-xs print-badge">
                       {project.category}
                     </div>
+                    {project.project_url && (
+                      <div className="absolute top-3 right-3 rounded-lg px-2 py-1 text-[9px] font-bold text-white uppercase tracking-wider font-mono bg-[#004aad]/90 backdrop-blur-xs shadow-xs flex items-center gap-1 no-print">
+                        <span>Live Demo</span>
+                        <ExternalLink className="h-2.5 w-2.5" />
+                      </div>
+                    )}
                   </div>
 
                   <h3 className="mt-5 text-xs font-bold text-[#004aad] tracking-wider uppercase font-mono">{project.client}</h3>
@@ -302,13 +309,27 @@ export default function WorkView() {
               <span>Back to Portfolio</span>
             </button>
 
-            <button
-              onClick={handlePrint}
-              className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-bold text-white transition-all neon-btn haptic-press"
-            >
-              <Download className="h-4 w-4" />
-              <span>Export PDF Report</span>
-            </button>
+            <div className="flex items-center gap-2 sm:gap-3">
+              {selectedProject.project_url && (
+                <a
+                  href={formatExternalUrl(selectedProject.project_url)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 text-[#004aad] px-3.5 sm:px-4 py-2 text-xs font-bold hover:bg-blue-100 transition-all haptic-press shadow-xs"
+                >
+                  <ExternalLink className="h-3.5 w-3.5" />
+                  <span>Visit Live Project</span>
+                </a>
+              )}
+
+              <button
+                onClick={handlePrint}
+                className="flex items-center gap-2 rounded-xl px-4 sm:px-5 py-2 text-xs font-bold text-white transition-all neon-btn haptic-press"
+              >
+                <Download className="h-4 w-4" />
+                <span>Export PDF Report</span>
+              </button>
+            </div>
           </div>
 
           {/* Immersive Contents */}
@@ -322,9 +343,22 @@ export default function WorkView() {
               <h2 className="text-3xl sm:text-5xl font-black text-slate-900 font-display leading-tight tracking-tight">
                 {selectedProject.title}
               </h2>
-              <div className="flex items-center gap-2 text-sm font-bold tracking-wider font-mono text-[#004aad] uppercase">
-                <span>CLIENT:</span>
-                <span>{selectedProject.client}</span>
+              <div className="flex flex-wrap items-center gap-3 text-sm font-bold tracking-wider font-mono text-[#004aad] uppercase">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-slate-500">CLIENT:</span>
+                  <span>{selectedProject.client}</span>
+                </div>
+                {selectedProject.project_url && (
+                  <a
+                    href={formatExternalUrl(selectedProject.project_url)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs font-bold normal-case text-[#004aad] hover:underline bg-blue-50 px-2 py-0.5 rounded-md border border-blue-100"
+                  >
+                    <span>{selectedProject.project_url.replace(/^https?:\/\//i, '').replace(/\/$/, '')}</span>
+                    <ExternalLink className="h-3 w-3" />
+                  </a>
+                )}
               </div>
             </div>
 

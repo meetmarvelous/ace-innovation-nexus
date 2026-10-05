@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { 
   ShieldCheck, Users, Briefcase, Building2, Lock, FileText, ArrowLeft,
-  LogOut, Plus, Trash2, Edit3, CheckCircle2, RefreshCw, X, ShieldAlert
+  LogOut, Plus, Trash2, Edit3, CheckCircle2, RefreshCw, X, ShieldAlert,
+  ExternalLink, Globe, Image as ImageIcon, Sparkles, Layers, BarChart3
 } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { 
@@ -56,6 +57,9 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
   const [editInsight, setEditInsight] = useState<Partial<InsightArticle> | null>(null);
   const [editOrg, setEditOrg] = useState<Partial<AssociatedOrganization> | null>(null);
   const [editCaseStudy, setEditCaseStudy] = useState<Partial<CaseStudy> | null>(null);
+  const [csSaving, setCsSaving] = useState(false);
+  const [newScopeTag, setNewScopeTag] = useState('');
+  const [newTeamMember, setNewTeamMember] = useState('');
 
   // Load initial content
   const loadAllData = useCallback(async () => {
@@ -279,22 +283,46 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
   // CMS Handlers: Case Studies
   const handleSaveCaseStudy = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!editCaseStudy?.client || !editCaseStudy?.title) return alert('Client name and Title are required.');
+    if (!editCaseStudy?.client?.trim() || !editCaseStudy?.title?.trim()) {
+      return alert('Client name and Title are required.');
+    }
     triggerHaptic(20);
+    setCsSaving(true);
+
+    const rawUrl = editCaseStudy.project_url?.trim() || '';
+    const formattedUrl = rawUrl ? formatExternalUrl(rawUrl) : '';
+
+    const cleanedMetrics = (editCaseStudy.metrics || [])
+      .filter(m => (m.label && m.label.trim()) || (m.value && m.value.trim()))
+      .map(m => ({
+        label: m.label?.trim() || 'Key Metric',
+        value: m.value?.trim() || '-',
+        subtext: m.subtext?.trim() || ''
+      }));
+
+    const cleanedScope = (editCaseStudy.scope || [])
+      .map(s => s.trim())
+      .filter(s => s.length > 0);
+
+    const cleanedTeam = (editCaseStudy.team || [])
+      .map(t => t.trim())
+      .filter(t => t.length > 0);
 
     const csToSave: CaseStudy = {
       id: editCaseStudy.id || `cs-${Date.now()}`,
-      client: editCaseStudy.client,
-      title: editCaseStudy.title,
+      client: editCaseStudy.client.trim(),
+      title: editCaseStudy.title.trim(),
       category: (editCaseStudy.category as any) || 'Digital Marketing',
-      summary: editCaseStudy.summary || '',
-      description: editCaseStudy.description || editCaseStudy.summary || '',
-      challenge: editCaseStudy.challenge || editCaseStudy.summary || '',
-      solution: editCaseStudy.solution || '',
-      image: editCaseStudy.image || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
-      metrics: editCaseStudy.metrics || [{ label: 'Performance', value: '+100%' }],
-      scope: editCaseStudy.scope || ['Digital Campaigns'],
-      team: editCaseStudy.team || ['Ace Nexus Team'],
+      summary: editCaseStudy.summary?.trim() || '',
+      description: editCaseStudy.description?.trim() || editCaseStudy.summary?.trim() || '',
+      challenge: editCaseStudy.challenge?.trim() || editCaseStudy.summary?.trim() || '',
+      solution: editCaseStudy.solution?.trim() || '',
+      image: editCaseStudy.image?.trim() || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
+      project_url: formattedUrl,
+      url: formattedUrl,
+      metrics: cleanedMetrics.length > 0 ? cleanedMetrics : [{ label: 'Performance', value: '+100%' }],
+      scope: cleanedScope.length > 0 ? cleanedScope : ['Digital Campaigns'],
+      team: cleanedTeam.length > 0 ? cleanedTeam : ['Ace Nexus Team'],
     };
 
     try {
@@ -309,8 +337,12 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
         return [csToSave, ...prev];
       });
       setEditCaseStudy(null);
+      setNewScopeTag('');
+      setNewTeamMember('');
     } catch (err: any) {
       alert(`Could not save case study: ${err.message}`);
+    } finally {
+      setCsSaving(false);
     }
   };
 
@@ -988,10 +1020,27 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
                 <h2 className="text-base sm:text-lg font-black text-slate-900 font-display">Case Studies CMS</h2>
-                <p className="text-xs text-slate-500">Edit titles, summaries, and solutions for Our Work page.</p>
+                <p className="text-xs text-slate-500">Edit titles, image URLs, live demo URLs, solutions, metrics, and deliverables live on the website.</p>
               </div>
               <button
-                onClick={() => setEditCaseStudy({ client: '', title: '', category: 'Digital Marketing', summary: '', solution: '' })}
+                onClick={() => {
+                  triggerHaptic(10);
+                  setEditCaseStudy({
+                    client: '',
+                    title: '',
+                    category: 'Digital Marketing',
+                    summary: '',
+                    challenge: '',
+                    solution: '',
+                    image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
+                    project_url: '',
+                    metrics: [
+                      { label: 'Growth / Metric', value: '+100%', subtext: 'Verified result' }
+                    ],
+                    scope: ['Digital Campaigns', 'Growth Strategy'],
+                    team: ['Ace Nexus Team']
+                  });
+                }}
                 className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#004aad] hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-xs shrink-0"
               >
                 <Plus className="h-4 w-4" />
@@ -1002,36 +1051,527 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {caseStudyList.map((cs) => (
                 <div key={cs.id} className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between space-y-4 hover:border-[#004aad]/40 transition-all">
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-bold font-mono text-[#004aad] uppercase bg-blue-50 px-2 py-0.5 rounded border border-blue-100">{cs.category}</span>
-                      <span className="text-[10px] font-mono text-slate-400">ID: {cs.id}</span>
+                  <div className="space-y-3">
+                    {/* Visual Card Image Banner */}
+                    <div className="relative w-full h-40 sm:h-44 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 group">
+                      <img
+                        src={cs.image || 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80'}
+                        alt={cs.client}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80';
+                        }}
+                      />
+                      <div className="absolute top-2.5 left-2.5">
+                        <span className="text-[10px] font-bold font-mono text-[#004aad] uppercase bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md border border-slate-200 shadow-xs">
+                          {cs.category}
+                        </span>
+                      </div>
+                      {cs.project_url && (
+                        <a
+                          href={formatExternalUrl(cs.project_url)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="absolute top-2.5 right-2.5 flex items-center gap-1 text-[10px] font-bold bg-[#004aad] text-white px-2.5 py-1 rounded-md shadow-xs hover:bg-blue-700 transition-colors"
+                        >
+                          <span>Live Project</span>
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
+                      )}
                     </div>
-                    <h3 className="text-sm sm:text-base font-black text-slate-900 font-display">{cs.title}</h3>
-                    <p className="text-xs text-slate-600 line-clamp-2">{cs.summary}</p>
+
+                    <div>
+                      <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-1">
+                        <span className="font-bold text-[#004aad] uppercase tracking-wider">{cs.client}</span>
+                        <span>ID: {cs.id}</span>
+                      </div>
+                      <h3 className="text-sm sm:text-base font-black text-slate-900 font-display line-clamp-1">{cs.title}</h3>
+                      <p className="text-xs text-slate-600 line-clamp-2 mt-1 leading-relaxed">{cs.summary}</p>
+                    </div>
+
+                    {/* Metrics preview pills */}
+                    {cs.metrics && cs.metrics.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 pt-1">
+                        {cs.metrics.slice(0, 3).map((met, i) => (
+                          <span key={i} className="inline-flex items-center text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+                            <strong className="text-slate-900 mr-1">{met.value}</strong> {met.label}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
                   <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                    <span className="font-bold text-slate-700 text-xs">Client: {cs.client}</span>
+                    <span className="text-[11px] font-mono text-slate-400">{cs.scope?.length || 0} Scope Items</span>
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={() => setEditCaseStudy(cs)}
-                        className="flex items-center gap-1 px-3 py-1 rounded-lg border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 text-xs font-bold"
+                        onClick={() => {
+                          triggerHaptic(10);
+                          setEditCaseStudy({
+                            ...cs,
+                            metrics: cs.metrics ? cs.metrics.map(m => ({ ...m })) : [],
+                            scope: cs.scope ? [...cs.scope] : [],
+                            team: cs.team ? [...cs.team] : []
+                          });
+                        }}
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 text-xs font-bold"
                       >
-                        <Edit3 className="h-3 w-3 text-[#004aad]" />
+                        <Edit3 className="h-3.5 w-3.5 text-[#004aad]" />
                         <span>Edit</span>
                       </button>
                       <button
                         onClick={() => handleDeleteCaseStudy(cs.id)}
-                        className="p-1 rounded-lg border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 text-xs"
+                        className="p-1.5 rounded-lg border border-red-200 bg-red-50 text-red-600 hover:bg-red-100 text-xs"
                         title="Delete case study"
                       >
-                        <Trash2 className="h-3 w-3" />
+                        <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </div>
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* EDIT CASE STUDY MODAL */}
+        {editCaseStudy && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 backdrop-blur-md bg-slate-900/50">
+            <div className="w-full max-w-3xl max-h-[92vh] overflow-y-auto bg-white p-5 sm:p-7 rounded-3xl space-y-6 text-left shadow-2xl border border-slate-200">
+              
+              {/* Modal Header */}
+              <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div>
+                  <h3 className="text-base sm:text-xl font-bold text-slate-900 font-display">
+                    {editCaseStudy.id ? `Edit Case Study (${editCaseStudy.client || 'Draft'})` : 'Create New Case Study'}
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Changes will sync live to the Supabase database and Our Work section.
+                  </p>
+                </div>
+                <button 
+                  onClick={() => setEditCaseStudy(null)} 
+                  className="p-1.5 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <form onSubmit={handleSaveCaseStudy} className="space-y-5 text-xs font-sans">
+                
+                {/* Section 1: Client & Core Info */}
+                <div className="p-4 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-4">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#004aad] font-mono flex items-center gap-1.5">
+                    <Briefcase className="h-3.5 w-3.5" />
+                    <span>Project Overview</span>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block font-bold text-slate-700 mb-1">Client Name *</label>
+                      <input
+                        type="text"
+                        required
+                        value={editCaseStudy.client || ''}
+                        onChange={e => setEditCaseStudy({ ...editCaseStudy, client: e.target.value })}
+                        placeholder="e.g. Checkers Africa (Nigeria)"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-bold text-slate-700 mb-1">Category</label>
+                      <select
+                        value={editCaseStudy.category || 'Digital Marketing'}
+                        onChange={e => setEditCaseStudy({ ...editCaseStudy, category: e.target.value as any })}
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                      >
+                        <option value="Digital Marketing">Digital Marketing</option>
+                        <option value="Branding & Strategy">Branding & Strategy</option>
+                        <option value="Tech Products">Tech Products</option>
+                        <option value="Branding & Content">Branding & Content</option>
+                        <option value="Web & App Development">Web & App Development</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Case Study Headline / Title *</label>
+                    <input
+                      type="text"
+                      required
+                      value={editCaseStudy.title || ''}
+                      onChange={e => setEditCaseStudy({ ...editCaseStudy, title: e.target.value })}
+                      placeholder="e.g. Scaling African Luxury Fashion to a Global Audience"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Card Summary (Short Overview) *</label>
+                    <textarea
+                      required
+                      rows={2}
+                      value={editCaseStudy.summary || ''}
+                      onChange={e => setEditCaseStudy({ ...editCaseStudy, summary: e.target.value })}
+                      placeholder="Brief overview displayed on the portfolio card grid..."
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 cosmic-input"
+                    />
+                  </div>
+                </div>
+
+                {/* Section 2: URLs & Assets */}
+                <div className="p-4 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-4">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#004aad] font-mono flex items-center gap-1.5">
+                    <Globe className="h-3.5 w-3.5" />
+                    <span>Project URL & Visual Assets</span>
+                  </div>
+
+                  {/* Project URL */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="font-bold text-slate-700">Live Project / Website URL</label>
+                      {editCaseStudy.project_url && (
+                        <a
+                          href={formatExternalUrl(editCaseStudy.project_url)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[10px] font-bold text-[#004aad] hover:underline flex items-center gap-1"
+                        >
+                          <span>Test Link</span>
+                          <ExternalLink className="h-3 w-3" />
+                        </a>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={editCaseStudy.project_url || ''}
+                        onChange={e => setEditCaseStudy({ ...editCaseStudy, project_url: e.target.value })}
+                        placeholder="https://example.com or checkersafrica.com"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                      />
+                    </div>
+                    <p className="text-[10px] text-slate-400 mt-1">
+                      Link to the client's live app, landing page, or external case study. Auto-formatted with https://.
+                    </p>
+                  </div>
+
+                  {/* Image URL with Live Preview */}
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Cover Image URL / Mockup Path *</label>
+                    <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                      <input
+                        type="text"
+                        required
+                        value={editCaseStudy.image || ''}
+                        onChange={e => setEditCaseStudy({ ...editCaseStudy, image: e.target.value })}
+                        placeholder="https://images.unsplash.com/... or /images/zenith_fintech_mockup.png"
+                        className="w-full flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                      />
+                      
+                      {/* Live Image Preview Thumbnail */}
+                      <div className="h-14 w-24 shrink-0 rounded-xl border border-slate-200 bg-white overflow-hidden flex items-center justify-center shadow-xs">
+                        {editCaseStudy.image ? (
+                          <img
+                            src={editCaseStudy.image}
+                            alt="Preview"
+                            className="h-full w-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80';
+                            }}
+                          />
+                        ) : (
+                          <div className="flex flex-col items-center justify-center text-slate-400 text-[9px]">
+                            <ImageIcon className="h-4 w-4" />
+                            <span>No Image</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <p className="text-[10px] text-slate-400 mt-1">
+                      Supports direct Unsplash image links, external CDN URLs, or local mockups (e.g. <code className="bg-slate-100 px-1 py-0.5 rounded text-slate-600">/images/kola_apparel_branding.png</code>).
+                    </p>
+                  </div>
+                </div>
+
+                {/* Section 3: In-Depth Narrative */}
+                <div className="p-4 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-4">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#004aad] font-mono flex items-center gap-1.5">
+                    <FileText className="h-3.5 w-3.5" />
+                    <span>In-Depth Narrative</span>
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">The Challenge</label>
+                    <textarea
+                      rows={3}
+                      value={editCaseStudy.challenge || ''}
+                      onChange={e => setEditCaseStudy({ ...editCaseStudy, challenge: e.target.value })}
+                      placeholder="What obstacle or market challenge did the client face prior to working with Ace?"
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 cosmic-input"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Our Solution Blueprint *</label>
+                    <textarea
+                      required
+                      rows={3}
+                      value={editCaseStudy.solution || ''}
+                      onChange={e => setEditCaseStudy({ ...editCaseStudy, solution: e.target.value })}
+                      placeholder="How did Ace engineer the solution, execute campaigns, or deploy tech?"
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 cosmic-input"
+                    />
+                  </div>
+                </div>
+
+                {/* Section 4: Key Metrics (Proof of Impact) */}
+                <div className="p-4 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-[#004aad] font-mono flex items-center gap-1.5">
+                      <BarChart3 className="h-3.5 w-3.5" />
+                      <span>Impact Metrics ({(editCaseStudy.metrics || []).length})</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const current = [...(editCaseStudy.metrics || [])];
+                        current.push({ label: 'Metric', value: '100%', subtext: 'Verified' });
+                        setEditCaseStudy({ ...editCaseStudy, metrics: current });
+                      }}
+                      className="flex items-center gap-1 text-[11px] font-bold text-[#004aad] hover:underline"
+                    >
+                      <Plus className="h-3.5 w-3.5" />
+                      <span>Add Metric</span>
+                    </button>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    {(editCaseStudy.metrics || []).map((m, idx) => (
+                      <div key={idx} className="flex flex-col sm:flex-row items-center gap-2 bg-white p-2.5 rounded-xl border border-slate-200">
+                        <div className="w-full sm:w-1/3">
+                          <input
+                            type="text"
+                            value={m.value}
+                            onChange={e => {
+                              const updated = [...(editCaseStudy.metrics || [])];
+                              updated[idx] = { ...updated[idx], value: e.target.value };
+                              setEditCaseStudy({ ...editCaseStudy, metrics: updated });
+                            }}
+                            placeholder="Value (e.g. ₦18B+ or +124%)"
+                            className="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-bold"
+                          />
+                        </div>
+                        <div className="w-full sm:w-1/3">
+                          <input
+                            type="text"
+                            value={m.label}
+                            onChange={e => {
+                              const updated = [...(editCaseStudy.metrics || [])];
+                              updated[idx] = { ...updated[idx], label: e.target.value };
+                              setEditCaseStudy({ ...editCaseStudy, metrics: updated });
+                            }}
+                            placeholder="Label (e.g. Transactions)"
+                            className="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs"
+                          />
+                        </div>
+                        <div className="w-full sm:w-1/3 flex items-center gap-1.5">
+                          <input
+                            type="text"
+                            value={m.subtext || ''}
+                            onChange={e => {
+                              const updated = [...(editCaseStudy.metrics || [])];
+                              updated[idx] = { ...updated[idx], subtext: e.target.value };
+                              setEditCaseStudy({ ...editCaseStudy, metrics: updated });
+                            }}
+                            placeholder="Subtext (e.g. In 8 months)"
+                            className="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs text-slate-500"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const updated = (editCaseStudy.metrics || []).filter((_, i) => i !== idx);
+                              setEditCaseStudy({ ...editCaseStudy, metrics: updated });
+                            }}
+                            className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg shrink-0 transition-colors"
+                            title="Remove metric"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Section 5: Scope / Deliverables */}
+                <div className="p-4 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-3">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#004aad] font-mono flex items-center gap-1.5">
+                    <Layers className="h-3.5 w-3.5" />
+                    <span>Scope of Deliverables</span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-1.5">
+                    {(editCaseStudy.scope || []).map((sc, idx) => (
+                      <span
+                        key={idx}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-800 text-[11px] font-medium shadow-2xs"
+                      >
+                        <span>{sc}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const updated = (editCaseStudy.scope || []).filter((_, i) => i !== idx);
+                            setEditCaseStudy({ ...editCaseStudy, scope: updated });
+                          }}
+                          className="hover:text-red-500"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={newScopeTag}
+                      onChange={e => setNewScopeTag(e.target.value)}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          if (newScopeTag.trim()) {
+                            setEditCaseStudy({
+                              ...editCaseStudy,
+                              scope: [...(editCaseStudy.scope || []), newScopeTag.trim()]
+                            });
+                            setNewScopeTag('');
+                          }
+                        }
+                      }}
+                      placeholder="Add deliverable (e.g. 'Paid Social Ads', 'UI/UX Redesign'). Press Enter or +"
+                      className="flex-1 px-3.5 py-2 rounded-xl border border-slate-200 cosmic-input text-xs"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (newScopeTag.trim()) {
+                          setEditCaseStudy({
+                            ...editCaseStudy,
+                            scope: [...(editCaseStudy.scope || []), newScopeTag.trim()]
+                          });
+                          setNewScopeTag('');
+                        }
+                      }}
+                      className="px-3 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs"
+                    >
+                      <Plus className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Section 6: Squad / Team Members */}
+                <div className="p-4 rounded-2xl bg-slate-50/70 border border-slate-200 space-y-3">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#004aad] font-mono flex items-center gap-1.5">
+                    <Users className="h-3.5 w-3.5" />
+                    <span>Project Squad (Optional)</span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-1.5">
+                    {(editCaseStudy.team || []).map((t, idx) => (
+                      <span
+                        key={idx}
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-800 text-[11px] font-medium shadow-2xs"
+                      >
+                        <span>{t}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const updated = (editCaseStudy.team || []).filter((_, i) => i !== idx);
+                            setEditCaseStudy({ ...editCaseStudy, team: updated });
+                          }}
+                          className="hover:text-red-500"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={newTeamMember}
+                      onChange={e => setNewTeamMember(e.target.value)}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          if (newTeamMember.trim()) {
+                            setEditCaseStudy({
+                              ...editCaseStudy,
+                              team: [...(editCaseStudy.team || []), newTeamMember.trim()]
+                            });
+                            setNewTeamMember('');
+                          }
+                        }
+                      }}
+                      placeholder="Add squad member (e.g. 'Amara Nwachukwu (Creative Director)'). Press Enter or +"
+                      className="flex-1 px-3.5 py-2 rounded-xl border border-slate-200 cosmic-input text-xs"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (newTeamMember.trim()) {
+                          setEditCaseStudy({
+                            ...editCaseStudy,
+                            team: [...(editCaseStudy.team || []), newTeamMember.trim()]
+                          });
+                          setNewTeamMember('');
+                        }
+                      }}
+                      className="px-3 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs"
+                    >
+                      <Plus className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Modal Footer Controls */}
+                <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
+                  <span className="text-[11px] text-slate-400 font-mono">
+                    {editCaseStudy.id ? `Editing ID: ${editCaseStudy.id}` : 'New Case Study will receive auto-ID'}
+                  </span>
+                  <div className="flex items-center gap-2.5">
+                    <button
+                      type="button"
+                      onClick={() => setEditCaseStudy(null)}
+                      className="px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 font-bold hover:bg-slate-100 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={csSaving}
+                      className="flex items-center gap-1.5 px-6 py-2.5 rounded-xl bg-[#004aad] hover:bg-blue-700 text-white font-bold shadow-xs transition-all haptic-press"
+                    >
+                      {csSaving ? (
+                        <>
+                          <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                          <span>Saving to Supabase...</span>
+                        </>
+                      ) : (
+                        <>
+                          <CheckCircle2 className="h-3.5 w-3.5" />
+                          <span>Save Case Study Live</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+              </form>
             </div>
           </div>
         )}

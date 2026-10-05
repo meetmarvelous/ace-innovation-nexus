@@ -8,6 +8,8 @@ export interface CaseStudy {
   challenge?: string;
   solution: string;
   image: string;
+  project_url?: string;
+  url?: string;
   metrics: {
     label: string;
     value: string;
