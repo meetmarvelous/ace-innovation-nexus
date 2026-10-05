@@ -1,11 +1,44 @@
-import React from 'react';
-import { ArrowUpRight, Sparkles, TrendingUp, DollarSign, Target, Crown } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowUpRight, Sparkles, TrendingUp, DollarSign, Target, Crown, Info, X } from 'lucide-react';
 import KineticText from './KineticText';
+import { triggerHaptic } from '../utils/haptics';
 
 export default function OnePercentView() {
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const handleSocialClick = (platform: string) => {
+    triggerHaptic(20);
+    setToastMessage(`The 1% Club official ${platform} page will be updated soon!`);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 4000);
+  };
+
   return (
-    <div className="w-full">
+    <div className="w-full relative">
       
+      {/* TOAST NOTIFICATION */}
+      {toastMessage && (
+        <div 
+          className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-slate-900/95 text-white border border-amber-500/30 shadow-2xl backdrop-blur-md animate-fade-in-up transition-all"
+          style={{ animation: 'fade-in-up 0.3s ease forwards' }}
+        >
+          <div className="h-7 w-7 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+            <Sparkles className="h-4 w-4" />
+          </div>
+          <div className="text-xs font-semibold pr-2 font-sans">
+            {toastMessage}
+          </div>
+          <button 
+            onClick={() => setToastMessage(null)}
+            className="text-slate-400 hover:text-white p-1 rounded-lg transition-colors"
+            title="Dismiss notification"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      )}
+
       {/* HERO SECTION */}
       <section className="relative overflow-hidden py-20 lg:py-28 star-field cosmic-section">
         <div className="absolute inset-0 bg-gradient-to-br from-amber-50/30 via-transparent to-yellow-50/20 pointer-events-none" />
@@ -15,7 +48,7 @@ export default function OnePercentView() {
         <div className="mx-auto max-w-4xl px-6 sm:px-8 relative z-10 text-center">
           <span className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold border border-amber-200 bg-amber-50/80 shadow-xs" style={{ color: '#b45309' }}>
             <Crown className="h-3.5 w-3.5" style={{ color: '#b45309' }} />
-            Financial Literacy Community
+            The 1% Club by Ace
           </span>
 
           <div className="mt-6">
@@ -35,9 +68,17 @@ export default function OnePercentView() {
             />
           </div>
 
-          <p className="mt-6 max-w-2xl mx-auto text-lg text-slate-600 leading-relaxed font-sans" style={{ animation: 'fade-in-up 0.8s ease 1s forwards', opacity: 0 }}>
-            The 1% Club is our financial literacy community. By virtue of being part of the ACE community, you're now a member by association.
-          </p>
+          <div className="mt-6 max-w-2xl mx-auto space-y-4 text-base sm:text-lg text-slate-700 leading-relaxed font-sans" style={{ animation: 'fade-in-up 0.8s ease 1s forwards', opacity: 0 }}>
+            <p className="font-semibold text-slate-800">
+              You&apos;re here because you&apos;ve chosen a different path: the path of discipline, knowledge, and long-term wealth creation.
+            </p>
+            <p className="text-slate-600 text-sm sm:text-base">
+              This isn&apos;t a community for chasing quick profits or following market hype. It&apos;s a place where we learn to think like investors, understand businesses, and make informed decisions.
+            </p>
+            <p className="text-[#b45309] font-bold font-display text-lg sm:text-xl pt-1">
+              Welcome to the 1%.
+            </p>
+          </div>
 
           {/* Active Community Status & Actions */}
           <div
@@ -52,25 +93,23 @@ export default function OnePercentView() {
               ACTIVE COMMUNITY &bull; SESSIONS IN PROGRESS
             </span>
             <div className="flex items-center gap-3">
-              <a
-                href="https://x.com/aceinnovation01?s=11"
-                target="_blank"
-                rel="noreferrer"
+              <button
+                type="button"
+                onClick={() => handleSocialClick('X (Twitter)')}
                 className="flex items-center gap-1.5 rounded-xl px-5 py-2.5 text-xs font-bold text-white transition-all haptic-press shadow-xs hover:opacity-90"
                 style={{ background: '#000' }}
               >
                 Follow on X
                 <ArrowUpRight className="h-3.5 w-3.5" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/ace-innovation-nexus-0210b0441"
-                target="_blank"
-                rel="noreferrer"
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSocialClick('LinkedIn')}
                 className="flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 transition-all hover:bg-slate-50 haptic-press shadow-xs"
               >
                 Connect on LinkedIn
                 <ArrowUpRight className="h-3.5 w-3.5" />
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -110,30 +149,31 @@ export default function OnePercentView() {
           </div>
 
           {/* Community Message */}
-          <div className="mt-16 max-w-3xl mx-auto rounded-2xl p-8 cosmic-card text-center">
-            <p className="text-base text-slate-700 leading-relaxed italic font-sans">
-              "I encourage you to follow along and engage whenever something resonates with you. Once again, welcome to the ACE community, and ultimately, <strong>welcome to the 1% Club.</strong>"
+          <div className="mt-16 max-w-3xl mx-auto rounded-2xl p-8 cosmic-card text-center space-y-4">
+            <p className="text-base text-slate-700 leading-relaxed italic font-sans max-w-2xl mx-auto">
+              &ldquo;This isn&apos;t a community for chasing quick profits or following market hype. It&apos;s a place where we learn to think like investors, understand businesses, and make informed decisions.&rdquo;
             </p>
-            <div className="mt-6 flex items-center justify-center gap-4">
-              <a
-                href="https://x.com/aceinnovation01?s=11"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1.5 rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition-all haptic-press"
+            <p className="text-base font-bold text-slate-900 font-display">
+              Welcome to the 1% Club.
+            </p>
+            <div className="pt-2 flex items-center justify-center gap-4">
+              <button
+                type="button"
+                onClick={() => handleSocialClick('X (Twitter)')}
+                className="flex items-center gap-1.5 rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition-all haptic-press shadow-xs hover:opacity-90"
                 style={{ background: '#000' }}
               >
                 Follow on X
                 <ArrowUpRight className="h-4 w-4" />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/ace-innovation-nexus-0210b0441"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-100 haptic-press"
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSocialClick('LinkedIn')}
+                className="flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-100 haptic-press shadow-xs"
               >
                 Connect on LinkedIn
                 <ArrowUpRight className="h-4 w-4" />
-              </a>
+              </button>
             </div>
           </div>
 
@@ -143,3 +183,4 @@ export default function OnePercentView() {
     </div>
   );
 }
+
