@@ -15,7 +15,7 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
   };
 
   const officeHubs = [
-    { city: "Ibadan, Nigeria", role: "Headquarters", address: "Ace Innovation Nexus, Dugbe, Ibadan" }
+    { city: "Ibadan, Nigeria", role: "Headquarters", address: "Ace Innovation Nexus, Jericho, Ibadan" }
   ];
 
   return (
@@ -85,7 +85,7 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
                 <Instagram className="h-5 w-5" />
               </a>
               <a
-                href="https://www.linkedin.com"
+                href="https://www.linkedin.com/in/ace-innovation-nexus-0210b0441"
                 target="_blank"
                 rel="noreferrer referrer"
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all hover:text-[#004aad] hover:border-[#004aad]/40 hover:bg-blue-50 haptic-press"
@@ -94,7 +94,7 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
                 <Linkedin className="h-5 w-5" />
               </a>
               <a
-                href="https://twitter.com"
+                href="https://x.com/aceinnovation01"
                 target="_blank"
                 rel="noreferrer referrer"
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all hover:text-[#004aad] hover:border-[#004aad]/40 hover:bg-blue-50 haptic-press"
@@ -123,6 +123,12 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
               </li>
               <li>
                 <button onClick={() => handleNavClick('network')} className="text-slate-600 hover:text-[#004aad] transition-colors haptic-press">Associated Brands</button>
+              </li>
+              <li>
+                <button onClick={() => handleNavClick('onepercent')} className="text-slate-600 hover:text-[#004aad] transition-colors haptic-press">1% Ace</button>
+              </li>
+              <li>
+                <button onClick={() => handleNavClick('acedemy')} className="text-slate-600 hover:text-[#004aad] transition-colors haptic-press">Acedemy</button>
               </li>
             </ul>
           </div>

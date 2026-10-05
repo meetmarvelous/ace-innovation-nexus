@@ -114,34 +114,34 @@ export const caseStudies: CaseStudy[] = [
 export const teamMembers: TeamMember[] = [
   {
     id: "team-1",
-    name: "Tega John-Sola",
-    role: "Founder & CEO",
+    name: "Savvy Ikeoluwa",
+    role: "CEO & Founder",
     department: "Leadership",
-    bio: "Over a decade of experience helping businesses grow through digital marketing, branding, and technology. Passionate about putting African businesses on the global map.",
+    bio: "A visionary leader with a passion for innovation and business growth. Savvy drives the strategic direction of Ace Innovation Nexus, building bridges between African businesses and global opportunities through technology and creative solutions.",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&h=300&q=80"
   },
   {
     id: "team-2",
-    name: "Amara Nwachukwu",
-    role: "Creative Director",
-    department: "Creative & Brand",
-    bio: "Award-winning creative with a sharp eye for design, photography direction, and brand storytelling. She makes brands look so good, customers can't scroll past.",
+    name: "Ayomide Ale",
+    role: "CMO & Co-founder",
+    department: "Marketing & SEO",
+    bio: "A dynamic marketing strategist with a keen eye for brand positioning and audience engagement. Ayomide leads all marketing initiatives, ensuring every campaign delivers measurable impact and real growth for our clients.",
     avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&h=300&q=80"
   },
   {
     id: "team-3",
-    name: "Kofi Owusu",
-    role: "Head of Marketing & SEO",
-    department: "Marketing & SEO",
-    bio: "Kofi lives and breathes digital marketing. He knows how to get your business to the top of Google and keep your social media buzzing with the right audience.",
+    name: "Evangel Afolabi",
+    role: "CTO (Products)",
+    department: "Tech & Product",
+    bio: "A technical innovator who transforms ideas into world-class digital products. Evangel oversees product development, ensuring every website, app, and platform we build is fast, scalable, and beautifully engineered.",
     avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&h=300&q=80"
   },
   {
     id: "team-4",
-    name: "Zainab Alao",
-    role: "Lead Developer",
+    name: "Marvellous Adegbeji",
+    role: "CEO (Technical)",
     department: "Tech & Product",
-    bio: "Zainab builds websites and apps that are fast, beautiful, and work perfectly — even on slow internet. She turns ideas into digital products people love to use.",
+    bio: "A hands-on technical leader who bridges the gap between business vision and technical execution. Marvellous ensures that every solution we deliver is robust, innovative, and aligned with our clients' long-term goals.",
     avatar: "https://images.unsplash.com/photo-1534751516642-a131ffd473fd?auto=format&fit=crop&w=300&h=300&q=80"
   }
 ];
@@ -295,7 +295,7 @@ export const staticInsights: InsightArticle[] = [
     date: "April 2026",
     summary: "How our partnership with HP LIFE is helping young Nigerians learn digital skills and land real jobs in marketing, design, and tech.",
     image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80",
-    author: "Tega John-Sola"
+    author: "Savvy Ikeoluwa"
   },
   {
     id: "ins-tech",

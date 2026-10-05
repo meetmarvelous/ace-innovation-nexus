@@ -7,6 +7,8 @@ import PartnershipsView from './components/PartnershipsView';
 import WorkView from './components/WorkView';
 import NetworkView from './components/NetworkView';
 import AdminView from './components/AdminView';
+import OnePercentView from './components/OnePercentView';
+import AcedemyView from './components/AcedemyView';
 import FloatingGuide from './components/FloatingGuide';
 import ParticleField from './components/ParticleField';
 import ContactModal from './components/ContactModal';
@@ -19,7 +21,7 @@ export default function App() {
   useEffect(() => {
     const handleHash = () => {
       const hash = window.location.hash.replace('#', '');
-      if (['home', 'services', 'about', 'partnerships', 'network', 'admin'].includes(hash)) {
+      if (['home', 'services', 'about', 'partnerships', 'network', 'admin', 'onepercent', 'acedemy'].includes(hash)) {
         setCurrentTab(hash);
       }
     };
@@ -71,6 +73,8 @@ export default function App() {
         {(currentTab === 'network' || currentTab === 'careers') && (
           <NetworkView openContactModal={() => { triggerHaptic(20); setContactModalOpen(true); }} />
         )}
+        {currentTab === 'onepercent' && <OnePercentView />}
+        {currentTab === 'acedemy' && <AcedemyView />}
       </main>
 
       {/* Footer element */}

@@ -158,7 +158,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
               >
                 <img
                   src="/images/hero-character.png"
-                  alt="Tega - Founder & CEO"
+                  alt="Savvy - CEO & Founder"
                   className="w-full max-w-md h-auto object-contain rounded-2xl"
                 />
               </div>
@@ -323,74 +323,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
         </div>
       </section>
 
-      {/* SECTION 4: FROM OUR BLOG */}
-      <section className="relative py-20 lg:py-24 cosmic-section" style={{ borderTop: '1px solid rgba(226, 232, 240, 0.9)' }}>
-        <div className="mx-auto max-w-7xl px-6 sm:px-8 relative z-10">
-          
-          <div className="text-center max-w-2xl mx-auto space-y-4 mb-16">
-            <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">From Our Blog</span>
-            <KineticText
-              text="Tips, Insights & Ideas"
-              as="h2"
-              variant="reveal"
-              className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl font-display"
-              delay={0.1}
-              stagger={0.02}
-            />
-            <p className="text-base text-slate-600">
-              Helpful articles from our team on marketing, branding, photography, and building great websites.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {insightList.map((article, idx) => (
-              <div
-                key={article.id}
-                className="group flex flex-col justify-between rounded-2xl p-4.5 cosmic-card"
-                style={{ animationDelay: `${idx * 0.1}s` }}
-              >
-                <div>
-                  <div className="aspect-11/8 overflow-hidden rounded-xl relative bg-slate-100">
-                    <img
-                      referrerPolicy="no-referrer"
-                      src={article.image}
-                      alt={article.title}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute bottom-3 left-3 rounded-lg px-2 py-1 text-[9px] font-bold text-slate-800 tracking-wider font-mono glass-panel border border-slate-200">
-                      {article.category}
-                    </div>
-                  </div>
-
-                  <span className="text-[10px] font-bold text-slate-500 font-mono tracking-wider block mt-4 uppercase">
-                    {article.date} &bull; {article.readTime}
-                  </span>
-                  
-                  <h3 className="mt-2 text-sm font-bold text-slate-900 group-hover:text-[#004aad] transition-colors leading-snug font-display">
-                    {article.title}
-                  </h3>
-                  
-                  <p className="mt-2.5 text-xs text-slate-600 leading-relaxed line-clamp-3">
-                    {article.summary}
-                  </p>
-                </div>
-
-                <div className="mt-5 pt-4 flex items-center justify-between" style={{ borderTop: '1px solid rgba(226, 232, 240, 0.8)' }}>
-                  <div className="flex items-center gap-2">
-                    <div className="h-6 w-6 rounded-full bg-blue-50 flex items-center justify-center text-[10px] font-bold text-[#004aad] border border-blue-100">
-                      {article.author.split(' ')[0][0]}
-                    </div>
-                    <span className="text-[11px] font-semibold text-slate-700">{article.author}</span>
-                  </div>
-                  <ChevronRight className="h-4 w-4 text-slate-400 group-hover:text-[#004aad] transition-transform group-hover:translate-x-0.5" />
-                </div>
-
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
+      {/* SECTION 4: FROM OUR BLOG — Hidden for now */}
 
     </div>
   );

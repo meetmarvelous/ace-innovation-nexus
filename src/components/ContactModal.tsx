@@ -132,7 +132,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                   required
                   type="text"
                   className="mt-2 w-full rounded-xl px-4 py-3 text-sm cosmic-input"
-                  placeholder="e.g. Tega John-Sola"
+                  placeholder="e.g. Savvy Ikeoluwa"
                   value={clientName}
                   onChange={(e) => setClientName(e.target.value)}
                 />

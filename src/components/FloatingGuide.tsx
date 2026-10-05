@@ -9,7 +9,7 @@ const guideMessages: Record<string, string[]> = {
   home: [
     "Welcome to the Nexus! 🚀 We build brands that break through the noise.",
     "Ready to accelerate your digital presence? You're in the right place!",
-    "Hey there! I'm Tega, founder of ACE Innovation. Let me show you around! ✨",
+    "Hey there! I'm Savvy, founder of ACE Innovation. Let me show you around! ✨",
     "We've helped brands process over $12M in transactions. What can we do for you?",
     "Fun fact: Our client retention rate is 94%+ — we don't just deliver, we over-deliver! 💯",
     "Media, Tech, and Training — that's our DNA. Explore our services below! 👇",
@@ -178,7 +178,7 @@ export default function FloatingGuide({ currentTab }: FloatingGuideProps) {
             <div className="mt-2 flex items-center gap-2">
               <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
               <span className="text-[9px] font-bold text-[#004aad] tracking-wider font-mono uppercase">
-                TEGA • FOUNDER
+                SAVVY • FOUNDER
               </span>
             </div>
           </div>
@@ -198,7 +198,7 @@ export default function FloatingGuide({ currentTab }: FloatingGuideProps) {
             style={{
               boxShadow: '0 8px 25px rgba(0, 74, 173, 0.35)',
             }}
-            title="Talk to Tega"
+            title="Talk to Savvy"
           >
             <MessageCircle className="h-6 w-6 text-white" />
           </button>
@@ -223,7 +223,7 @@ export default function FloatingGuide({ currentTab }: FloatingGuideProps) {
                 width: '90px',
                 height: '110px',
               }}
-              title="Click to chat with Tega"
+              title="Click to chat with Savvy"
             >
               {/* Glow effect behind character */}
               <div
@@ -235,7 +235,7 @@ export default function FloatingGuide({ currentTab }: FloatingGuideProps) {
               />
               <img
                 src="/images/founder-guide.png"
-                alt="Tega - Your AI Guide"
+                alt="Savvy - Your AI Guide"
                 className="relative z-10 w-full h-full object-cover object-top rounded-2xl"
                 style={{ filter: 'drop-shadow(0 0 10px rgba(139, 92, 246, 0.3))' }}
               />
