@@ -1,44 +1,11 @@
-import React, { useState } from 'react';
-import { ArrowUpRight, Sparkles, TrendingUp, DollarSign, Target, Crown, Info, X } from 'lucide-react';
+import React from 'react';
+import { ArrowUpRight, TrendingUp, DollarSign, Target, Crown, MessageCircle } from 'lucide-react';
 import KineticText from './KineticText';
 import { triggerHaptic } from '../utils/haptics';
 
 export default function OnePercentView() {
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-  const handleSocialClick = (platform: string) => {
-    triggerHaptic(20);
-    setToastMessage(`The 1% Club official ${platform} page will be updated soon!`);
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 4000);
-  };
-
   return (
     <div className="w-full relative">
-      
-      {/* TOAST NOTIFICATION */}
-      {toastMessage && (
-        <div 
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-slate-900/95 text-white border border-amber-500/30 shadow-2xl backdrop-blur-md animate-fade-in-up transition-all"
-          style={{ animation: 'fade-in-up 0.3s ease forwards' }}
-        >
-          <div className="h-7 w-7 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
-            <Sparkles className="h-4 w-4" />
-          </div>
-          <div className="text-xs font-semibold pr-2 font-sans">
-            {toastMessage}
-          </div>
-          <button 
-            onClick={() => setToastMessage(null)}
-            className="text-slate-400 hover:text-white p-1 rounded-lg transition-colors"
-            title="Dismiss notification"
-          >
-            <X className="h-3.5 w-3.5" />
-          </button>
-        </div>
-      )}
-
       {/* HERO SECTION */}
       <section className="relative overflow-hidden py-20 lg:py-28 star-field cosmic-section">
         <div className="absolute inset-0 bg-gradient-to-br from-amber-50/30 via-transparent to-yellow-50/20 pointer-events-none" />
@@ -92,24 +59,18 @@ export default function OnePercentView() {
               </span>
               ACTIVE COMMUNITY &bull; SESSIONS IN PROGRESS
             </span>
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => handleSocialClick('X (Twitter)')}
-                className="flex items-center gap-1.5 rounded-xl px-5 py-2.5 text-xs font-bold text-white transition-all haptic-press shadow-xs hover:opacity-90"
-                style={{ background: '#000' }}
+            <div className="flex items-center justify-center">
+              <a
+                href="https://wa.me/2348133915634?text=Hello%20Ace%2C%20I%20would%20like%20to%20join%20The%201%25%20Club"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => triggerHaptic(20)}
+                className="inline-flex items-center gap-2 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white px-6 py-3 text-sm font-bold shadow-md hover:shadow-lg transition-all haptic-press cursor-pointer"
               >
-                Follow on X
-                <ArrowUpRight className="h-3.5 w-3.5" />
-              </button>
-              <button
-                type="button"
-                onClick={() => handleSocialClick('LinkedIn')}
-                className="flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 transition-all hover:bg-slate-50 haptic-press shadow-xs"
-              >
-                Connect on LinkedIn
-                <ArrowUpRight className="h-3.5 w-3.5" />
-              </button>
+                <MessageCircle className="h-4 w-4" />
+                <span>Connect on WhatsApp</span>
+                <ArrowUpRight className="h-4 w-4" />
+              </a>
             </div>
           </div>
         </div>
