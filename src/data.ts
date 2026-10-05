@@ -114,34 +114,34 @@ export const caseStudies: CaseStudy[] = [
 export const teamMembers: TeamMember[] = [
   {
     id: "team-1",
-    name: "Savvy Ikeoluwa",
-    role: "CEO & Founder",
+    name: "Ikeoluwa Peace",
+    role: "Founder & COO",
     department: "Leadership",
-    bio: "A visionary leader with a passion for innovation and business growth. Savvy drives the strategic direction of Ace Innovation Nexus, building bridges between African businesses and global opportunities through technology and creative solutions.",
+    bio: "A visionary operational strategist and founder passionate about building sustainable growth ecosystems. Ikeoluwa spearheads organizational operations, operational excellence, and cross-functional execution at Ace Innovation Nexus, driving high-impact collaboration and seamless client delivery.",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&h=300&q=80"
   },
   {
     id: "team-2",
-    name: "Ayomide Ale",
-    role: "CMO & Co-founder",
+    name: "Ale Ayomide",
+    role: "Co-founder & CMO (Marketing/Growth)",
     department: "Marketing & SEO",
-    bio: "A dynamic marketing strategist with a keen eye for brand positioning and audience engagement. Ayomide leads all marketing initiatives, ensuring every campaign delivers measurable impact and real growth for our clients.",
+    bio: "A dynamic growth architect and marketing strategist with deep expertise in performance campaigns, brand positioning, and audience conversion. Ayomide leads marketing and growth initiatives to scale African and international brands into market leaders.",
     avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&h=300&q=80"
   },
   {
     id: "team-3",
     name: "Evangel Afolabi",
-    role: "CTO (Products)",
+    role: "Co-founder & Chief Product Officer",
     department: "Tech & Product",
-    bio: "A technical innovator who transforms ideas into world-class digital products. Evangel oversees product development, ensuring every website, app, and platform we build is fast, scalable, and beautifully engineered.",
+    bio: "A product visionary dedicated to crafting transformative digital experiences. Evangel oversees product architecture, user-centric design, and digital product strategy, transforming complex business requirements into intuitive, world-class products.",
     avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&h=300&q=80"
   },
   {
     id: "team-4",
-    name: "Marvellous Adegbeji",
-    role: "CEO (Technical)",
+    name: "Marvelous Adegbiji",
+    role: "Co-founder & Chief Technology Officer (CTO)",
     department: "Tech & Product",
-    bio: "A hands-on technical leader who bridges the gap between business vision and technical execution. Marvellous ensures that every solution we deliver is robust, innovative, and aligned with our clients' long-term goals.",
+    bio: "An engineering and systems architect who leads technology infrastructure, high-scale engineering, and technical innovation. Marvelous ensures all platforms, web apps, and digital systems built at Ace Innovation Nexus are secure, fast, and engineered for global scale.",
     avatar: "https://images.unsplash.com/photo-1534751516642-a131ffd473fd?auto=format&fit=crop&w=300&h=300&q=80"
   }
 ];
