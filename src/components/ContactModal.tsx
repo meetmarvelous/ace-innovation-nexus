@@ -174,6 +174,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                   <option>Branding, Photography & Video</option>
                   <option>Website or App Development</option>
                   <option>Content Creation & Social Media</option>
+                  <option>Others</option>
                 </select>
               </div>
 
