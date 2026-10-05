@@ -148,34 +148,6 @@ export default function OnePercentView() {
             })}
           </div>
 
-          {/* Community Message */}
-          <div className="mt-16 max-w-3xl mx-auto rounded-2xl p-8 cosmic-card text-center space-y-4">
-            <p className="text-base text-slate-700 leading-relaxed italic font-sans max-w-2xl mx-auto">
-              &ldquo;This isn&apos;t a community for chasing quick profits or following market hype. It&apos;s a place where we learn to think like investors, understand businesses, and make informed decisions.&rdquo;
-            </p>
-            <p className="text-base font-bold text-slate-900 font-display">
-              Welcome to the 1% Club.
-            </p>
-            <div className="pt-2 flex items-center justify-center gap-4">
-              <button
-                type="button"
-                onClick={() => handleSocialClick('X (Twitter)')}
-                className="flex items-center gap-1.5 rounded-xl px-5 py-2.5 text-sm font-semibold text-white transition-all haptic-press shadow-xs hover:opacity-90"
-                style={{ background: '#000' }}
-              >
-                Follow on X
-                <ArrowUpRight className="h-4 w-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => handleSocialClick('LinkedIn')}
-                className="flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-100 haptic-press shadow-xs"
-              >
-                Connect on LinkedIn
-                <ArrowUpRight className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
 
         </div>
       </section>
