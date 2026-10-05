@@ -39,21 +39,38 @@ export default function OnePercentView() {
             The 1% Club is our financial literacy community. By virtue of being part of the ACE community, you're now a member by association.
           </p>
 
-          {/* Coming Soon Badge */}
+          {/* Active Community Status & Actions */}
           <div
-            className="mt-10 inline-flex flex-col items-center gap-4"
+            className="mt-8 flex flex-col items-center justify-center gap-4"
             style={{ animation: 'fade-in-up 0.8s ease 1.2s forwards', opacity: 0 }}
           >
-            <div className="relative">
-              <div
-                className="absolute -inset-1 rounded-2xl blur-md opacity-50"
-                style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706, #b45309)' }}
-              />
-              <div className="relative rounded-2xl px-10 py-6 text-center" style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: 'white' }}>
-                <Sparkles className="h-8 w-8 mx-auto mb-2" />
-                <span className="text-2xl font-black font-display tracking-tight block">Coming Soon</span>
-                <span className="text-sm font-semibold opacity-90 block mt-1">Full Platform Launching Shortly</span>
-              </div>
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold font-mono bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-xs">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              ACTIVE COMMUNITY &bull; SESSIONS IN PROGRESS
+            </span>
+            <div className="flex items-center gap-3">
+              <a
+                href="https://x.com/aceinnovation01?s=11"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-1.5 rounded-xl px-5 py-2.5 text-xs font-bold text-white transition-all haptic-press shadow-xs hover:opacity-90"
+                style={{ background: '#000' }}
+              >
+                Follow on X
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/ace-innovation-nexus-0210b0441"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-5 py-2.5 text-xs font-bold text-slate-700 transition-all hover:bg-slate-50 haptic-press shadow-xs"
+              >
+                Connect on LinkedIn
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </a>
             </div>
           </div>
         </div>
