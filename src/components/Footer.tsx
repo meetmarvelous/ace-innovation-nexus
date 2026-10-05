@@ -113,10 +113,10 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
                 <button onClick={() => handleNavClick('home')} className="text-slate-600 hover:text-[#004aad] transition-colors haptic-press">Home</button>
               </li>
               <li>
-                <button onClick={() => handleNavClick('services')} className="text-slate-600 hover:text-[#004aad] transition-colors haptic-press">Our Work</button>
+                <button onClick={() => handleNavClick('about')} className="text-slate-600 hover:text-[#004aad] transition-colors haptic-press">About Us</button>
               </li>
               <li>
-                <button onClick={() => handleNavClick('about')} className="text-slate-600 hover:text-[#004aad] transition-colors haptic-press">About Us</button>
+                <button onClick={() => handleNavClick('services')} className="text-slate-600 hover:text-[#004aad] transition-colors haptic-press">Our Work</button>
               </li>
               <li>
                 <button onClick={() => handleNavClick('partnerships')} className="text-slate-600 hover:text-[#004aad] transition-colors haptic-press">Partnerships</button>

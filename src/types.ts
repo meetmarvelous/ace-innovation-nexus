@@ -74,7 +74,7 @@ export interface InsightArticle {
 export interface AssociatedLink {
   label: string;
   url: string;
-  type: 'instagram' | 'facebook' | 'website' | 'other';
+  type: 'instagram' | 'facebook' | 'website' | 'tiktok' | 'other';
 }
 
 export interface AssociatedOrganization {

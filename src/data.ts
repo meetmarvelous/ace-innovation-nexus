@@ -388,6 +388,18 @@ export const associatedOrganizations: AssociatedOrganization[] = [
     ]
   },
   {
+    id: "org-bbfresh-seafood",
+    name: "Bbfresh seafood",
+    location: "Nigeria",
+    category: "Food & Beverage",
+    logo: "/logos/bbfreshseafood.jpg",
+    description: "Fresh seafood delights, gourmet kitchenette specials, and culinary experiences.",
+    links: [
+      { label: "Instagram", url: "https://www.instagram.com/bbfreshkitchenette", type: "instagram" },
+      { label: "TikTok", url: "https://www.tiktok.com/@bbfreshseafood", type: "tiktok" }
+    ]
+  },
+  {
     id: "org-wwwm",
     name: "Women Winning With Money (WWWM)",
     location: "Nigeria",

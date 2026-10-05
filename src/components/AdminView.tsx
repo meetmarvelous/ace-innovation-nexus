@@ -941,6 +941,27 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                   </div>
                 </div>
 
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">TikTok Link (Optional)</label>
+                  <input
+                    type="text"
+                    value={editOrg.links?.find(l => l.type === 'tiktok')?.url || ''}
+                    onChange={e => {
+                      const url = e.target.value;
+                      const currentLinks = [...(editOrg.links || [])];
+                      const idx = currentLinks.findIndex(l => l.type === 'tiktok');
+                      if (idx >= 0) {
+                        currentLinks[idx] = { label: 'TikTok', url, type: 'tiktok' };
+                      } else {
+                        currentLinks.push({ label: 'TikTok', url, type: 'tiktok' });
+                      }
+                      setEditOrg({ ...editOrg, links: currentLinks });
+                    }}
+                    placeholder="https://www.tiktok.com/@yourhandle"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                  />
+                </div>
+
                 <div className="pt-3 flex justify-end gap-3">
                   <button
                     type="button"

@@ -40,11 +40,17 @@ export default function NetworkView({ openContactModal }: NetworkViewProps) {
   const renderLinkIcon = (linkType: AssociatedLink['type']) => {
     switch (linkType) {
       case 'instagram':
-        return <Instagram className="h-4 w-4 text-pink-400 group-hover:text-white transition-colors" />;
+        return <Instagram className="h-4 w-4 text-pink-500 group-hover:text-white transition-colors" />;
       case 'facebook':
-        return <Facebook className="h-4 w-4 text-blue-400 group-hover:text-white transition-colors" />;
+        return <Facebook className="h-4 w-4 text-blue-500 group-hover:text-white transition-colors" />;
       case 'website':
-        return <Globe className="h-4 w-4 text-cyan-400 group-hover:text-white transition-colors" />;
+        return <Globe className="h-4 w-4 text-cyan-500 group-hover:text-white transition-colors" />;
+      case 'tiktok':
+        return (
+          <svg className="h-4 w-4 text-slate-800 group-hover:text-white transition-colors fill-current" viewBox="0 0 24 24">
+            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.86 4.43V13a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-3.04-1.25 4.81 4.81 0 0 1-1.42-3.18h3.42z"/>
+          </svg>
+        );
       default:
         return <ExternalLink className="h-4 w-4 text-purple-400 group-hover:text-white transition-colors" />;
     }
