@@ -389,7 +389,7 @@ export const associatedOrganizations: AssociatedOrganization[] = [
   },
   {
     id: "org-bbfresh-seafood",
-    name: "Bbfresh seafood",
+    name: "BBFRESH Seafood",
     location: "Nigeria",
     category: "Food & Beverage",
     logo: "/logos/bbfreshseafood.jpg",
