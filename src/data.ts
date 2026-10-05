@@ -199,7 +199,7 @@ export const jobRoles: JobRole[] = [
     description: "We need a creative leader who can direct photo shoots, plan video content, and shape brand identities for our clients. If you can tell a brand's story through visuals, we want to talk to you.",
     responsibilities: [
       "Plan and direct professional photo and video shoots for brands.",
-      "Create brand identities — logos, color schemes, fonts, and brand guidelines.",
+      "Create brand identities: logos, color schemes, fonts, and brand guidelines.",
       "Develop content calendars and creative strategies for social media.",
       "Lead a team of designers, photographers, and videographers on projects."
     ],
@@ -207,7 +207,7 @@ export const jobRoles: JobRole[] = [
       "3+ years of experience in creative direction, photography, videography, or brand design.",
       "A strong portfolio showing your work across branding, photo, and video.",
       "Comfortable using design tools like Figma, Adobe Creative Suite, and video editing software.",
-      "Great communication skills — you can pitch ideas and present to clients confidently."
+      "Great communication skills, allowing you to pitch ideas and present to clients confidently."
     ]
   }
 ];
@@ -235,7 +235,7 @@ export const partnerTiers: PartnerTier[] = [
     benefits: [
       "White-label website and app development for your clients",
       "Reliable turnaround times and clear communication",
-      "Referral partnerships — we send clients your way too",
+      "Referral partnerships: we send clients your way too",
       "Shared project management tools for smooth collaboration"
     ]
   },
@@ -243,7 +243,7 @@ export const partnerTiers: PartnerTier[] = [
     id: "tier-talent",
     name: "Training & Education Partners",
     tagline: "We train the next generation of digital creators.",
-    description: "We work with schools, training centers, and organizations like HP LIFE to teach digital skills — marketing, design, photography, videography, and web development.",
+    description: "We work with schools, training centers, and organizations like HP LIFE to teach digital skills: marketing, design, photography, videography, and web development.",
     targetAudience: "Schools, Training Centers, NGOs",
     benefits: [
       "Hands-on training programs designed by working professionals",
@@ -283,7 +283,7 @@ export const staticInsights: InsightArticle[] = [
     category: "Branding",
     readTime: "4 Min Read",
     date: "May 2026",
-    summary: "Your brand is more than a logo. See how professional branding and quality visuals helped our clients sell more — with real examples.",
+    summary: "Your brand is more than a logo. See how professional branding and quality visuals helped our clients sell more, with real examples.",
     image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
     author: "Amara Nwachukwu"
   },
@@ -303,7 +303,7 @@ export const staticInsights: InsightArticle[] = [
     category: "Development",
     readTime: "7 Min Read",
     date: "March 2026",
-    summary: "A slow website loses customers. Here's how we build websites that load in seconds — even on 3G connections — and why it matters for your bottom line.",
+    summary: "A slow website loses customers. Here's how we build websites that load in seconds, even on 3G connections, and why it matters for your bottom line.",
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
     author: "Zainab Alao"
   }

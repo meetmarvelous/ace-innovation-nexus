@@ -178,7 +178,7 @@ export default function AcedemyView() {
                 <strong>ACEDEMY</strong> is an initiative within <strong>Ace Innovation Nexus Ltd</strong> committed to learning, capacity development, and the advancement of practical digital competencies.
               </p>
               <p>
-                We believe talent is evenly distributed across communities, but access to structured, modern skill training is not. ACEDEMY was founded to bridge that gap — giving dedicated individuals the tools to build, design, write, create, and launch sustainable careers in the global digital economy.
+                We believe talent is evenly distributed across communities, but access to structured, modern skill training is not. ACEDEMY was founded to bridge that gap, giving dedicated individuals the tools to build, design, write, create, and launch sustainable careers in the global digital economy.
               </p>
               <p className="text-[#004aad] font-semibold">
                 Every skill track within ACEDEMY is made accessible at completely zero cost to all accepted participants.
@@ -219,7 +219,7 @@ export default function AcedemyView() {
               Who is ACEDEMY for? 👀
             </h2>
             <p className="text-base sm:text-lg text-slate-600">
-              For <strong>you</strong> — whether you’re a complete beginner, already creating, or simply ready to turn your creativity into a skill.
+              For <strong>you</strong>: whether you’re a complete beginner, already creating, or simply ready to turn your creativity into a skill.
             </p>
           </div>
 

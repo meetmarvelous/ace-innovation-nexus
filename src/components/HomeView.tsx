@@ -36,13 +36,13 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
       step: "02",
       title: "Planning",
       icon: ClipboardList,
-      description: "We put together a clear plan — what we'll do, how long it'll take, and what results you can expect."
+      description: "We put together a clear plan: what we'll do, how long it'll take, and what results you can expect."
     },
     {
       step: "03",
       title: "Execution",
       icon: Rocket,
-      description: "Our team gets to work — running your ads, creating content, shooting photos and videos, building your website or app."
+      description: "Our team gets to work: running your ads, creating content, shooting photos and videos, and building your website or app."
     },
     {
       step: "04",
@@ -90,7 +90,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
               </div>
 
               <p className="max-w-xl text-lg text-slate-600 leading-relaxed font-sans" style={{ animation: 'fade-in-up 0.8s ease 1s forwards', opacity: 0 }}>
-                We help businesses grow with digital marketing, content creation, professional photography & videography, websites, and mobile apps. From Nigeria to the world — we turn your online presence into real customers.
+                We help businesses grow with digital marketing, content creation, professional photography & videography, websites, and mobile apps. From Nigeria to the world, we turn your online presence into real customers.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 pt-4" style={{ animation: 'fade-in-up 0.8s ease 1.2s forwards', opacity: 0 }}>
@@ -129,7 +129,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
 
             </div>
 
-            {/* Right Media Wrapper — 3D Character */}
+            {/* Right Media Wrapper: 3D Character */}
             <div className="lg:col-span-5 relative flex items-center justify-center">
               {/* Cosmic glow behind character */}
               <div className="absolute inset-0 flex items-center justify-center">
@@ -183,7 +183,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
               stagger={0.02}
             />
             <p className="text-base text-slate-600 font-sans">
-              We keep it simple. Here's how every project works — from the first conversation to real results you can see.
+              We keep it simple. Here's how every project works, from the first conversation to real results you can see.
             </p>
           </div>
 
@@ -323,7 +323,7 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
         </div>
       </section>
 
-      {/* SECTION 4: FROM OUR BLOG — Hidden for now */}
+      {/* SECTION 4: FROM OUR BLOG (Hidden for now) */}
 
     </div>
   );

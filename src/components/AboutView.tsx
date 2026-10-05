@@ -34,17 +34,17 @@ export default function AboutView({ openContactModal }: AboutViewProps) {
     {
       title: "Results That Matter",
       icon: Target,
-      desc: "Everything we do is tied to real results — more customers, more sales, more visibility. We don't chase vanity numbers. If it doesn't help your business grow, we don't do it."
+      desc: "Everything we do is tied to real results: more customers, more sales, and more visibility. We don't chase vanity numbers. If it doesn't help your business grow, we don't do it."
     },
     {
       title: "Straight Talk",
       icon: Lightbulb,
-      desc: "We tell you what's working and what's not. No sugar-coating, no fluff. If your ads aren't performing or your website needs work, you'll hear it from us — along with a plan to fix it."
+      desc: "We tell you what's working and what's not. No sugar-coating, no fluff. If your ads aren't performing or your website needs work, you'll hear it from us, along with a plan to fix it."
     },
     {
       title: "Built to Last",
       icon: Compass,
-      desc: "We don't do quick fixes. Whether it's a website, a brand identity, or a marketing campaign — we build things that last and continue to bring in results long after the project is done."
+      desc: "We don't do quick fixes. Whether it's a website, a brand identity, or a marketing campaign, we build things that last and continue to bring in results long after the project is done."
     }
   ];
 
@@ -73,7 +73,7 @@ export default function AboutView({ openContactModal }: AboutViewProps) {
             />
           </div>
           <p className="mt-5 text-lg text-slate-600 leading-relaxed font-sans" style={{ animation: 'fade-in-up 0.8s ease 1s forwards', opacity: 0 }}>
-            Ace Innovation Nexus is a full-service digital agency and innovation powerhouse based in Nigeria. We engineer transformative marketing, compelling content, high-impact visual production, websites, and custom digital software. We don&apos;t just build — we grow brands and empower people.
+            Ace Innovation Nexus is a full-service digital agency and innovation powerhouse based in Nigeria. We engineer transformative marketing, compelling content, high-impact visual production, websites, and custom digital software. We don&apos;t just build; we grow brands and empower people.
           </p>
         </div>
       </section>
@@ -88,7 +88,7 @@ export default function AboutView({ openContactModal }: AboutViewProps) {
               We saw great businesses struggling to grow online. So we decided to fix that.
             </h2>
             <p className="text-sm text-slate-600 leading-relaxed font-sans">
-              We started because we kept seeing the same problem — businesses with amazing products and services, but no real online presence. They were invisible to the people who needed them most.
+              We started because we kept seeing the same problem: businesses with amazing products and services, but no real online presence. They were invisible to the people who needed them most.
             </p>
             <p className="text-sm text-slate-600 leading-relaxed font-sans">
               So we assembled a multidisciplinary team of growth strategists, brand designers, developers, photographers, and content creators. Today, we partner with businesses across Nigeria, Africa, Europe, and North America to get seen, win customers, and build sustainable market leadership.
@@ -471,7 +471,7 @@ export default function AboutView({ openContactModal }: AboutViewProps) {
               Ready to Build Something Extraordinary?
             </h2>
             <p className="text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
-              Whether you need end-to-end digital marketing, a custom web platform, or want to partner within our innovation ecosystem — let&apos;s talk.
+              Whether you need end-to-end digital marketing, a custom web platform, or want to partner within our innovation ecosystem, let&apos;s talk.
             </p>
           </div>
 

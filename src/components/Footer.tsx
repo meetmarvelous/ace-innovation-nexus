@@ -29,7 +29,7 @@ export default function Footer({ setCurrentTab, openContactModal }: FooterProps)
               Ready to grow your business?
             </h2>
             <p className="mt-4 max-w-xl text-base text-slate-600">
-              Let us handle your marketing, content, photography, videos, and website — so you can focus on running your business.
+              Let us handle your marketing, content, photography, videos, and website so you can focus on running your business.
             </p>
           </div>
           <div className="lg:col-span-5 flex flex-col sm:flex-row gap-4 lg:justify-end">
