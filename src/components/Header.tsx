@@ -21,7 +21,7 @@ export default function Header({ currentTab, setCurrentTab, openContactModal }: 
     { id: 'about', label: 'About Us' },
     { id: 'services', label: 'Our Work' },
     { id: 'network', label: 'Associated Brands' },
-    { id: 'onepercent', label: '1% Ace' },
+    { id: 'onepercent', label: '1% Club' },
     { id: 'acedemy', label: 'ACEDEMY' }
   ];
 
