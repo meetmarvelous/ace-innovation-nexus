@@ -66,10 +66,10 @@ export default function OnePercentView() {
           <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
             <span className="text-xs font-bold tracking-widest uppercase font-mono gradient-text">What to Expect</span>
             <h2 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl font-display">
-              Your 40-Day Financial Literacy Journey
+              The Financial Literacy Journey
             </h2>
             <p className="text-base text-slate-600 font-sans">
-              Over the next 40 days, we'll be sharing daily nuggets, lessons, and insights covering different aspects of financial literacy, money management, investing, and building a more intentional relationship with money.
+              We share practical lessons, actionable nuggets, and insights covering essential aspects of money management, investing, and building an intentional relationship with money.
             </p>
           </div>
 
