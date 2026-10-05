@@ -269,43 +269,51 @@ export const regionPartners: RegionPartner[] = [
 export const staticInsights: InsightArticle[] = [
   {
     id: "ins-feat",
+    slug: "why-your-business-needs-seo",
     title: "Why Your Business Needs SEO (Not Just Paid Ads)",
     category: "Marketing",
     readTime: "6 Min Read",
     date: "June 2026",
     summary: "Running ads is great, but what happens when you stop paying? Learn why SEO gives you long-term results and how to get started.",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
-    author: "Kofi Owusu"
+    author: "Kofi Owusu",
+    published: false
   },
   {
     id: "ins-mktg",
+    slug: "how-good-branding-increases-sales",
     title: "How Good Branding Increases Your Sales",
     category: "Branding",
     readTime: "4 Min Read",
     date: "May 2026",
     summary: "Your brand is more than a logo. See how professional branding and quality visuals helped our clients sell more, with real examples.",
     image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
-    author: "Amara Nwachukwu"
+    author: "Amara Nwachukwu",
+    published: false
   },
   {
     id: "ins-cons",
+    slug: "training-next-generation-creators",
     title: "Training the Next Generation of Digital Creators",
     category: "Training",
     readTime: "5 Min Read",
     date: "April 2026",
     summary: "How our partnership with HP LIFE is helping young Nigerians learn digital skills and land real jobs in marketing, design, and tech.",
     image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80",
-    author: "Savvy Ikeoluwa"
+    author: "Savvy Ikeoluwa",
+    published: false
   },
   {
     id: "ins-tech",
+    slug: "why-website-needs-to-load-fast",
     title: "Why Your Website Needs to Load Fast (Especially in Nigeria)",
     category: "Development",
     readTime: "7 Min Read",
     date: "March 2026",
     summary: "A slow website loses customers. Here's how we build websites that load in seconds, even on 3G connections, and why it matters for your bottom line.",
     image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
-    author: "Zainab Alao"
+    author: "Zainab Alao",
+    published: false
   }
 ];
 

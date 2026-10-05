@@ -2,13 +2,14 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { 
   ShieldCheck, Users, Briefcase, Building2, Lock, FileText, ArrowLeft,
   LogOut, Plus, Trash2, Edit3, CheckCircle2, RefreshCw, X, ShieldAlert,
-  ExternalLink, Globe, Image as ImageIcon, Sparkles, Layers, BarChart3
+  ExternalLink, Globe, Image as ImageIcon, Sparkles, Layers, BarChart3,
+  Eye, EyeOff
 } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { 
   getAssociatedOrganizations, saveAssociatedOrganization, deleteAssociatedOrganization,
-  getInsightArticles, saveInsightArticle, deleteInsightArticle,
-  getCaseStudies, saveCaseStudy, deleteCaseStudy
+  getInsightArticles, saveInsightArticle, deleteInsightArticle, toggleInsightVisibility,
+  getCaseStudies, saveCaseStudy, deleteCaseStudy, toggleCaseStudyVisibility
 } from '../lib/dataService';
 import { CaseStudy, InsightArticle, AssociatedOrganization } from '../types';
 import { triggerHaptic } from '../utils/haptics';
@@ -66,9 +67,9 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
     setSubLoading(true);
     try {
       const [insights, orgs, studies] = await Promise.all([
-        getInsightArticles(),
+        getInsightArticles({ forAdmin: true }),
         getAssociatedOrganizations(),
-        getCaseStudies()
+        getCaseStudies({ forAdmin: true })
       ]);
       setInsightList(insights);
       setOrgList(orgs);
@@ -189,15 +190,30 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
     if (!editInsight?.title || !editInsight?.summary) return alert('Title and Summary are required.');
     triggerHaptic(20);
 
+    const slug = editInsight.slug || editInsight.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
     const articleToSave: InsightArticle = {
       id: editInsight.id || `ins-${Date.now()}`,
+      slug: slug,
       title: editInsight.title,
       category: editInsight.category || 'Marketing',
       readTime: editInsight.readTime || '5 Min Read',
       date: editInsight.date || new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
       summary: editInsight.summary,
+      content: editInsight.content || '',
       image: editInsight.image || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
       author: editInsight.author || 'Ace Nexus Team',
+      authorRole: editInsight.authorRole || 'Ace Team',
+      authorAvatar: editInsight.authorAvatar || '',
+      published: editInsight.published === true,
+      metaTitle: editInsight.metaTitle || editInsight.title,
+      metaDescription: editInsight.metaDescription || editInsight.summary,
+      canonicalUrl: editInsight.canonicalUrl || '',
+      ogImage: editInsight.ogImage || editInsight.image || '',
+      keywords: editInsight.keywords || [],
+      viewsCount: editInsight.viewsCount || 0,
+      likesCount: editInsight.likesCount || 0,
+      tags: editInsight.tags || [],
     };
 
     try {
@@ -214,6 +230,17 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
       setEditInsight(null);
     } catch (err: any) {
       alert(`Could not save blog post: ${err.message}`);
+    }
+  };
+
+  const handleToggleInsightPublish = async (art: InsightArticle) => {
+    triggerHaptic(15);
+    const nextStatus = !art.published;
+    try {
+      await toggleInsightVisibility(art.id, nextStatus);
+      setInsightList(prev => prev.map(item => item.id === art.id ? { ...item, published: nextStatus } : item));
+    } catch (err: any) {
+      alert(`Could not update visibility: ${err.message}`);
     }
   };
 
@@ -323,6 +350,7 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
       metrics: cleanedMetrics.length > 0 ? cleanedMetrics : [{ label: 'Performance', value: '+100%' }],
       scope: cleanedScope.length > 0 ? cleanedScope : ['Digital Campaigns'],
       team: cleanedTeam.length > 0 ? cleanedTeam : ['Ace Nexus Team'],
+      published: editCaseStudy.published !== false,
     };
 
     try {
@@ -343,6 +371,17 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
       alert(`Could not save case study: ${err.message}`);
     } finally {
       setCsSaving(false);
+    }
+  };
+
+  const handleToggleCaseStudyPublish = async (cs: CaseStudy) => {
+    triggerHaptic(15);
+    const nextStatus = cs.published === false ? true : false;
+    try {
+      await toggleCaseStudyVisibility(cs.id, nextStatus);
+      setCaseStudyList(prev => prev.map(item => item.id === cs.id ? { ...item, published: nextStatus } : item));
+    } catch (err: any) {
+      alert(`Could not update visibility: ${err.message}`);
     }
   };
 
@@ -608,16 +647,38 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
           </button>
         </div>
 
-        {/* TAB 1: BLOG POSTS / INSIGHTS CMS */}
+        {/* TAB 1: BLOG POSTS / INSIGHT ARTICLES CMS */}
         {activeTab === 'insights' && (
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h2 className="text-base sm:text-lg font-black text-slate-900 font-display">Blog Posts & Insights CMS</h2>
-                <p className="text-xs text-slate-500">Edit titles, summaries, and authors displayed on the website homepage.</p>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-base sm:text-lg font-black text-slate-900 font-display">Blog Posts & Insights CMS</h2>
+                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-50 text-[#004aad] border border-blue-200">
+                    {insightList.filter(a => a.published).length} Live / {insightList.filter(a => !a.published).length} Drafts
+                  </span>
+                </div>
+                <p className="text-xs text-slate-500">
+                  Note: The blog section is currently hidden from the public website while you review and perfect drafts here.
+                </p>
               </div>
               <button
-                onClick={() => setEditInsight({ title: '', category: 'Marketing', summary: '', author: 'Kofi Owusu', date: 'June 2026', readTime: '5 Min Read' })}
+                onClick={() => setEditInsight({
+                  title: '',
+                  slug: '',
+                  category: 'Marketing',
+                  summary: '',
+                  content: '',
+                  author: 'Kofi Owusu',
+                  authorRole: 'Head of SEO & Growth',
+                  date: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+                  readTime: '5 Min Read',
+                  image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
+                  published: false,
+                  metaTitle: '',
+                  metaDescription: '',
+                  keywords: []
+                })}
                 className="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#004aad] hover:bg-blue-700 text-white text-xs font-bold transition-all shadow-xs shrink-0"
               >
                 <Plus className="h-4 w-4" />
@@ -628,17 +689,51 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {insightList.map((art) => (
                 <div key={art.id} className="p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between space-y-4 hover:border-[#004aad]/40 transition-all">
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-bold font-mono text-[#004aad] uppercase bg-blue-50 px-2 py-0.5 rounded border border-blue-100">{art.category}</span>
-                      <span className="text-[10px] font-mono text-slate-400">{art.date} &bull; {art.readTime}</span>
+                  <div className="space-y-3">
+                    {/* Visual Card Banner with Status Badge */}
+                    <div className="relative w-full h-36 sm:h-40 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 group">
+                      <img
+                        src={art.image || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80'}
+                        alt={art.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80';
+                        }}
+                      />
+                      <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+                        <span className="text-[10px] font-bold font-mono text-[#004aad] uppercase bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md border border-slate-200 shadow-xs">
+                          {art.category}
+                        </span>
+                      </div>
+                      <div className="absolute top-2.5 right-2.5">
+                        <button
+                          type="button"
+                          onClick={() => handleToggleInsightPublish(art)}
+                          className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-bold shadow-xs transition-all ${
+                            art.published
+                              ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+                              : 'bg-slate-900/80 text-slate-200 hover:bg-slate-900'
+                          }`}
+                          title={art.published ? "Click to set as Draft / Hide" : "Click to Publish"}
+                        >
+                          {art.published ? <Eye className="h-3 w-3" /> : <EyeOff className="h-3 w-3" />}
+                          <span>{art.published ? 'Live' : 'Hidden Draft'}</span>
+                        </button>
+                      </div>
                     </div>
-                    <h3 className="text-sm sm:text-base font-black text-slate-900 font-display leading-snug">{art.title}</h3>
-                    <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">{art.summary}</p>
+
+                    <div>
+                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 mb-1">
+                        <span>{art.date} &bull; {art.readTime}</span>
+                        <span>/{art.slug || art.id}</span>
+                      </div>
+                      <h3 className="text-sm sm:text-base font-black text-slate-900 font-display leading-snug line-clamp-1">{art.title}</h3>
+                      <p className="text-xs text-slate-600 line-clamp-2 mt-1 leading-relaxed">{art.summary}</p>
+                    </div>
                   </div>
 
                   <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                    <span className="font-bold text-slate-700 text-xs">Author: {art.author}</span>
+                    <span className="font-bold text-slate-700 text-xs">By {art.author}</span>
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => setEditInsight(art)}
@@ -664,18 +759,49 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
 
         {/* EDIT BLOG POST MODAL */}
         {editInsight && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-md bg-slate-900/40">
-            <div className="w-full max-w-xl max-h-[90vh] overflow-y-auto bg-white p-5 sm:p-6 rounded-3xl space-y-4 text-left shadow-2xl border border-slate-200">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 backdrop-blur-md bg-slate-900/50">
+            <div className="w-full max-w-2xl max-h-[92vh] overflow-y-auto bg-white p-5 sm:p-7 rounded-3xl space-y-5 text-left shadow-2xl border border-slate-200">
+              
               <div className="flex justify-between items-center border-b border-slate-100 pb-3">
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 font-display">
-                  {editInsight.id ? 'Edit Blog Post' : 'Create New Blog Post'}
-                </h3>
-                <button onClick={() => setEditInsight(null)} className="p-1 rounded-full text-slate-400 hover:text-slate-900">
+                <div>
+                  <h3 className="text-base sm:text-xl font-bold text-slate-900 font-display">
+                    {editInsight.id ? 'Edit Blog Post' : 'Create New Blog Post'}
+                  </h3>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Configure content, publishing status, and SEO optimization.
+                  </p>
+                </div>
+                <button onClick={() => setEditInsight(null)} className="p-1.5 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-100">
                   <X className="h-5 w-5" />
                 </button>
               </div>
 
               <form onSubmit={handleSaveInsight} className="space-y-4 text-xs font-sans">
+                
+                {/* Visibility Switch */}
+                <div className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                  <div>
+                    <span className="font-bold text-slate-800 text-xs block">Publishing Status</span>
+                    <span className="text-[11px] text-slate-500">
+                      {editInsight.published 
+                        ? 'Article is marked as Live.' 
+                        : 'Article is saved as Draft (Hidden from public website).'}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setEditInsight({ ...editInsight, published: !editInsight.published })}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold text-xs border transition-all ${
+                      editInsight.published
+                        ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                        : 'bg-slate-200 text-slate-700 border-slate-300'
+                    }`}
+                  >
+                    {editInsight.published ? <Eye className="h-3.5 w-3.5 text-emerald-600" /> : <EyeOff className="h-3.5 w-3.5 text-slate-500" />}
+                    <span>{editInsight.published ? 'Live / Published' : 'Draft / Hidden'}</span>
+                  </button>
+                </div>
+
                 <div>
                   <label className="block font-bold text-slate-700 mb-1">Post Title *</label>
                   <input
@@ -684,57 +810,136 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                     value={editInsight.title || ''}
                     onChange={e => setEditInsight({ ...editInsight, title: e.target.value })}
                     placeholder="e.g. Why Your Business Needs SEO"
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 cosmic-input"
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">URL Slug</label>
+                    <input
+                      type="text"
+                      value={editInsight.slug || ''}
+                      onChange={e => setEditInsight({ ...editInsight, slug: e.target.value })}
+                      placeholder="why-your-business-needs-seo"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 cosmic-input font-mono text-[11px]"
+                    />
+                  </div>
                   <div>
                     <label className="block font-bold text-slate-700 mb-1">Category</label>
                     <input
                       type="text"
                       value={editInsight.category || 'Marketing'}
                       onChange={e => setEditInsight({ ...editInsight, category: e.target.value })}
-                      placeholder="Marketing / Branding / Tech"
-                      className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                      placeholder="Marketing / Branding / Tech / Training"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 cosmic-input"
                     />
                   </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div>
                     <label className="block font-bold text-slate-700 mb-1">Author Name</label>
                     <input
                       type="text"
-                      value={editInsight.author || 'Kofi Owusu'}
+                      value={editInsight.author || 'Ace Nexus Team'}
                       onChange={e => setEditInsight({ ...editInsight, author: e.target.value })}
                       placeholder="e.g. Kofi Owusu"
-                      className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Read Time Estimate</label>
+                    <input
+                      type="text"
+                      value={editInsight.readTime || '5 Min Read'}
+                      onChange={e => setEditInsight({ ...editInsight, readTime: e.target.value })}
+                      placeholder="e.g. 5 Min Read"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 cosmic-input"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Article Summary Text *</label>
+                  <label className="block font-bold text-slate-700 mb-1">Card Summary Text *</label>
                   <textarea
                     required
-                    rows={4}
+                    rows={2}
                     value={editInsight.summary || ''}
                     onChange={e => setEditInsight({ ...editInsight, summary: e.target.value })}
-                    placeholder="Write summary text displayed on website blog card..."
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                    placeholder="Short summary displayed on cards..."
+                    className="w-full px-3.5 py-2 rounded-xl border border-slate-200 cosmic-input"
                   />
                 </div>
 
+                {/* Cover Image with Live Preview */}
                 <div>
                   <label className="block font-bold text-slate-700 mb-1">Cover Image URL</label>
-                  <input
-                    type="text"
-                    value={editInsight.image || ''}
-                    onChange={e => setEditInsight({ ...editInsight, image: e.target.value })}
-                    placeholder="https://images.unsplash.com/..."
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                  <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                    <input
+                      type="text"
+                      value={editInsight.image || ''}
+                      onChange={e => setEditInsight({ ...editInsight, image: e.target.value })}
+                      placeholder="https://images.unsplash.com/..."
+                      className="w-full flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 cosmic-input"
+                    />
+                    <div className="h-12 w-20 shrink-0 rounded-xl border border-slate-200 bg-slate-50 overflow-hidden flex items-center justify-center shadow-xs">
+                      {editInsight.image ? (
+                        <img
+                          src={editInsight.image}
+                          alt="Cover preview"
+                          className="h-full w-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80';
+                          }}
+                        />
+                      ) : (
+                        <ImageIcon className="h-4 w-4 text-slate-400" />
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Full Article Content */}
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Full Article Body (Markdown / Text)</label>
+                  <textarea
+                    rows={6}
+                    value={editInsight.content || ''}
+                    onChange={e => setEditInsight({ ...editInsight, content: e.target.value })}
+                    placeholder="Write the full article body in markdown or text..."
+                    className="w-full px-3.5 py-2 rounded-xl border border-slate-200 cosmic-input font-mono text-[11px] leading-relaxed"
                   />
                 </div>
 
-                <div className="pt-3 flex justify-end gap-3">
+                {/* SEO Accordion / Fields */}
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-[#004aad] font-mono">
+                    Search Engine Optimization (SEO)
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Meta Title</label>
+                    <input
+                      type="text"
+                      value={editInsight.metaTitle || ''}
+                      onChange={e => setEditInsight({ ...editInsight, metaTitle: e.target.value })}
+                      placeholder="Optimized page title for Google search"
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 cosmic-input"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-bold text-slate-700 mb-1">Meta Description</label>
+                    <textarea
+                      rows={2}
+                      value={editInsight.metaDescription || ''}
+                      onChange={e => setEditInsight({ ...editInsight, metaDescription: e.target.value })}
+                      placeholder="150-160 characters summary for Google search snippet"
+                      className="w-full px-3.5 py-2 rounded-xl border border-slate-200 cosmic-input"
+                    />
+                  </div>
+                </div>
+
+                <div className="pt-3 flex justify-end gap-3 border-t border-slate-100">
                   <button
                     type="button"
                     onClick={() => setEditInsight(null)}
@@ -744,9 +949,10 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2 rounded-xl bg-[#004aad] hover:bg-blue-700 text-white font-bold shadow-xs"
+                    className="px-6 py-2 rounded-xl bg-[#004aad] hover:bg-blue-700 text-white font-bold shadow-xs flex items-center gap-1.5"
                   >
-                    Save Changes Live
+                    <CheckCircle2 className="h-4 w-4" />
+                    <span>Save Blog Post</span>
                   </button>
                 </div>
               </form>
@@ -1019,7 +1225,12 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <h2 className="text-base sm:text-lg font-black text-slate-900 font-display">Case Studies CMS</h2>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-base sm:text-lg font-black text-slate-900 font-display">Case Studies CMS</h2>
+                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-50 text-[#004aad] border border-blue-200">
+                    {caseStudyList.filter(c => c.published !== false).length} Live / {caseStudyList.filter(c => c.published === false).length} Drafts
+                  </span>
+                </div>
                 <p className="text-xs text-slate-500">Edit titles, image URLs, live demo URLs, solutions, metrics, and deliverables live on the website.</p>
               </div>
               <button
@@ -1034,6 +1245,7 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                     solution: '',
                     image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80',
                     project_url: '',
+                    published: true,
                     metrics: [
                       { label: 'Growth / Metric', value: '+100%', subtext: 'Verified result' }
                     ],
@@ -1062,23 +1274,41 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                           (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80';
                         }}
                       />
-                      <div className="absolute top-2.5 left-2.5">
+                      <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
                         <span className="text-[10px] font-bold font-mono text-[#004aad] uppercase bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-md border border-slate-200 shadow-xs">
                           {cs.category}
                         </span>
                       </div>
-                      {cs.project_url && (
-                        <a
-                          href={formatExternalUrl(cs.project_url)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={(e) => e.stopPropagation()}
-                          className="absolute top-2.5 right-2.5 flex items-center gap-1 text-[10px] font-bold bg-[#004aad] text-white px-2.5 py-1 rounded-md shadow-xs hover:bg-blue-700 transition-colors"
+                      
+                      <div className="absolute top-2.5 right-2.5 flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => handleToggleCaseStudyPublish(cs)}
+                          className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-bold shadow-xs transition-all ${
+                            cs.published !== false
+                              ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+                              : 'bg-slate-900/80 text-slate-200 hover:bg-slate-900'
+                          }`}
+                          title={cs.published !== false ? "Click to hide from website" : "Click to publish on website"}
                         >
-                          <span>Live Project</span>
-                          <ExternalLink className="h-3 w-3" />
-                        </a>
-                      )}
+                          {cs.published !== false ? <Eye className="h-3 w-3" /> : <EyeOff className="h-3 w-3" />}
+                          <span>{cs.published !== false ? 'Live' : 'Hidden'}</span>
+                        </button>
+
+                        {cs.project_url && (
+                          <a
+                            href={formatExternalUrl(cs.project_url)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="flex items-center gap-1 text-[10px] font-bold bg-[#004aad] text-white px-2 py-1 rounded-md shadow-xs hover:bg-blue-700 transition-colors"
+                            title="Open live project"
+                          >
+                            <span>Link</span>
+                            <ExternalLink className="h-2.5 w-2.5" />
+                          </a>
+                        )}
+                      </div>
                     </div>
 
                     <div>
@@ -1165,6 +1395,30 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                   <div className="text-[11px] font-bold uppercase tracking-wider text-[#004aad] font-mono flex items-center gap-1.5">
                     <Briefcase className="h-3.5 w-3.5" />
                     <span>Project Overview</span>
+                  </div>
+
+                  {/* Visibility Switch */}
+                  <div className="flex items-center justify-between p-3.5 rounded-2xl bg-white border border-slate-200">
+                    <div>
+                      <span className="font-bold text-slate-800 text-xs block">Website Visibility</span>
+                      <span className="text-[11px] text-slate-500">
+                        {editCaseStudy.published !== false 
+                          ? 'This case study will be visible to public visitors on Our Work page.' 
+                          : 'This case study is hidden (saved as draft).'}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setEditCaseStudy({ ...editCaseStudy, published: editCaseStudy.published === false ? true : false })}
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold text-xs border transition-all ${
+                        editCaseStudy.published !== false
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
+                          : 'bg-slate-200 text-slate-700 border-slate-300'
+                      }`}
+                    >
+                      {editCaseStudy.published !== false ? <Eye className="h-3.5 w-3.5 text-emerald-600" /> : <EyeOff className="h-3.5 w-3.5 text-slate-500" />}
+                      <span>{editCaseStudy.published !== false ? 'Live / Published' : 'Draft / Hidden'}</span>
+                    </button>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

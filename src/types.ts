@@ -17,6 +17,7 @@ export interface CaseStudy {
   }[];
   scope: string[];
   team?: string[];
+  published?: boolean;
 }
 
 export interface TeamMember {
@@ -65,12 +66,25 @@ export interface RegionPartner {
 export interface InsightArticle {
   id: string;
   title: string;
+  slug?: string;
   category: string;
   readTime: string;
   date: string;
   summary: string;
+  content?: string;
   image: string;
   author: string;
+  authorRole?: string;
+  authorAvatar?: string;
+  published: boolean;
+  metaTitle?: string;
+  metaDescription?: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  keywords?: string[];
+  viewsCount?: number;
+  likesCount?: number;
+  tags?: string[];
 }
 
 export interface AssociatedLink {

@@ -88,29 +88,54 @@ export async function deleteAssociatedOrganization(id: string): Promise<boolean>
 // =====================================================================
 // BLOG POSTS / INSIGHT ARTICLES API
 // =====================================================================
-export async function getInsightArticles(): Promise<InsightArticle[]> {
+export async function getInsightArticles(options: { forAdmin?: boolean } = {}): Promise<InsightArticle[]> {
   if (isSupabaseConfigured && supabase) {
     try {
-      const { data, error } = await supabase
+      let query = supabase
         .from('insight_articles')
         .select('*')
-        .eq('published', true)
         .order('created_at', { ascending: false });
 
-      if (!error && data && data.length > 0) {
+      if (!options.forAdmin) {
+        query = query.eq('published', true);
+      }
+
+      const { data, error } = await query;
+
+      if (error) {
+        console.warn('Could not fetch blog posts from Supabase:', error.message);
+        return [];
+      }
+
+      if (data) {
         return data.map(item => ({
           id: item.id,
           title: item.title,
+          slug: item.slug || item.id,
           category: item.category,
           readTime: item.read_time || '5 Min Read',
           date: item.date,
           summary: item.summary,
+          content: item.content || '',
           image: item.image,
           author: item.author,
+          authorRole: item.author_role || 'Ace Team',
+          authorAvatar: item.author_avatar || '',
+          published: item.published === true,
+          metaTitle: item.meta_title || '',
+          metaDescription: item.meta_description || '',
+          canonicalUrl: item.canonical_url || '',
+          ogImage: item.og_image || '',
+          keywords: parseJsonArray(item.keywords),
+          viewsCount: item.views_count || 0,
+          likesCount: item.likes_count || 0,
+          tags: parseJsonArray(item.tags),
         }));
       }
+      return [];
     } catch (err) {
       console.warn('Could not fetch blog posts from Supabase:', err);
+      return [];
     }
   }
   return localInsights;
@@ -118,21 +143,49 @@ export async function getInsightArticles(): Promise<InsightArticle[]> {
 
 export async function saveInsightArticle(article: InsightArticle): Promise<boolean> {
   if (isSupabaseConfigured && supabase) {
+    const slug = article.slug || article.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     const { error } = await supabase
       .from('insight_articles')
       .upsert({
         id: article.id || `ins-${Date.now()}`,
+        slug: slug,
         title: article.title,
         category: article.category,
         read_time: article.readTime || '5 Min Read',
         date: article.date || new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
         summary: article.summary,
+        content: article.content || '',
         image: article.image || 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
         author: article.author || 'Ace Nexus Team',
-        published: true,
+        author_role: article.authorRole || 'Ace Team',
+        author_avatar: article.authorAvatar || '',
+        published: article.published === true,
+        meta_title: article.metaTitle || article.title,
+        meta_description: article.metaDescription || article.summary,
+        canonical_url: article.canonicalUrl || '',
+        og_image: article.ogImage || article.image,
+        keywords: article.keywords || [],
+        views_count: article.viewsCount || 0,
+        likes_count: article.likesCount || 0,
+        tags: article.tags || [],
       });
     if (error) {
       console.error('Error saving blog post:', error.message);
+      throw error;
+    }
+    return true;
+  }
+  return false;
+}
+
+export async function toggleInsightVisibility(id: string, published: boolean): Promise<boolean> {
+  if (isSupabaseConfigured && supabase) {
+    const { error } = await supabase
+      .from('insight_articles')
+      .update({ published })
+      .eq('id', id);
+    if (error) {
+      console.error('Error toggling insight visibility:', error.message);
       throw error;
     }
     return true;
@@ -158,16 +211,26 @@ export async function deleteInsightArticle(id: string): Promise<boolean> {
 // =====================================================================
 // CASE STUDIES PORTFOLIO API
 // =====================================================================
-export async function getCaseStudies(): Promise<CaseStudy[]> {
+export async function getCaseStudies(options: { forAdmin?: boolean } = {}): Promise<CaseStudy[]> {
   if (isSupabaseConfigured && supabase) {
     try {
-      const { data, error } = await supabase
+      let query = supabase
         .from('case_studies')
         .select('*')
-        .eq('published', true)
         .order('created_at', { ascending: false });
 
-      if (!error && data && data.length > 0) {
+      if (!options.forAdmin) {
+        query = query.eq('published', true);
+      }
+
+      const { data, error } = await query;
+
+      if (error) {
+        console.warn('Could not fetch case studies from Supabase:', error.message);
+        return [];
+      }
+
+      if (data) {
         return data.map(item => ({
           id: item.id,
           title: item.title,
@@ -183,13 +246,31 @@ export async function getCaseStudies(): Promise<CaseStudy[]> {
           metrics: parseJsonArray(item.metrics),
           scope: parseJsonArray(item.scope),
           team: parseJsonArray(item.team),
+          published: item.published !== false,
         }));
       }
+      return [];
     } catch (err) {
       console.warn('Could not fetch case studies from Supabase:', err);
+      return [];
     }
   }
   return localCaseStudies;
+}
+
+export async function toggleCaseStudyVisibility(id: string, published: boolean): Promise<boolean> {
+  if (isSupabaseConfigured && supabase) {
+    const { error } = await supabase
+      .from('case_studies')
+      .update({ published })
+      .eq('id', id);
+    if (error) {
+      console.error('Error toggling case study visibility:', error.message);
+      throw error;
+    }
+    return true;
+  }
+  return false;
 }
 
 export async function saveCaseStudy(cs: CaseStudy): Promise<boolean> {
@@ -210,7 +291,7 @@ export async function saveCaseStudy(cs: CaseStudy): Promise<boolean> {
         metrics: cs.metrics || [],
         scope: cs.scope || [],
         team: cs.team || [],
-        published: true,
+        published: cs.published !== false,
       });
     if (error) {
       console.error('Error saving case study:', error.message);

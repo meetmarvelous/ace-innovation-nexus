@@ -3,6 +3,7 @@ import { Download, Search, ArrowUpRight, CheckCircle2, ArrowLeft, Star, ShieldAl
 import KineticText from './KineticText';
 import { caseStudies as defaultCaseStudies } from '../data';
 import { getCaseStudies } from '../lib/dataService';
+import { isSupabaseConfigured } from '../lib/supabase';
 import { CaseStudy } from '../types';
 import { triggerHaptic } from '../utils/haptics';
 import { formatExternalUrl } from '../utils/urlFormatter';
@@ -12,7 +13,7 @@ export default function WorkView() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState<CaseStudy | null>(null);
   const [isExporting, setIsExporting] = useState(false);
-  const [caseStudyList, setCaseStudyList] = useState<CaseStudy[]>(defaultCaseStudies);
+  const [caseStudyList, setCaseStudyList] = useState<CaseStudy[]>(() => isSupabaseConfigured ? [] : defaultCaseStudies);
 
   useEffect(() => {
     getCaseStudies().then(setCaseStudyList).catch(() => {});

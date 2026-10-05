@@ -2,6 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { ArrowUpRight, CheckCircle2, ChevronRight, Zap, MessageSquare, ClipboardList, Rocket, BarChart3 } from 'lucide-react';
 import { caseStudies as defaultCaseStudies, staticInsights as defaultInsights } from '../data';
 import { getInsightArticles, getCaseStudies } from '../lib/dataService';
+import { isSupabaseConfigured } from '../lib/supabase';
 import { CaseStudy, InsightArticle } from '../types';
 import KineticText from './KineticText';
 
@@ -11,8 +12,8 @@ interface HomeViewProps {
 }
 
 export default function HomeView({ setCurrentTab, openContactModal }: HomeViewProps) {
-  const [insightList, setInsightList] = useState<InsightArticle[]>(defaultInsights);
-  const [caseStudyList, setCaseStudyList] = useState<CaseStudy[]>(defaultCaseStudies);
+  const [insightList, setInsightList] = useState<InsightArticle[]>(() => isSupabaseConfigured ? [] : defaultInsights);
+  const [caseStudyList, setCaseStudyList] = useState<CaseStudy[]>(() => isSupabaseConfigured ? [] : defaultCaseStudies);
 
   useEffect(() => {
     getInsightArticles().then(setInsightList).catch(() => {});
