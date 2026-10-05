@@ -115,7 +115,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "team-1",
     name: "Ikeoluwa Peace",
-    role: "Founder & COO",
+    role: "Founder & Chief Operating Officer (COO)",
     department: "Leadership",
     bio: "A visionary operational strategist and founder passionate about building sustainable growth ecosystems. Ikeoluwa spearheads organizational operations, operational excellence, and cross-functional execution at Ace Innovation Nexus, driving high-impact collaboration and seamless client delivery.",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&h=300&q=80"
@@ -123,7 +123,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "team-2",
     name: "Ale Ayomide",
-    role: "Co-founder & CMO (Marketing/Growth)",
+    role: "Co-founder & Chief Marketing Officer (CMO)",
     department: "Marketing & SEO",
     bio: "A dynamic growth architect and marketing strategist with deep expertise in performance campaigns, brand positioning, and audience conversion. Ayomide leads marketing and growth initiatives to scale African and international brands into market leaders.",
     avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&h=300&q=80"
@@ -131,7 +131,7 @@ export const teamMembers: TeamMember[] = [
   {
     id: "team-3",
     name: "Evangel Afolabi",
-    role: "Co-founder & Chief Product Officer",
+    role: "Co-founder & Chief Product Officer (CPO)",
     department: "Tech & Product",
     bio: "A product visionary dedicated to crafting transformative digital experiences. Evangel oversees product architecture, user-centric design, and digital product strategy, transforming complex business requirements into intuitive, world-class products.",
     avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&h=300&q=80"
