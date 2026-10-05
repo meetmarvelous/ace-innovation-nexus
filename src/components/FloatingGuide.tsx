@@ -36,13 +36,13 @@ const guideMessages: Record<string, string[]> = {
     "Explore the brands and organizations in our active network! 🔗",
     "From healthcare and hospitality to education and entertainment, we build with the best.",
     "Click any official channel button to connect directly with our partner brands! 🌐",
-    "Want your organization listed in our ecosystem? Let's talk! 🤝",
+    "Have a brand ready for next-level growth? Let's talk! 🤝",
   ],
   careers: [
     "Explore the brands and organizations in our active network! 🔗",
     "From healthcare and hospitality to education and entertainment, we build with the best.",
     "Click any official channel button to connect directly with our partner brands! 🌐",
-    "Want your organization listed in our ecosystem? Let's talk! 🤝",
+    "Have a brand ready for next-level growth? Let's talk! 🤝",
   ],
 };
 

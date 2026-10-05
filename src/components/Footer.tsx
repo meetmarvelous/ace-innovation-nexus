@@ -86,13 +86,6 @@ export default function Footer({ currentTab, setCurrentTab, openContactModal }: 
                 <span>Instant Quote</span>
                 <span className="text-[10px] font-bold font-mono px-1.5 py-0.5 rounded bg-blue-200/70 text-[#004aad] uppercase tracking-wider ml-1">SOON</span>
               </button>
-              <button
-                id="footer-cta-secondary"
-                onClick={() => handleNavClick('network')}
-                className="flex items-center justify-center rounded-xl border border-slate-300 bg-white px-5 py-4 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-100 hover:border-slate-400 haptic-press shadow-xs"
-              >
-                Associated Brands
-              </button>
             </div>
           </div>
         )}

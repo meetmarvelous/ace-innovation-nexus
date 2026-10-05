@@ -260,23 +260,23 @@ export default function NetworkView({ openContactModal }: NetworkViewProps) {
         <div className="mx-auto max-w-4xl px-6 sm:px-8 text-center glass-panel-strong p-10 rounded-3xl border border-blue-200 space-y-6">
           <span className="inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-semibold text-[#004aad] border border-blue-200 bg-blue-50">
             <Sparkles className="h-3.5 w-3.5 text-[#004aad]" />
-            Join Our Ecosystem
+            Join Our Network
           </span>
 
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900 font-display">
-            Want to collaborate or list your brand?
+            Have a brand ready for next-level growth?
           </h2>
 
           <p className="text-sm text-slate-600 max-w-xl mx-auto font-sans">
-            We help healthcare organizations, hospitality businesses, schools, and creative brands accelerate their digital growth and visibility.
+            From emerging ventures to established institutions, we build the digital infrastructure, creative branding, and marketing systems that drive real industry leadership.
           </p>
 
           <div className="pt-2 flex justify-center">
             <button
               onClick={() => { triggerHaptic(20); openContactModal(); }}
-              className="flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold text-white transition-all neon-btn haptic-press"
+              className="flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold text-white transition-all neon-btn haptic-press shadow-md"
             >
-              <span>Get Started With Us</span>
+              <span>Work With Us</span>
               <ArrowUpRight className="h-4 w-4" />
             </button>
           </div>
