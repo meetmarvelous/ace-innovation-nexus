@@ -388,14 +388,19 @@ export default function AboutView({ openContactModal }: AboutViewProps) {
             {activeLeader ? (
               <div className="space-y-6">
                 
-                <div className="flex justify-between items-start">
-                  <div>
-                    <span className="text-[9px] font-bold uppercase tracking-widest font-mono gradient-text">Team Member</span>
-                    <h3 className="text-xl font-bold text-slate-900 font-display mt-1">{activeLeader.name}</h3>
-                    <p className="text-xs text-[#004aad] font-mono mt-0.5 uppercase tracking-wide font-bold">{activeLeader.role}</p>
-                  </div>
-                  <div className="h-7 w-7 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center">
-                    <User className="h-4 w-4 text-[#004aad]" />
+                <div className="flex justify-between items-start gap-3">
+                  <div className="flex items-center gap-3.5">
+                    <img
+                      referrerPolicy="no-referrer"
+                      src={activeLeader.avatar}
+                      alt={activeLeader.name}
+                      className="h-14 w-14 rounded-2xl object-cover border border-slate-200 shadow-xs shrink-0"
+                    />
+                    <div>
+                      <span className="text-[9px] font-bold uppercase tracking-widest font-mono gradient-text">Executive Profile</span>
+                      <h3 className="text-lg sm:text-xl font-bold text-slate-900 font-display mt-0.5">{activeLeader.name}</h3>
+                      <p className="text-xs text-[#004aad] font-mono mt-0.5 uppercase tracking-wide font-bold">{activeLeader.role}</p>
+                    </div>
                   </div>
                 </div>
 
