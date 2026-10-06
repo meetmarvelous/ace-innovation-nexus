@@ -27,6 +27,7 @@ export interface TeamMember {
   department: 'Leadership' | 'Creative & Brand' | 'Marketing & SEO' | 'Tech & Product';
   bio: string;
   avatar: string;
+  skills?: string[];
 }
 
 export interface JobRole {

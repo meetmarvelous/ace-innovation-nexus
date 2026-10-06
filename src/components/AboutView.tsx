@@ -414,18 +414,26 @@ export default function AboutView({ openContactModal }: AboutViewProps) {
                 <div className="space-y-2 text-xs">
                   <span className="font-bold text-slate-500 font-mono block uppercase">Skills</span>
                   <div className="flex flex-wrap gap-1.5">
-                    {activeLeader.department === 'Leadership' && ['Business Strategy', 'Team Management', 'Client Relations'].map(t => (
-                      <span key={t} className="rounded-md border border-slate-200 bg-white px-2 py-1 font-medium text-slate-700 shadow-xs">{t}</span>
-                    ))}
-                    {activeLeader.department === 'Creative & Brand' && ['Brand Design', 'Photography Direction', 'Content Strategy'].map(t => (
-                      <span key={t} className="rounded-md border border-slate-200 bg-white px-2 py-1 font-medium text-slate-700 shadow-xs">{t}</span>
-                    ))}
-                    {activeLeader.department === 'Marketing & SEO' && ['Google Ads', 'Social Media Marketing', 'SEO & Analytics'].map(t => (
-                      <span key={t} className="rounded-md border border-slate-200 bg-white px-2 py-1 font-medium text-slate-700 shadow-xs">{t}</span>
-                    ))}
-                    {activeLeader.department === 'Tech & Product' && ['React & Next.js', 'Mobile App Development', 'Backend & APIs'].map(t => (
-                      <span key={t} className="rounded-md border border-slate-200 bg-white px-2 py-1 font-medium text-slate-700 shadow-xs">{t}</span>
-                    ))}
+                    {activeLeader.skills ? (
+                      activeLeader.skills.map(t => (
+                        <span key={t} className="rounded-md border border-slate-200 bg-white px-2 py-1 font-medium text-slate-700 shadow-xs">{t}</span>
+                      ))
+                    ) : (
+                      <>
+                        {activeLeader.department === 'Leadership' && ['Business Administration', 'Information Technology', 'Cinematography'].map(t => (
+                          <span key={t} className="rounded-md border border-slate-200 bg-white px-2 py-1 font-medium text-slate-700 shadow-xs">{t}</span>
+                        ))}
+                        {activeLeader.department === 'Creative & Brand' && ['Brand Design', 'Photography Direction', 'Content Strategy'].map(t => (
+                          <span key={t} className="rounded-md border border-slate-200 bg-white px-2 py-1 font-medium text-slate-700 shadow-xs">{t}</span>
+                        ))}
+                        {activeLeader.department === 'Marketing & SEO' && ['Google Ads', 'Social Media Marketing', 'SEO & Analytics'].map(t => (
+                          <span key={t} className="rounded-md border border-slate-200 bg-white px-2 py-1 font-medium text-slate-700 shadow-xs">{t}</span>
+                        ))}
+                        {activeLeader.department === 'Tech & Product' && ['React & Next.js', 'Mobile App Development', 'Backend & APIs'].map(t => (
+                          <span key={t} className="rounded-md border border-slate-200 bg-white px-2 py-1 font-medium text-slate-700 shadow-xs">{t}</span>
+                        ))}
+                      </>
+                    )}
                   </div>
                 </div>
 

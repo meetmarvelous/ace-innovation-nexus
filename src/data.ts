@@ -118,7 +118,8 @@ export const teamMembers: TeamMember[] = [
     role: "Founder & Chief Operating Officer (COO)",
     department: "Leadership",
     bio: "A visionary operational strategist and founder passionate about building sustainable growth ecosystems. Ikeoluwa spearheads organizational operations, operational excellence, and cross-functional execution at Ace Innovation Nexus, driving high-impact collaboration and seamless client delivery.",
-    avatar: "/images/peace.jpg"
+    avatar: "/images/peace.jpg",
+    skills: ["Business Administration", "Information Technology", "Cinematography"]
   },
   {
     id: "team-2",
