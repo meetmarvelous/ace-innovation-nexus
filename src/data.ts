@@ -463,6 +463,28 @@ export const associatedOrganizations: AssociatedOrganization[] = [
     links: [
       { label: "Instagram", url: "https://www.instagram.com/eventsignature1972?igsh=MW9mZzdidGJydHF0Zg==", type: "instagram" }
     ]
+  },
+  {
+    id: "org-ever-phoenix-hotels",
+    name: "Ever Phoenix Hotels",
+    location: "Ilorin, Kwara State",
+    category: "Hospitality",
+    logo: "/logos/ephoenix.jpg",
+    description: "A contemporary hospitality brand in Ilorin built around comfort, exceptional service, and experiences worth remembering.",
+    links: [
+      { label: "Instagram", url: "https://www.instagram.com/ephoenixhotel.ng", type: "instagram" }
+    ]
+  },
+  {
+    id: "org-bellagio-cafe-lounge",
+    name: "Bellagio Cafe and Lounge",
+    location: "Nigeria",
+    category: "Food & Beverage",
+    logo: "/logos/bellagio.jpg",
+    description: "A destination for people who appreciate the finer side of life. Fine cuisine. Bespoke cocktails. Unforgettable evenings.",
+    links: [
+      { label: "Instagram", url: "https://www.instagram.com/bellagio_ng", type: "instagram" }
+    ]
   }
 ];
 
