@@ -119,11 +119,11 @@ export default function HomeView({ setCurrentTab, openContactModal }: HomeViewPr
               {/* Trust Metric list */}
               <div className="grid grid-cols-2 gap-6 pt-10" style={{ borderTop: '1px solid rgba(226, 232, 240, 0.9)', animation: 'fade-in-up 0.8s ease 1.4s forwards', opacity: 0 }}>
                 <div>
-                  <div className="text-2xl font-black text-slate-900 font-display">94%+</div>
+                  <div className="text-2xl font-black text-slate-900 font-display">98%</div>
                   <div className="text-xs text-slate-500 font-bold font-sans uppercase tracking-wider mt-1">Client Retention Rate</div>
                 </div>
                 <div>
-                  <div className="text-2xl font-black font-display gradient-text">₦18B+</div>
+                  <div className="text-2xl font-black font-display gradient-text">₦3B+</div>
                   <div className="text-xs text-slate-500 font-bold font-sans uppercase tracking-wider mt-1">Client Revenue Generated</div>
                 </div>
               </div>

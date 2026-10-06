@@ -171,7 +171,7 @@ export default function WorkView() {
               <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono mt-1">Average App Review</div>
             </div>
             <div className="text-center p-3 rounded-2xl glass-panel no-print print-metric">
-              <div className="text-2xl font-black text-slate-900 font-display">94%+</div>
+              <div className="text-2xl font-black text-slate-900 font-display">98%</div>
               <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono mt-1">Retention Rate</div>
             </div>
           </div>

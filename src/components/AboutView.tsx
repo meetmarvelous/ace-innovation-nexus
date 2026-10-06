@@ -26,7 +26,7 @@ export default function AboutView({ openContactModal }: AboutViewProps) {
   const stats = [
     { value: "100%", label: "Fully Remote Team" },
     { value: "4.9/5", label: "Client Satisfaction Score" },
-    { value: "₦18B+", label: "Client Revenue Generated" },
+    { value: "₦3B+", label: "Client Revenue Generated" },
     { value: "3+", label: "Years of Experience" }
   ];
 
@@ -100,7 +100,7 @@ export default function AboutView({ openContactModal }: AboutViewProps) {
               </div>
               <div style={{ borderLeft: '3px solid #0284c7' }} className="pl-4">
                 <span className="text-xs font-bold uppercase text-slate-400 font-mono">CLIENT RETENTION</span>
-                <p className="text-base sm:text-lg font-bold text-slate-900 font-display">94% Stay With Us</p>
+                <p className="text-base sm:text-lg font-bold text-slate-900 font-display">98% Stay With Us</p>
               </div>
               <div style={{ borderLeft: '3px solid #10b981' }} className="pl-4 col-span-2 sm:col-span-1">
                 <span className="text-xs font-bold uppercase text-slate-400 font-mono">CLIENT REACH</span>

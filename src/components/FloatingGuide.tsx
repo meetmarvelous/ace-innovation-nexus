@@ -11,7 +11,7 @@ const guideMessages: Record<string, string[]> = {
     "Ready to accelerate your digital presence? You're in the right place!",
     "Hey there! I'm Savvy, founder of ACE Innovation. Let me show you around! ✨",
     "We've helped brands process over $12M in transactions. What can we do for you?",
-    "Fun fact: Our client retention rate is 94%+; we don't just deliver, we over-deliver! 💯",
+    "Fun fact: Our client retention rate is 98%; we don't just deliver, we over-deliver! 💯",
     "Media, Tech, and Training: that's our DNA. Explore our services below! 👇",
   ],
   services: [
