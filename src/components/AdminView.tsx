@@ -3,7 +3,7 @@ import {
   ShieldCheck, Users, Briefcase, Building2, Lock, FileText, ArrowLeft,
   LogOut, Plus, Trash2, Edit3, CheckCircle2, RefreshCw, X, ShieldAlert,
   ExternalLink, Globe, Image as ImageIcon, Sparkles, Layers, BarChart3,
-  Eye, EyeOff
+  Eye, EyeOff, Loader2
 } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { 
@@ -59,6 +59,7 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
   const [editOrg, setEditOrg] = useState<Partial<AssociatedOrganization> | null>(null);
   const [editCaseStudy, setEditCaseStudy] = useState<Partial<CaseStudy> | null>(null);
   const [csSaving, setCsSaving] = useState(false);
+  const [orgSaving, setOrgSaving] = useState(false);
   const [newScopeTag, setNewScopeTag] = useState('');
   const [newTeamMember, setNewTeamMember] = useState('');
 
@@ -258,24 +259,25 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
   // CMS Handlers: Associated Organizations
   const handleSaveOrg = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!editOrg?.name) return alert('Organization name is required.');
+    if (!editOrg?.name?.trim()) return alert('Brand/Organization name is required.');
     triggerHaptic(20);
+    setOrgSaving(true);
 
     const rawLinks = editOrg.links || [];
     const formattedLinks = rawLinks
       .filter(l => l.url && l.url.trim().length > 0)
       .map(l => ({
         ...l,
-        url: formatExternalUrl(l.url)
+        url: formatExternalUrl(l.url.trim())
       }));
 
     const orgToSave: AssociatedOrganization = {
       id: editOrg.id || `org-${Date.now()}`,
-      name: editOrg.name,
+      name: editOrg.name.trim(),
       category: (editOrg.category as any) || 'Creative & Lifestyle',
-      location: editOrg.location || 'Nigeria',
-      description: editOrg.description || '',
-      logo: editOrg.logo || '/logos/placeholder.svg',
+      location: editOrg.location?.trim() || 'Nigeria',
+      description: editOrg.description?.trim() || '',
+      logo: editOrg.logo?.trim() || '/logos/placeholder.svg',
       links: formattedLinks.length > 0 ? formattedLinks : [{ label: 'Instagram', url: 'https://www.instagram.com', type: 'instagram' }],
     };
 
@@ -292,7 +294,9 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
       });
       setEditOrg(null);
     } catch (err: any) {
-      alert(`Could not save organization: ${err.message}`);
+      alert(`Could not save organization: ${err.message || 'Unknown database error'}\n\nPlease ensure table permissions have been granted in Supabase.`);
+    } finally {
+      setOrgSaving(false);
     }
   };
 
@@ -1210,9 +1214,11 @@ export default function AdminView({ onBackToWebsite }: AdminViewProps) {
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2 rounded-xl bg-[#004aad] hover:bg-blue-700 text-white font-bold shadow-xs"
+                    disabled={orgSaving}
+                    className="px-6 py-2 rounded-xl bg-[#004aad] hover:bg-blue-700 text-white font-bold shadow-xs disabled:opacity-50 flex items-center gap-2"
                   >
-                    Save Brand Details
+                    {orgSaving && <Loader2 className="h-4 w-4 animate-spin" />}
+                    <span>{orgSaving ? 'Saving...' : editOrg.id ? 'Save Brand Details' : 'Add Brand'}</span>
                   </button>
                 </div>
               </form>

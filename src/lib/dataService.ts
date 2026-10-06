@@ -60,6 +60,7 @@ export async function saveAssociatedOrganization(org: AssociatedOrganization): P
         description: org.description || '',
         logo: org.logo || '/logos/placeholder.svg',
         links: org.links || [],
+        is_verified: true,
       });
     if (error) {
       console.error('Error saving organization:', error.message);
