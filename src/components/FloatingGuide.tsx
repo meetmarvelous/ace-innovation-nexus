@@ -11,6 +11,8 @@ const guideMessages: Record<string, string[]> = {
     "Ready to accelerate your digital presence? You're in the right place!",
     "Hey there! I'm Savvy, founder of ACE Innovation. Let me show you around! ✨",
     "Fun fact: Our client retention rate is 98%; we don't just deliver, we over-deliver! 💯",
+    "Want to know what's holding your brand back online? Book a free strategy consultation and let's map out a plan! 🎯",
+    "Interested in disciplined investing and long-term wealth creation? Check out The 1% Club! 👑",
     "Media, Tech, and Training: that's our DNA. Explore our services below! 👇",
   ],
   services: [
@@ -23,6 +25,7 @@ const guideMessages: Record<string, string[]> = {
   about: [
     "Meet the crew! Every team member here is a specialist in their field. 🧠",
     "We're not just a creative shop; we're systematic growth operators.",
+    "Want to know what's holding your brand back online? Book a free strategy consultation and let's map out a plan! 🎯",
     "Built in Sub-Saharan Africa, serving the world. That's our story! 🌍",
     "Our values aren't just words on a wall; they're our actual rules of engagement.",
   ],
@@ -36,6 +39,16 @@ const guideMessages: Record<string, string[]> = {
     "From healthcare and hospitality to education and entertainment, we build with the best.",
     "Click any official channel button to connect directly with our partner brands! 🌐",
     "Have a brand ready for next-level growth? Let's talk! 🤝",
+  ],
+  onepercent: [
+    "Welcome to The 1% Club! A community for discipline, knowledge, and long-term wealth creation. 👑",
+    "We learn to think like investors, understand businesses, and make informed financial decisions. 💡",
+    "Ready to take control of your financial journey? Connect with us on WhatsApp! 💬",
+  ],
+  acedemy: [
+    "Welcome to ACEDEMY! 🎓 Practical digital skills and capacity development.",
+    "Every skill track is made accessible at completely zero tuition cost! ✨",
+    "Learn, build real portfolio projects, and launch your career in the digital economy. 🚀",
   ],
   careers: [
     "Explore the brands and organizations in our active network! 🔗",
