@@ -159,16 +159,16 @@ export default function WorkView() {
           {/* Quick Metrics Snapshot */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto pt-8 border-t border-slate-200">
             <div className="text-center p-3 rounded-2xl glass-panel no-print print-metric">
-              <div className="text-2xl font-black text-slate-900 font-display">₦52B+</div>
-              <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono mt-1">Client Wealth Tracked</div>
+              <div className="text-2xl font-black text-slate-900 font-display">₦3B+</div>
+              <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono mt-1">Client Revenue Generated</div>
             </div>
             <div className="text-center p-3 rounded-2xl glass-panel no-print print-metric">
-              <div className="text-2xl font-black font-display gradient-text">3.2M+</div>
-              <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono mt-1">Audience Reached</div>
+              <div className="text-2xl font-black font-display gradient-text">4.9/5</div>
+              <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono mt-1">Client Satisfaction</div>
             </div>
             <div className="text-center p-3 rounded-2xl glass-panel no-print print-metric">
-              <div className="text-2xl font-black text-slate-900 font-display">4.8★</div>
-              <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono mt-1">Average App Review</div>
+              <div className="text-2xl font-black text-slate-900 font-display">3+</div>
+              <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono mt-1">Years of Experience</div>
             </div>
             <div className="text-center p-3 rounded-2xl glass-panel no-print print-metric">
               <div className="text-2xl font-black text-slate-900 font-display">98%</div>

@@ -10,7 +10,6 @@ const guideMessages: Record<string, string[]> = {
     "Welcome to the Nexus! 🚀 We build brands that break through the noise.",
     "Ready to accelerate your digital presence? You're in the right place!",
     "Hey there! I'm Savvy, founder of ACE Innovation. Let me show you around! ✨",
-    "We've helped brands process over $12M in transactions. What can we do for you?",
     "Fun fact: Our client retention rate is 98%; we don't just deliver, we over-deliver! 💯",
     "Media, Tech, and Training: that's our DNA. Explore our services below! 👇",
   ],
@@ -18,7 +17,7 @@ const guideMessages: Record<string, string[]> = {
     "This is where the magic happens! Check out our proven strategies. 🎯",
     "From SEO to full-stack engineering, we handle the whole pipeline.",
     "Every case study here represents real revenue growth for real businesses.",
-    "Our training programs have upskilled thousands of professionals across Africa! 📚",
+    "Through our training programs, we've trained and empowered ambitious creators and professionals across Africa! 📚",
     "Click any project to dive into the full blueprint. I'm proud of every one! 💜",
   ],
   about: [
