@@ -115,7 +115,7 @@ export default function Footer({ currentTab, setCurrentTab, openContactModal }: 
             </p>
             <div className="mt-8 flex items-center gap-3">
               <a
-                href="https://www.instagram.com/officialaceinnovationnexus"
+                href="https://www.instagram.com/aceinnovationnexusofficial"
                 target="_blank"
                 rel="noreferrer referrer"
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-600 transition-all hover:text-[#004aad] hover:border-[#004aad]/40 hover:bg-blue-50 haptic-press"
@@ -123,7 +123,8 @@ export default function Footer({ currentTab, setCurrentTab, openContactModal }: 
               >
                 <Instagram className="h-5 w-5" />
               </a>
-              <a
+              {/* LinkedIn button temporarily hidden pending account recovery */}
+              {/* <a
                 href="https://www.linkedin.com/in/ace-innovation-nexus-0210b0441"
                 target="_blank"
                 rel="noreferrer referrer"
@@ -131,7 +132,7 @@ export default function Footer({ currentTab, setCurrentTab, openContactModal }: 
                 title="LinkedIn Page"
               >
                 <Linkedin className="h-5 w-5" />
-              </a>
+              </a> */}
               <a
                 href="https://x.com/aceinnovation01"
                 target="_blank"
